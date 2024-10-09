@@ -18,7 +18,7 @@ Know when your next exam is. You can view all your upcoming exams and their date
 Be up-to-date with your daily schedule. You can view your timetable for the each week including all substitutions and cancelled classes. 
 
 ## Unique app features
-Since Librusek is fully custom application, it has some unique features that are not available in the original Librus Synergia.
+Since Librusek is a fully custom application, it has some unique features that are not available in the original Librus Synergia.
 - **Light and dark mode**<br/>
 Librusek supports both light and dark mode based on your system preferences.
 - **Responsive design**<br/>
