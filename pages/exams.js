@@ -1,9 +1,8 @@
 import { useHomeworks, useHomeworksCategories } from "@/lib/timetable";
 import Layout from "../components/layout";
 import { useState } from "react";
-import { sortTasks } from "@/lib/math";
+import { upperFirst, sortTasks } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
-import { upperFirst } from "@/lib/core";
 
 const Exams = () => {
   // User info

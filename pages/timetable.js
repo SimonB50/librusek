@@ -3,7 +3,7 @@ import { useTimetable } from "@/lib/timetable";
 import { useState } from "react";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
-import { upperFirst } from "@/lib/core";
+import { upperFirst } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 dayjs.extend(isoWeek);
 

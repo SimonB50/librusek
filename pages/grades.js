@@ -10,8 +10,7 @@ import {
   usePointsCategories,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
-import { calculateAvarage, getSemester } from "@/lib/math";
-import { upperFirst } from "@/lib/core";
+import { upperFirst, calculateAvarage, getSemester } from "@/lib/utils";
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Bookmark } from "react-bootstrap-icons";

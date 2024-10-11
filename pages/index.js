@@ -7,6 +7,7 @@ import { useLuckyNumber } from "@/lib/lessons";
 import { useState, useEffect } from "react";
 import { Buildings, People, Star, Person, Git } from "react-bootstrap-icons";
 import { getVersion } from '@tauri-apps/api/app';
+import { useVersion } from "@/lib/core";
 
 const Home = () => {
   // User info
@@ -28,11 +29,11 @@ const Home = () => {
     loading: luckyNumberLoading,
     error: luckyNumberError,
   } = useLuckyNumber();
-  const [version, setVersion] = useState(null);
-
-  useEffect(() => {
-    getVersion().then((v) => setVersion(v));
-  });
+  const {
+    data: versionData,
+    loading: versionLoading,
+    error: versionError,
+  } = useVersion();
 
   return (
     <Layout setAuthData={setUserData}>
@@ -95,13 +96,24 @@ const Home = () => {
         ) : (
           <div className="col-span-6 md:col-span-2 skeleton h-24"></div>
         )}
-        <div className="col-span-6 md:col-span-2 flex flex-row items-center p-4 bg-base-200 rounded-box">
-          <Git className="hidden sm:block text-5xl text-primary" />
-          <div className="flex flex-col ml-4">
-            <span className="text-2xl font-bold">Version</span>
-            <span>v{version}</span>
-          </div>
-        </div>
+        {
+          !versionLoading && !versionError ? (
+            <div className="relative col-span-6 md:col-span-2 flex flex-row items-center p-4 bg-base-200 rounded-box">
+              <Git className="hidden sm:block text-5xl text-primary" />
+              <div className="flex flex-col ml-4">
+                <span className="text-2xl font-bold">Version</span>
+                <span>v{versionData?.currentVersion}</span>
+              </div>
+              <div className="absolute top-0 right-0 p-2">
+                {versionData?.updateAvailable && (
+                  <span className="badge badge-primary">Update available</span>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="col-span-6 md:col-span-2 skeleton h-24"></div>
+          )
+        }
       </div>
     </Layout>
   );
