@@ -1,7 +1,6 @@
 import Layout from "@/components/layout";
 
 import {
-  useComment,
   useGradeComments,
   useGrades,
   useGradesCategories,
@@ -17,9 +16,6 @@ import { ChevronDown, ChevronUp, Bookmark } from "react-bootstrap-icons";
 import dayjs from "dayjs";
 
 const Grades = () => {
-  // User info
-  const [userData, setUserData] = useState(null);
-
   // Page cache
   const [focusedSubject, setFocusedSubject] = useState(null);
   const [focusedGrade, setFocusedGrade] = useState(null);
@@ -101,7 +97,7 @@ const Grades = () => {
     ], subjectsData.Subjects);
 
   return (
-    <Layout setAuthData={setUserData}>
+    <Layout>
       <div className="flex flex-row justify-between items-center">
         <span className="text-3xl font-semibold">Grades</span>
         <div className="flex flex-row gap-2">

@@ -3,11 +3,10 @@ import Layout from "@/components/layout";
 import { useSchool } from "@/lib/school";
 import { useClass } from "@/lib/class";
 import { useLuckyNumber } from "@/lib/lessons";
-
-import { useState, useEffect } from "react";
-import { Buildings, People, Star, Person, Git } from "react-bootstrap-icons";
-import { getVersion } from '@tauri-apps/api/app';
 import { useVersion } from "@/lib/core";
+
+import { useState } from "react";
+import { Buildings, People, Star, Person, Git } from "react-bootstrap-icons";
 
 const Home = () => {
   // User info

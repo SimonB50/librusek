@@ -17,7 +17,7 @@ const Layout = ({ children, setAuthData }) => {
       const data = await getUser();
       if (!data) return window.location.replace("/auth");
       setUserData(data); // Local
-      setAuthData(data); // Global
+      if (setAuthData) setAuthData(data); // Global
     };
     if (!userData) fetchData();
 
@@ -75,10 +75,10 @@ const Layout = ({ children, setAuthData }) => {
                     Profile
                     <span className="badge">New</span>
                   </a>
-                </li>
-                <li>
-                  <a>Settings</a>
                 </li> */}
+                <li>
+                  <Link href="/settings">Settings</Link>
+                </li>
                 <li>
                   <button
                     onClick={async () => {

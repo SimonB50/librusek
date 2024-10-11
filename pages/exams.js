@@ -1,13 +1,9 @@
 import { useHomeworks, useHomeworksCategories } from "@/lib/timetable";
 import Layout from "../components/layout";
-import { useState } from "react";
 import { upperFirst, sortTasks } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
 
 const Exams = () => {
-  // User info
-  const [userData, setUserData] = useState(null);
-
   // Grades data
   const {
     data: homeworkData,
@@ -30,7 +26,7 @@ const Exams = () => {
   );
 
   return (
-    <Layout setAuthData={setUserData}>
+    <Layout>
       <span className="text-3xl font-semibold mb-4">Exams</span>
       <div className="grid grid-cols-6 gap-2 mt-4">
         {!homeworkLoading && !homeworkError

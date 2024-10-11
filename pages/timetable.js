@@ -8,9 +8,6 @@ import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 dayjs.extend(isoWeek);
 
 const Timetable = () => {
-  // User info
-  const [userData, setUserData] = useState(null);
-
   const [date, setDate] = useState(
     dayjs().startOf("isoWeek").format("YYYY-MM-DD")
   );
@@ -30,7 +27,7 @@ const Timetable = () => {
   ];
 
   return (
-    <Layout setAuthData={setUserData}>
+    <Layout>
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
           <span className="text-3xl font-semibold">Timetable</span>

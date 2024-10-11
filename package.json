@@ -13,6 +13,7 @@
     "@tauri-apps/plugin-http": "2.0.0",
     "dayjs": "^1.11.13",
     "next": "14.2.13",
+    "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-bootstrap-icons": "^1.11.4",
     "react-dom": "^18.3.1",
