@@ -35,7 +35,7 @@ Librusek has a modern and clean design that is easy to use and looks great.
 <img src="public/gradespagefull.jpg" alt="Grades Page Full" height=450 />
 <img src="public/timetablepage.jpg" alt="Timetable Page" height=450 />
 <img src="public/examspage.jpg" alt="Exams Page" height=450 />
-<img src="public/gradespoints,jpg" alt="Points Based Grades Page" height=450 />
+<img src="public/gradespoints.jpg" alt="Points Based Grades Page" height=450 />
 </p>
 
 ## This project was brought to you by our awesome contributors!
