@@ -28,9 +28,20 @@ Librusek is built with modern technologies it's - in most cases - faster than th
 - **Modern design**<br/>
 Librusek has a modern and clean design that is easy to use and looks great.
 
-## Credits
-The idea for Librusek was born because of [Librusik](https://github.com/dani3l0/librusik) created by [dani3l0](https://github.com/dani3l0). Some of the code (especially for authorization) was inspired by this project.
+## Check it out in action
 
+
+![Home Page](public/homepage.jpg)
+![Grades View](public/gradespage.jpg)
+![Grades View Retracted](public/gradespagefull.jpg)
+![Exams Page](public/examspage.jpg)
+![Timetable Page](public/timetablepage.jpg)
+
+## This project was brought to you by our awesome contributors!
 <a href="https://github.com/SimonB50/librusek/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=SimonB50/librusek" />
 </a>
+
+## Credits
+The idea for Librusek was born because of [Librusik](https://github.com/dani3l0/librusik) created by [dani3l0](https://github.com/dani3l0). Some of the code (especially for authorization) was inspired by this project.
+
