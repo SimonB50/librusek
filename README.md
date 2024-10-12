@@ -30,11 +30,11 @@ Librusek has a modern and clean design that is easy to use and looks great.
 
 ## Check it out in action
 <p float="left">
-<img src="public/homepage.jpg" alt="Home Page" height=600 />
-<img src="public/gradespage.jpg" alt="Grades Page Retracted" height=600 />
-<img src="public/gradespagefull.jpg" alt="Grades Page Full" height=600 />
-<img src="public/timetablepage.jpg" alt="Timetable Page" height=600 />
-<img src="public/examspage.jpg" alt="Exams Page" height=600 />
+<img src="public/homepage.jpg" alt="Home Page" height=450 />
+<img src="public/gradespage.jpg" alt="Grades Page Retracted" height=450 />
+<img src="public/gradespagefull.jpg" alt="Grades Page Full" height=450 />
+<img src="public/timetablepage.jpg" alt="Timetable Page" height=450 />
+<img src="public/examspage.jpg" alt="Exams Page" height=450 />
 </p>
 
 ## This project was brought to you by our awesome contributors!
