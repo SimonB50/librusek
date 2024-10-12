@@ -1,10 +1,12 @@
 import Layout from "@/components/layout";
 import { useTimetable } from "@/lib/timetable";
+import { upperFirst } from "@/lib/utils";
+
 import { useState } from "react";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
-import { upperFirst } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
+
 dayjs.extend(isoWeek);
 
 const Timetable = () => {
@@ -56,8 +58,7 @@ const Timetable = () => {
         </div>
       </div>
       <div className="flex flex-row flex-wrap">
-        {!timetableLoading &&
-          !timetableError &&
+        {!timetableLoading && !timetableError ? (
           Object.keys(timetableData.Timetable).map((day) => {
             const dayData = timetableData.Timetable[day];
             if (dayjs(day).isoWeekday() > 5) return;
@@ -70,7 +71,7 @@ const Timetable = () => {
                   {weekDays[dayjs(day).isoWeekday() - 1]}
                 </span>
                 <div className="flex flex-col gap-2">
-                  {dayData.every(x => x.length == 0) && (
+                  {dayData.every((x) => x.length == 0) && (
                     <div className="flex flex-row justify-center items-center bg-base-200 rounded-box p-3">
                       <span className="text-lg">No classes</span>
                     </div>
@@ -116,7 +117,17 @@ const Timetable = () => {
                 </div>
               </div>
             );
-          })}
+          })
+        ) : (
+          Array.from({ length: 5 }).map((_, index) => (
+            <div
+              className="flex flex-col basis-full md:basis-1/2 lg:basis-1/3 shrink-0 p-2 gap-3"
+              key={index}
+            >
+              <div className="skeleton h-16 w-full rounded-box"></div>
+            </div>
+          ))
+        )}
       </div>
     </Layout>
   );
