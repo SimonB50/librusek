@@ -2,7 +2,15 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { useState, useEffect } from "react";
-import { Person, House, List, ListOl, VectorPen, Calendar2Week, PersonExclamation } from "react-bootstrap-icons";
+import {
+  Person,
+  House,
+  List,
+  ListOl,
+  VectorPen,
+  Calendar2Week,
+  PersonExclamation,
+} from "react-bootstrap-icons";
 
 import { getUser } from "@/lib/user";
 import { logout, refreshSession } from "@/lib/auth";
@@ -70,7 +78,7 @@ const Layout = ({ children, setAuthData }) => {
                 tabIndex="0"
                 className="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow"
               >
-{/*                 <li>
+                {/*                 <li>
                   <a className="justify-between">
                     Profile
                     <span className="badge">New</span>
@@ -117,10 +125,7 @@ const Layout = ({ children, setAuthData }) => {
             </Link>
           </li>
           <li>
-            <Link
-              href="/exams"
-              className="flex flex-row items-center text-xl"
-            >
+            <Link href="/exams" className="flex flex-row items-center text-xl">
               <VectorPen />
               Exams
             </Link>
@@ -132,6 +137,15 @@ const Layout = ({ children, setAuthData }) => {
             >
               <Calendar2Week />
               Timetable
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/teacherAbsences"
+              className="flex flex-row items-center text-xl"
+            >
+              <PersonExclamation />
+              Teacher absences
             </Link>
           </li>
         </ul>
