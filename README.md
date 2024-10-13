@@ -28,7 +28,11 @@ Librusek is built with modern technologies it's - in most cases - faster than th
 - **Modern design**<br/>
 Librusek has a modern and clean design that is easy to use and looks great.
 
+## Get it here!
 
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/SimonB50/librusek">
+<img src="graphics/obtanium.png">
+</a>
 
 ## Check it out in action
 <p float="left">
