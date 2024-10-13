@@ -7,26 +7,41 @@ Librusek is an alternative app for [Librus Synergia](https://synergia.librus.pl/
 
 ## Supported Synergia features
 - **Logging in with Synergia**<br/>
-To use Librusek, you don't need to link your Synergia account with Librus. Just log in with your Synergia credentials and you're good to go.
+  Librusek doesn't require you to create a Librus account, instead opting for the ability to login with your pre-existing Synergia account created for you by your school administrator.
 - **Landing page**<br/>
-All your account information, like name, school and current lucky number in one place.
+All your account information, like your name, school and the current lucky number is available in one place.
 - **Grades**<br/>
-View your grades and averages for each subject. You can also see the grades added in the last day. <ins>Librusek supports both traditional and points-based grading systems.</ins>
+View your grades and averages for each subject. You can also see the grades added the day prior. <ins>Librusek supports both the traditional and points-based (percentages) grading systems.</ins>
 - **Exams**<br/>
-Know when your next exam is. You can view all your upcoming exams and their dates, everything properly sorted and highlighted.
+Know when your upcoming exams take place. You can view all your upcoming and previous exams along with their dates, all neatly sorted and highlighted for your convenience.
 - **Timetable**<br/>
-Be up-to-date with your daily schedule. You can view your timetable for the each week including all substitutions and cancelled classes. 
+Stay up-to-date with your daily schedule. You can view your timetable for each week, including all substitutions and cancelled classes. 
 
 ## Unique app features
-Since Librusek is fully custom application, it has some unique features that are not available in the original Librus Synergia.
+Since Librusek is a fully custom application, it has some unique features that are not available in the original Librus Synergia.
 - **Light and dark mode**<br/>
-Librusek supports both light and dark mode based on your system preferences.
+Librusek supports both light and dark modes based on your system preferences.
 - **Responsive design**<br/>
-Thanks to the responsive design, Librusek looks great on all kinds of devices like smartphones and tablets.
+Thanks to the responsive design, Librusek looks great on various mobile devices like smartphones and tablets.
 - **Fast and reliable**<br/>
 Librusek is built with modern technologies it's - in most cases - faster than the official Synergia. It also uses optimized methods for fetching data from the Synergia API.
 - **Modern design**<br/>
 Librusek has a modern and clean design that is easy to use and looks great.
 
+## Check it out in action
+<p float="left">
+<img src="screenshots/home.jpg" alt="Home Page" height=450 />
+<img src="screenshots/grades.jpg" alt="Grades Page Retracted" height=450 />
+<img src="screenshots/grades2.jpg" alt="Grades Page Full" height=450 />
+<img src="screenshots/grades3.jpg" alt="Points Based Grades Page" height=450 />
+<img src="screenshots/exams.jpg" alt="Exams Page" height=450 />
+<img src="screenshots/timetable.jpg" alt="Timetable Page" height=450 />
+</p>
+
+## This project was brought to you by our awesome contributors!
+<a href="https://github.com/SimonB50/librusek/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=SimonB50/librusek" />
+</a>
+
 ## Credits
-The idea for Librusek was born because of [Librusik](https://github.com/dani3l0/librusik) created by [dani3l0](https://github.com/dani3l0). Some of the code (especially for authorization) was inspired from this project.
+The idea for Librusek was born because of [Librusik](https://github.com/dani3l0/librusik) created by [dani3l0](https://github.com/dani3l0). Some of the code (especially for authorization) was inspired by this project.
