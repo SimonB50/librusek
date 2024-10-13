@@ -28,14 +28,16 @@ Librusek is built with modern technologies it's - in most cases - faster than th
 - **Modern design**<br/>
 Librusek has a modern and clean design that is easy to use and looks great.
 
+
+
 ## Check it out in action
 <p float="left">
-<img src="screenshots/home.jpg" alt="Home Page" height=450 />
-<img src="screenshots/grades.jpg" alt="Grades Page Retracted" height=450 />
-<img src="screenshots/grades2.jpg" alt="Grades Page Full" height=450 />
-<img src="screenshots/grades3.jpg" alt="Points Based Grades Page" height=450 />
-<img src="screenshots/exams.jpg" alt="Exams Page" height=450 />
-<img src="screenshots/timetable.jpg" alt="Timetable Page" height=450 />
+<img src="graphics/home.jpg" alt="Home Page" height=450 />
+<img src="graphics/grades.jpg" alt="Grades Page Retracted" height=450 />
+<img src="graphics/grades2.jpg" alt="Grades Page Full" height=450 />
+<img src="graphics/grades3.jpg" alt="Points Based Grades Page" height=450 />
+<img src="graphics/exams.jpg" alt="Exams Page" height=450 />
+<img src="graphics/timetable.jpg" alt="Timetable Page" height=450 />
 </p>
 
 ## This project was brought to you by our awesome contributors!
