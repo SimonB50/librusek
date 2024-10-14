@@ -59,10 +59,9 @@ const Attendance = () => {
                     attendanceData.Attendances.filter(
                       (x) =>
                         lessonsData.Lessons.find((y) => x.Lesson.Id === y.Id)
-                          .Subject.Id === subject.Id && attendanceTypesData.Types.find((y) => y.Id == x.Type.Id).IsPresenceKind == true
+                          .Subject.Id === subject.Id
                     ).length
                 ).toFixed(2) * 100;
-
               return (
                 <div
                   key={subject.Id}
