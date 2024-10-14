@@ -1,7 +1,6 @@
 import Layout from "@/components/layout";
 
 import {
-  useComment,
   useGradeComments,
   useGrades,
   useGradesCategories,
@@ -10,28 +9,24 @@ import {
   usePointsCategories,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
-import { calculateAvarage, getSemester } from "@/lib/math";
-import { upperFirst } from "@/lib/core";
+import {
+  upperFirst,
+  calculateAvarage,
+  getSemester,
+  deduplicate,
+} from "@/lib/utils";
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Bookmark } from "react-bootstrap-icons";
 import dayjs from "dayjs";
 
 const Grades = () => {
-  // User info
-  const [userData, setUserData] = useState(null);
-
   // Page cache
   const [focusedSubject, setFocusedSubject] = useState(null);
   const [focusedGrade, setFocusedGrade] = useState(null);
   const [filter, setFilter] = useState("all");
 
   // Grades data
-  const {
-    data: subjectsData,
-    loading: subjectsLoading,
-    error: subjectsError,
-  } = useSubjects();
   const {
     data: gradesData,
     loading: gradesLoading,
@@ -47,62 +42,79 @@ const Grades = () => {
     loading: gradesCategoriesLoading,
     error: gradesCategoriesError,
   } = useGradesCategories(
-    [...(gradesData ? gradesData.Grades.map((x) => x.Category.Id) : [])].join(
-      ","
-    )
+    deduplicate([
+      ...(gradesData ? gradesData.Grades.map((x) => x.Category.Id) : []),
+    ]).join(",")
   );
   const {
     data: pointsCategoriesData,
     loading: pointsCategoriesLoading,
     error: pointsCategoriesError,
   } = usePointsCategories(
-    [...(pointsData ? pointsData.Grades.map((x) => x.Category.Id) : [])].join(
-      ","
-    )
+    deduplicate([
+      ...(pointsData ? pointsData.Grades.map((x) => x.Category.Id) : []),
+    ]).join(",")
+  );
+  const {
+    data: subjectsData,
+    loading: subjectsLoading,
+    error: subjectsError,
+  } = useSubjects(
+    deduplicate([
+      ...(gradesData ? gradesData.Grades.map((x) => x.Subject.Id) : []),
+      ...(pointsData ? pointsData.Grades.map((x) => x.Subject.Id) : []),
+    ]).join(",")
   );
   const {
     data: teachersData,
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    [
+    deduplicate([
       ...(gradesData ? gradesData.Grades.map((x) => x.AddedBy.Id) : []),
       ...(pointsData ? pointsData.Grades.map((x) => x.AddedBy.Id) : []),
-    ].join(",")
+    ]).join(",")
   );
   const {
     data: gradeCommentsData,
     loading: gradeCommentsLoading,
     error: gradeCommentsError,
-  } = useGradeComments([
-    ...(gradesData
-      ? gradesData.Grades.filter((x) => x.Comments)
-          .map((y) => y.Comments.map((z) => z.Id))
-          .flat()
-      : []),
-  ]);
+  } = useGradeComments(
+    deduplicate([
+      ...(gradesData
+        ? gradesData.Grades.filter((x) => x.Comments)
+            .map((y) => y.Comments.map((z) => z.Id))
+            .flat()
+        : []),
+    ]).join(",")
+  );
   const {
     data: pointCommentsData,
     loading: pointCommentsLoading,
     error: pointCommentsError,
-  } = usePointComments([
-    ...(pointsData
-      ? pointsData.Grades.filter((x) => x.Comments)
-          .map((y) => y.Comments.map((z) => z.Id))
-          .flat()
-      : []),
-  ]);
+  } = usePointComments(
+    deduplicate([
+      ...(pointsData
+        ? pointsData.Grades.filter((x) => x.Comments)
+            .map((y) => y.Comments.map((z) => z.Id))
+            .flat()
+        : []),
+    ]).join(",")
+  );
 
   const semester =
     !subjectsLoading &&
     !subjectsError &&
-    getSemester([
-      ...(!gradesLoading && !gradesError ? gradesData.Grades : []),
-      ...(!pointsLoading && !pointsError ? pointsData.Grades : []),
-    ], subjectsData.Subjects);
+    getSemester(
+      [
+        ...(!gradesLoading && !gradesError ? gradesData.Grades : []),
+        ...(!pointsLoading && !pointsError ? pointsData.Grades : []),
+      ],
+      subjectsData.Subjects
+    );
 
   return (
-    <Layout setAuthData={setUserData}>
+    <Layout>
       <div className="flex flex-row justify-between items-center">
         <span className="text-3xl font-semibold">Grades</span>
         <div className="flex flex-row gap-2">
@@ -133,15 +145,7 @@ const Grades = () => {
       </div>
       <div className="flex flex-col gap-2 mt-3">
         {!subjectsLoading && !subjectsError ? (
-          subjectsData.Subjects.filter(
-            (subject) =>
-              (!gradesLoading &&
-                !gradesError &&
-                gradesData.Grades.some((x) => x.Subject.Id == subject.Id)) ||
-              (!pointsLoading &&
-                !pointsError &&
-                pointsData.Grades.some((x) => x.Subject.Id == subject.Id))
-          ).map((subject) => (
+          subjectsData.Subjects.map((subject) => (
             <div
               key={subject.Id}
               className="flex flex-col p-4 bg-base-200 rounded-box cursor-pointer"
