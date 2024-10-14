@@ -23,11 +23,6 @@ const Grades = () => {
 
   // Grades data
   const {
-    data: subjectsData,
-    loading: subjectsLoading,
-    error: subjectsError,
-  } = useSubjects();
-  const {
     data: gradesData,
     loading: gradesLoading,
     error: gradesError,
@@ -54,6 +49,16 @@ const Grades = () => {
     [...(pointsData ? pointsData.Grades.map((x) => x.Category.Id) : [])].join(
       ","
     )
+  );
+  const {
+    data: subjectsData,
+    loading: subjectsLoading,
+    error: subjectsError,
+  } = useSubjects(
+    [
+      ...(gradesData ? gradesData.Grades.map((x) => x.Subject.Id) : []),
+      ...(pointsData ? pointsData.Grades.map((x) => x.Subject.Id) : []),
+    ].join(",")
   );
   const {
     data: teachersData,
@@ -128,15 +133,7 @@ const Grades = () => {
       </div>
       <div className="flex flex-col gap-2 mt-3">
         {!subjectsLoading && !subjectsError ? (
-          subjectsData.Subjects.filter(
-            (subject) =>
-              (!gradesLoading &&
-                !gradesError &&
-                gradesData.Grades.some((x) => x.Subject.Id == subject.Id)) ||
-              (!pointsLoading &&
-                !pointsError &&
-                pointsData.Grades.some((x) => x.Subject.Id == subject.Id))
-          ).map((subject) => (
+          subjectsData.Subjects.map((subject) => (
             <div
               key={subject.Id}
               className="flex flex-col p-4 bg-base-200 rounded-box cursor-pointer"

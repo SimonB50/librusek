@@ -2,6 +2,7 @@ import { useHomeworks, useHomeworksCategories } from "@/lib/timetable";
 import Layout from "../components/layout";
 import { upperFirst, sortTasks } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
+import dayjs from "dayjs";
 
 const Exams = () => {
   // Grades data
@@ -14,15 +15,25 @@ const Exams = () => {
     data: subjectsData,
     loading: subjectsLoading,
     error: subjectsError,
-  } = useSubjects();
+  } = useSubjects(
+    [
+      ...(!homeworkLoading && !homeworkError
+        ? homeworkData.HomeWorks.filter((x) => x.Subject).map(
+            (y) => y.Subject.Id
+          )
+        : []),
+    ].join(",")
+  );
   const {
     data: homeworkCategoriesData,
     loading: homeworkCategoriesLoading,
     error: homeworkCategoriesError,
   } = useHomeworksCategories(
     [
-      ...(!homeworkLoading && !homeworkError ? homeworkData.HomeWorks.map(x => x.Category.Id) : []),
-    ].join(","),
+      ...(!homeworkLoading && !homeworkError
+        ? homeworkData.HomeWorks.map((x) => x.Category.Id)
+        : []),
+    ].join(",")
   );
 
   return (
@@ -34,10 +45,9 @@ const Exams = () => {
               <div
                 key={homework.Id}
                 className={`col-span-6 sm:col-span-3 md:col-span-2 flex flex-col justify-between p-4 bg-base-200 rounded-box ${
-                  Math.ceil(
-                    (new Date(homework.Date) - new Date()) /
-                      (1000 * 60 * 60 * 24)
-                  ) == 0
+                  dayjs(homework.Date).startOf("day").valueOf() -
+                    dayjs().startOf("day").valueOf() ==
+                  0
                     ? `border border-primary`
                     : ``
                 }`}
@@ -66,19 +76,16 @@ const Exams = () => {
                 </div>
                 <div className="flex flex-row justify-between items-center">
                   <span>{homework.Date}</span>
-                  {Math.ceil(
-                    (new Date(homework.Date) - new Date()) /
-                      (1000 * 60 * 60 * 24)
-                  ) >= 0 && (
+                  {dayjs(homework.Date).startOf("day").valueOf() -
+                    dayjs().startOf("day").valueOf() >=
+                    0 && (
                     <div className="badge badge-primary">
-                      {Math.ceil(
-                        (new Date(homework.Date) - new Date()) /
-                          (1000 * 60 * 60 * 24)
-                      ) == 0
+                      {dayjs(homework.Date).startOf("day").valueOf() -
+                        dayjs().startOf("day").valueOf() ==
+                      0
                         ? `Today`
                         : `In ${Math.ceil(
-                            (new Date(homework.Date) - new Date()) /
-                              (1000 * 60 * 60 * 24)
+                            dayjs(homework.Date).diff(dayjs(), "day", true)
                           )} days`}
                     </div>
                   )}

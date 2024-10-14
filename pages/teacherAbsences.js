@@ -27,7 +27,10 @@ const TeacherAbsences = () => {
     <Layout>
       <span className="text-3xl font-semibold mb-4">Teacher absences</span>
       <div className="grid grid-cols-6 gap-2 mt-4">
-        {!teacherAbsencesError && !teacherAbsencesLoading && !teachersLoading && !teachersError
+        {!teacherAbsencesError &&
+        !teacherAbsencesLoading &&
+        !teachersLoading &&
+        !teachersError
           ? sortTeacherAbsences(teacherAbsencesData.TeacherFreeDays)
               .filter((x) =>
                 teachersData.Users.find((y) => y.Id == x.Teacher.Id)
@@ -36,8 +39,8 @@ const TeacherAbsences = () => {
                 <div
                   key={absence.Id}
                   className={`col-span-6 sm:col-span-3 md:col-span-2 flex flex-col justify-between p-4 bg-base-200 rounded-box ${
-                    dayjs().valueOf() > dayjs(absence.DateFrom).valueOf() &&
-                    dayjs().valueOf() < dayjs(absence.DateTo).valueOf()
+                    dayjs().valueOf() >= dayjs(absence.DateFrom).endOf('day').valueOf() &&
+                    dayjs().valueOf() <= dayjs(absence.DateTo).endOf('day').valueOf()
                       ? `border border-primary`
                       : ``
                   }`}
@@ -62,7 +65,7 @@ const TeacherAbsences = () => {
                       {dayjs(absence.DateFrom).format("DD.MM.YYYY")} -{" "}
                       {dayjs(absence.DateTo).format("DD.MM.YYYY")}
                     </span>
-                    {dayjs(absence.DateFrom).valueOf() >= dayjs().valueOf() && (
+                    {dayjs(absence.DateFrom).endOf('day').valueOf() >= dayjs().valueOf() && (
                       <div className="badge badge-primary">
                         In{" "}
                         {Math.ceil(
