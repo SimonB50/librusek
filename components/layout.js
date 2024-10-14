@@ -10,6 +10,7 @@ import {
   VectorPen,
   Calendar2Week,
   PersonExclamation,
+  ClipboardCheck,
 } from "react-bootstrap-icons";
 
 import { getUser } from "@/lib/user";
@@ -146,6 +147,15 @@ const Layout = ({ children, setAuthData }) => {
             >
               <PersonExclamation />
               Teacher absences
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/attendance"
+              className="flex flex-row items-center text-xl"
+            >
+              <ClipboardCheck />
+              Attendance
             </Link>
           </li>
         </ul>
