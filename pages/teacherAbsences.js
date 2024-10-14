@@ -46,7 +46,7 @@ const TeacherAbsences = () => {
                   }`}
                 >
                   <div className="flex flex-col">
-                    <span className="text-2xl font-bold">
+                    <span className="text-xl font-bold">
                       {!teachersLoading &&
                         !teachersError &&
                         `${
@@ -69,9 +69,8 @@ const TeacherAbsences = () => {
                       <div className="badge badge-primary">
                         In{" "}
                         {Math.ceil(
-                          (new Date(homework.Date) - new Date()) /
-                            (1000 * 60 * 60 * 24)
-                        )}{" "}
+                            dayjs(absence.DateFrom).diff(dayjs(), "day", true)
+                          )}{" "}
                         days
                       </div>
                     )}
