@@ -1,7 +1,7 @@
 import Layout from "@/components/layout";
 import { useTeachers } from "@/lib/school";
 import { useTeacherAbsences } from "@/lib/timetable";
-import { sortTeacherAbsences } from "@/lib/utils";
+import { deduplicate, sortTeacherAbsences } from "@/lib/utils";
 import dayjs from "dayjs";
 
 const TeacherAbsences = () => {
@@ -16,11 +16,11 @@ const TeacherAbsences = () => {
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    [
+    deduplicate([
       ...(teacherAbsencesData
         ? teacherAbsencesData.TeacherFreeDays.map((x) => x.Teacher.Id)
         : []),
-    ].join(",")
+    ]).join(",")
   );
 
   return (

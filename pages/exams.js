@@ -1,6 +1,6 @@
 import { useHomeworks, useHomeworksCategories } from "@/lib/timetable";
 import Layout from "../components/layout";
-import { upperFirst, sortTasks } from "@/lib/utils";
+import { upperFirst, sortTasks, deduplicate } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
 import dayjs from "dayjs";
 
@@ -16,24 +16,24 @@ const Exams = () => {
     loading: subjectsLoading,
     error: subjectsError,
   } = useSubjects(
-    [
+    deduplicate([
       ...(!homeworkLoading && !homeworkError
         ? homeworkData.HomeWorks.filter((x) => x.Subject).map(
             (y) => y.Subject.Id
           )
         : []),
-    ].join(",")
+    ]).join(",")
   );
   const {
     data: homeworkCategoriesData,
     loading: homeworkCategoriesLoading,
     error: homeworkCategoriesError,
   } = useHomeworksCategories(
-    [
+    deduplicate([
       ...(!homeworkLoading && !homeworkError
         ? homeworkData.HomeWorks.map((x) => x.Category.Id)
         : []),
-    ].join(",")
+    ]).join(",")
   );
 
   return (
