@@ -9,7 +9,12 @@ import {
   usePointsCategories,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
-import { upperFirst, calculateAvarage, getSemester } from "@/lib/utils";
+import {
+  upperFirst,
+  calculateAvarage,
+  getSemester,
+  deduplicate,
+} from "@/lib/utils";
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Bookmark } from "react-bootstrap-icons";
@@ -37,69 +42,76 @@ const Grades = () => {
     loading: gradesCategoriesLoading,
     error: gradesCategoriesError,
   } = useGradesCategories(
-    [...(gradesData ? gradesData.Grades.map((x) => x.Category.Id) : [])].join(
-      ","
-    )
+    deduplicate([
+      ...(gradesData ? gradesData.Grades.map((x) => x.Category.Id) : []),
+    ]).join(",")
   );
   const {
     data: pointsCategoriesData,
     loading: pointsCategoriesLoading,
     error: pointsCategoriesError,
   } = usePointsCategories(
-    [...(pointsData ? pointsData.Grades.map((x) => x.Category.Id) : [])].join(
-      ","
-    )
+    deduplicate([
+      ...(pointsData ? pointsData.Grades.map((x) => x.Category.Id) : []),
+    ]).join(",")
   );
   const {
     data: subjectsData,
     loading: subjectsLoading,
     error: subjectsError,
   } = useSubjects(
-    [
+    deduplicate([
       ...(gradesData ? gradesData.Grades.map((x) => x.Subject.Id) : []),
       ...(pointsData ? pointsData.Grades.map((x) => x.Subject.Id) : []),
-    ].join(",")
+    ]).join(",")
   );
   const {
     data: teachersData,
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    [
+    deduplicate([
       ...(gradesData ? gradesData.Grades.map((x) => x.AddedBy.Id) : []),
       ...(pointsData ? pointsData.Grades.map((x) => x.AddedBy.Id) : []),
-    ].join(",")
+    ]).join(",")
   );
   const {
     data: gradeCommentsData,
     loading: gradeCommentsLoading,
     error: gradeCommentsError,
-  } = useGradeComments([
-    ...(gradesData
-      ? gradesData.Grades.filter((x) => x.Comments)
-          .map((y) => y.Comments.map((z) => z.Id))
-          .flat()
-      : []),
-  ]);
+  } = useGradeComments(
+    deduplicate([
+      ...(gradesData
+        ? gradesData.Grades.filter((x) => x.Comments)
+            .map((y) => y.Comments.map((z) => z.Id))
+            .flat()
+        : []),
+    ]).join(",")
+  );
   const {
     data: pointCommentsData,
     loading: pointCommentsLoading,
     error: pointCommentsError,
-  } = usePointComments([
-    ...(pointsData
-      ? pointsData.Grades.filter((x) => x.Comments)
-          .map((y) => y.Comments.map((z) => z.Id))
-          .flat()
-      : []),
-  ]);
+  } = usePointComments(
+    deduplicate([
+      ...(pointsData
+        ? pointsData.Grades.filter((x) => x.Comments)
+            .map((y) => y.Comments.map((z) => z.Id))
+            .flat()
+        : []),
+    ]).join(",")
+  );
 
   const semester =
     !subjectsLoading &&
     !subjectsError &&
-    getSemester([
-      ...(!gradesLoading && !gradesError ? gradesData.Grades : []),
-      ...(!pointsLoading && !pointsError ? pointsData.Grades : []),
-    ], subjectsData.Subjects);
+    getSemester(
+      [
+        ...(!gradesLoading && !gradesError ? gradesData.Grades : []),
+        ...(!pointsLoading && !pointsError ? pointsData.Grades : []),
+      ],
+      subjectsData.Subjects
+    );
 
   return (
     <Layout>
