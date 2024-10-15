@@ -39,7 +39,7 @@ const TeacherAbsences = () => {
                 <div
                   key={absence.Id}
                   className={`col-span-6 sm:col-span-3 md:col-span-2 flex flex-col justify-between p-4 bg-base-200 rounded-box ${
-                    dayjs().valueOf() >= dayjs(absence.DateFrom).endOf('day').valueOf() &&
+                    dayjs().valueOf() >= dayjs(absence.DateFrom).startOf('day').valueOf() &&
                     dayjs().valueOf() <= dayjs(absence.DateTo).endOf('day').valueOf()
                       ? `border border-primary`
                       : ``
@@ -65,7 +65,7 @@ const TeacherAbsences = () => {
                       {dayjs(absence.DateFrom).format("DD.MM.YYYY")} -{" "}
                       {dayjs(absence.DateTo).format("DD.MM.YYYY")}
                     </span>
-                    {dayjs(absence.DateFrom).endOf('day').valueOf() >= dayjs().valueOf() && (
+                    {dayjs(absence.DateFrom).startOf('day').valueOf() >= dayjs().valueOf() && (
                       <div className="badge badge-primary">
                         In{" "}
                         {Math.ceil(
