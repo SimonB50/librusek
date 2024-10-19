@@ -15,6 +15,7 @@ import {
 
 import { getUser } from "@/lib/user";
 import { logout, refreshSession } from "@/lib/auth";
+import { CodeSlash } from "react-bootstrap-icons";
 
 const Layout = ({ children, setAuthData }) => {
   const router = useRouter();
@@ -158,6 +159,19 @@ const Layout = ({ children, setAuthData }) => {
               Attendance
             </Link>
           </li>
+          {
+            localStorage.getItem("developer") && (
+              <li>
+                <Link
+                  href="/developer"
+                  className="flex flex-row items-center text-xl"
+                >
+                  <CodeSlash />
+                  Developer
+                </Link>
+              </li>
+            )
+          }
         </ul>
       </div>
     </div>
