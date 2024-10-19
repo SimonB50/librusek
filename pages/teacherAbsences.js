@@ -39,8 +39,10 @@ const TeacherAbsences = () => {
                 <div
                   key={absence.Id}
                   className={`col-span-6 sm:col-span-3 md:col-span-2 flex flex-col justify-between p-4 bg-base-200 rounded-box ${
-                    dayjs().valueOf() >= dayjs(absence.DateFrom).startOf('day').valueOf() &&
-                    dayjs().valueOf() <= dayjs(absence.DateTo).endOf('day').valueOf()
+                    dayjs().valueOf() >=
+                      dayjs(absence.DateFrom).startOf("day").valueOf() &&
+                    dayjs().valueOf() <=
+                      dayjs(absence.DateTo).endOf("day").valueOf()
                       ? `border border-primary`
                       : ``
                   }`}
@@ -61,16 +63,31 @@ const TeacherAbsences = () => {
                     </span>
                   </div>
                   <div className="flex flex-row justify-between items-center">
-                    <span>
-                      {dayjs(absence.DateFrom).format("DD.MM.YYYY")} -{" "}
-                      {dayjs(absence.DateTo).format("DD.MM.YYYY")}
-                    </span>
-                    {dayjs(absence.DateFrom).startOf('day').valueOf() >= dayjs().valueOf() && (
+                    <div className="flex flex-row items-start gap-x-2 gap-y-1 flex-wrap">
+                      {absence.DateFrom === absence.DateTo ? (
+                        <span className="text-nowrap">
+                          {dayjs(absence.DateFrom).format("DD.MM.YYYY")}
+                        </span>
+                      ) : (
+                        <span className="text-nowrap">
+                          {dayjs(absence.DateFrom).format("DD.MM.YYYY")} -{" "}
+                          {dayjs(absence.DateTo).format("DD.MM.YYYY")}
+                        </span>
+                      )}
+                      {absence.TimeFrom && absence.TimeTo && (
+                        <span className="text-nowrap">
+                          {absence.TimeFrom.split(":").slice(0, 2).join(":")} -{" "}
+                          {absence.TimeTo.split(":").slice(0, 2).join(":")}
+                        </span>
+                      )}
+                    </div>
+                    {dayjs(absence.DateFrom).startOf("day").valueOf() >=
+                      dayjs().valueOf() && (
                       <div className="badge badge-primary">
                         In{" "}
                         {Math.ceil(
-                            dayjs(absence.DateFrom).diff(dayjs(), "day", true)
-                          )}{" "}
+                          dayjs(absence.DateFrom).diff(dayjs(), "day", true)
+                        )}{" "}
                         days
                       </div>
                     )}
