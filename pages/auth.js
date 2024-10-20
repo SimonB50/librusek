@@ -4,11 +4,15 @@ import { authenticate } from "@/lib/auth";
 import { getUser } from "@/lib/user";
 import { useState } from "react";
 import { Person } from "react-bootstrap-icons";
+import { Trash } from "react-bootstrap-icons";
 
 const Auth = () => {
   const router = useRouter();
   const [authLoading, setAuthLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [savedAccounts, setSavedAccounts] = useState(
+    JSON.parse(localStorage.getItem("accounts")) || []
+  );
   const { register, handleSubmit, watch, setValue, resetField } = useForm();
 
   const onSubmit = async (data) => {
@@ -22,8 +26,7 @@ const Auth = () => {
       return setAuthLoading(false);
     }
     if (nickname) {
-      const currentAccounts =
-        JSON.parse(localStorage.getItem("accounts")) || [];
+      const currentAccounts = savedAccounts;
       const account = {
         login,
         password: btoa(password),
@@ -49,21 +52,33 @@ const Auth = () => {
             Select one of your saved accounts to login to Synergia.
           </p>
           <div className="flex flex-col gap-2">
-            {JSON.parse(localStorage.getItem("accounts"))?.map((account) => (
-              <button
+            {savedAccounts?.map((account) => (
+              <div
                 key={account.login}
-                className="btn btn-primary"
-                onClick={() => {
-                  document.getElementById(
-                    "save_account_checkbox"
-                  ).checked = true;
-                  setValue("login", account.login);
-                  setValue("password", atob(account.password));
-                  document.getElementById("accounts_modal").close();
-                }}
+                className="flex flex-row items-center gap-2"
               >
-                {account.nickname || account.login}
-              </button>
+                <button
+                  className="btn btn-primary w-[90%]"
+                  onClick={() => {
+                    document.getElementById(
+                      "save_account_checkbox"
+                    ).checked = true;
+                    setValue("login", account.login);
+                    setValue("password", atob(account.password));
+                    document.getElementById("accounts_modal").close();
+                  }}
+                >
+                  {account.nickname || account.login}
+                </button>
+                <button
+                  className="btn btn-error w-[10%] items-center justify-center"
+                  onClick={() => {
+                    setSavedAccounts((prev) => prev.filter((acc) => acc !== account));
+                  }}
+                >
+                  <Trash className="text-error-content text-md" />
+                </button>
+              </div>
             )) || <p>No accounts saved.</p>}
           </div>
           <div className="modal-action">
