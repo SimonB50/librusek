@@ -273,16 +273,6 @@ const Attendance = () => {
             <></>
           )}
         </div>
-        {/*         {attendanceData &&
-          lessonsData &&
-          attendanceTypesData &&
-          JSON.stringify(
-            attendanceData.Attendances.filter(
-              (x) =>
-                attendanceTypesData.Types.find((y) => y.Id == x.Type.Id)
-                  .IsPresenceKind == false
-            )
-          )} */}
       </div>
     </Layout>
   );
