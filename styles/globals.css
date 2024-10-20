@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+  Fix issues with the scrollbar gutter when the drawer is open
+*/
+:root:has(.drawer-toggle:checked) {
+  scrollbar-gutter: auto;
+}
+
+/*
+  Fix issues with the scrollbar gutter when the modal is open
+*/
+:root:has(
+    :is(
+        .modal-open,
+        .modal:target,
+        .modal-toggle:checked + .modal,
+        .modal[open]
+      )
+  ) {
+  scrollbar-gutter: unset;
+}
