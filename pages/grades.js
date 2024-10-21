@@ -386,7 +386,7 @@ const Grades = () => {
                               pointsData.Grades.find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.Category?.Id
-                          ).Weight
+                          ).Weight || "None"
                         }
                       </span>
                       {!teachersLoading && !teachersError && (
@@ -473,7 +473,7 @@ const Grades = () => {
                               gradesData.Grades.find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.Category?.Id
-                          ).Weight
+                          ).Weight || "None"
                         }
                       </span>
                       {!teachersLoading && !teachersError && (
