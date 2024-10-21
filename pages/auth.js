@@ -55,10 +55,10 @@ const Auth = () => {
             {savedAccounts?.map((account) => (
               <div
                 key={account.login}
-                className="flex flex-row items-center gap-2"
+                className="flex flex-row items-center justify-between gap-2 max-w-sm"
               >
                 <button
-                  className="btn btn-primary w-[90%]"
+                  className="btn btn-primary flex-grow flex-shrink flex-wrap"
                   onClick={() => {
                     document.getElementById(
                       "save_account_checkbox"
@@ -71,7 +71,7 @@ const Auth = () => {
                   {account.nickname || account.login}
                 </button>
                 <button
-                  className="btn btn-error w-[10%] items-center justify-center"
+                  className="btn btn-error items-center justify-center flex-shrink-0"
                   onClick={() => {
                     setSavedAccounts((prev) => prev.filter((acc) => acc !== account));
                   }}
