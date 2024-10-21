@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Buildings, People, Star, Person, Git } from "react-bootstrap-icons";
 import { deduplicate } from "@/lib/utils";
 import { fetch } from "@tauri-apps/plugin-http";
+import dayjs from "dayjs";
 
 const Home = () => {
   // User info
@@ -159,7 +160,9 @@ const Home = () => {
       </dialog>
       <div className="flex flex-col mt-4 gap-2">
         {!announcementsLoading && !announcementsError ? (
-          announcementsData.SchoolNotices.map((a) => (
+          announcementsData.SchoolNotices.sort((a, b) => {
+            return dayjs(b.CreationDate).valueOf() - dayjs(a.CreationDate).valueOf();
+          }).map((a) => (
             <div
               key={a.Id}
               className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 rounded-box gap-2 p-4 ${
