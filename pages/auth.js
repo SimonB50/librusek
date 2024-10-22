@@ -55,7 +55,7 @@ const Auth = () => {
             {savedAccounts?.map((account) => (
               <div
                 key={account.login}
-                className="flex flex-row items-center justify-between gap-2 max-w-sm"
+                className="flex flex-row items-center justify-between gap-2"
               >
                 <button
                   className="btn btn-primary flex-grow flex-shrink flex-wrap"
