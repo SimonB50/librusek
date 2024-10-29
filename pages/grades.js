@@ -17,13 +17,56 @@ import {
 } from "@/lib/utils";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Bookmark } from "react-bootstrap-icons";
+import {
+  ChevronDown,
+  ChevronUp,
+  Bookmark,
+  Pencil,
+  Trash,
+} from "react-bootstrap-icons";
 import dayjs from "dayjs";
+import { useForm } from "react-hook-form";
 
 const Grades = () => {
   // Page cache
   const [focusedSubject, setFocusedSubject] = useState(null);
   const [focusedGrade, setFocusedGrade] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editedGrade, setEditedGrade] = useState(null);
+  const [tmpGrades, setTmpGrades] = useState(null);
+  const [tmpPoints, setTmpPoints] = useState(null);
+  const tempCategories = [
+    {
+      Id: -1,
+      Name: "Temporary (1)",
+      Weight: 1,
+    },
+    {
+      Id: -2,
+      Name: "Temporary (2)",
+      Weight: 2,
+    },
+    {
+      Id: -3,
+      Name: "Temporary (3)",
+      Weight: 3,
+    },
+    {
+      Id: -4,
+      Name: "Temporary (4)",
+      Weight: 4,
+    },
+    {
+      Id: -5,
+      Name: "Temporary (5)",
+      Weight: 5,
+    },
+    {
+      Id: -6,
+      Name: "Temporary (6)",
+      Weight: 6,
+    },
+  ];
   const [filter, setFilter] = useState("all");
 
   // Grades data
@@ -113,14 +156,175 @@ const Grades = () => {
       subjectsData.Subjects
     );
 
+  const {
+    register,
+    watch,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+    resetField,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const doesExist = (data.gradeType == "grade" ? tmpGrades : tmpPoints).find(
+      (x) => x.Id == editedGrade.Id
+    );
+    if (doesExist)
+      (data.gradeType == "grade" ? setTmpGrades : setTmpPoints)((current) =>
+        current.map((x) =>
+          x.Id == editedGrade.Id
+            ? {
+                ...x,
+                Grade: data.gradeValue,
+                GradeValue: data.gradeValue,
+                Category: {
+                  Id: -parseInt(data.gradeWage),
+                },
+              }
+            : x
+        )
+      );
+    else
+      (data.gradeType == "grade" ? setTmpGrades : setTmpPoints)((current) => [
+        ...current,
+        {
+          Id: editedGrade.Id,
+          Grade: data.gradeValue,
+          GradeValue: data.gradeValue,
+          Category: {
+            Id: -parseInt(data.gradeWage),
+          },
+          AddDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          Subject: {
+            Id: focusedSubject,
+          },
+          Semester: editedGrade.Semester,
+        },
+      ]);
+    setEditedGrade(null);
+    setValue("gradeType", "select");
+    resetField("gradeValue");
+    resetField("gradeWage");
+    document.getElementById("edit_modal").close();
+  };
+
   return (
     <Layout>
-      <div className="flex flex-row justify-between items-center">
+      <dialog id="edit_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Grades simulation</h3>
+          <div className="flex flex-col gap-2 py-4">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Type</span>
+              </label>
+              <select
+                className="select select-bordered w-full"
+                {...register("gradeType", {
+                  required: {
+                    value: true,
+                    message: "Please select grade type",
+                  },
+                  validate: (value) =>
+                    value != "select" || "Please select grade type",
+                })}
+              >
+                <option value="select" disabled selected>
+                  Select type
+                </option>
+                <option value="grade">Grade</option>
+                <option value="points">Points</option>
+              </select>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">
+                  {watch("gradeType") == "grade" ? "Grade" : "Points"}
+                </span>
+              </label>
+              <input
+                type="number"
+                className="input input-bordered"
+                min={1}
+                max={watch("gradeType") == "grade" ? 6 : 100}
+                {...register("gradeValue", {
+                  required: {
+                    value: true,
+                    message: "Please enter valid grade value",
+                  },
+                  min: {
+                    value: 1,
+                    message: "Grade value must be at least 1",
+                  },
+                  max: {
+                    value: watch("gradeType") == "grade" ? 6 : 100,
+                    message: `Grade value must be at most ${
+                      watch("gradeType") == "grade" ? 6 : 100
+                    }`,
+                  },
+                })}
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Wage</span>
+              </label>
+              <input
+                type="number"
+                className="input input-bordered"
+                min={1}
+                max={6}
+                {...register("gradeWage", {
+                  required: {
+                    value: true,
+                    message: "Please enter valid grade wage",
+                  },
+                  min: {
+                    value: 1,
+                    message: "Grade wage must be at least 1",
+                  },
+                  max: {
+                    value: 6,
+                    message: "Grade wage must be at most 6",
+                  },
+                })}
+              />
+            </div>
+          </div>
+          {Object.keys(errors).length > 0 && (
+            <div className="alert alert-error">
+              {errors[Object.keys(errors)[0]]?.message}
+            </div>
+          )}
+          <div className="flex flex-row items-center justify-end gap-2 mt-3">
+            <button
+              className="btn"
+              onClick={() => {
+                setEditedGrade(null);
+                setValue("gradeType", "select");
+                resetField("gradeValue");
+                resetField("gradeWage");
+                document.getElementById("edit_modal").close();
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleSubmit(onSubmit)}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </dialog>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <span className="text-3xl font-semibold">Grades</span>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 flex-wrap w-full sm:w-fit">
           {filter == "all" ? (
             <button
-              className="btn btn-primary"
+              className="btn btn-primary flex-grow"
               onClick={() => {
                 setFocusedGrade(null);
                 setFocusedSubject(null);
@@ -131,7 +335,7 @@ const Grades = () => {
             </button>
           ) : (
             <button
-              className="btn"
+              className="btn flex-grow"
               onClick={() => {
                 setFocusedGrade(null);
                 setFocusedSubject(null);
@@ -139,6 +343,31 @@ const Grades = () => {
               }}
             >
               <Bookmark className="text-lg" /> All grades
+            </button>
+          )}
+          {!editMode ? (
+            <button
+              className="btn flex-grow"
+              onClick={() => {
+                if (!gradesLoading && !gradesError)
+                  setTmpGrades(gradesData.Grades);
+                if (!pointsLoading && !pointsError)
+                  setTmpPoints(pointsData.Grades);
+                setEditMode(true);
+              }}
+            >
+              <Pencil className="text-lg" /> Edit
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary flex-grow"
+              onClick={() => {
+                setTmpGrades(null);
+                setTmpPoints(null);
+                setEditMode(false);
+              }}
+            >
+              <Pencil className="text-lg" /> Cancel
             </button>
           )}
         </div>
@@ -177,10 +406,14 @@ const Grades = () => {
                     {calculateAvarage(
                       [
                         ...(gradesData && gradesCategoriesData
-                          ? gradesData.Grades
+                          ? !editMode
+                            ? gradesData.Grades
+                            : tmpGrades
                           : []),
                         ...(pointsData && pointsCategoriesData
-                          ? pointsData.Grades
+                          ? !editMode
+                            ? pointsData.Grades
+                            : tmpPoints
                           : []),
                       ].filter(
                         (x) =>
@@ -202,20 +435,22 @@ const Grades = () => {
                         ...(pointsData && pointsCategoriesData
                           ? pointsCategoriesData.Categories
                           : []),
+                        ...tempCategories,
                       ]
                     )}
                   </span>
                 </div>
               )}
-              <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 w-fit mt-2">
+              <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2 w-fit mt-2">
                 {!pointsLoading &&
                   !pointsError &&
-                  pointsData.Grades.filter(
-                    (x) =>
-                      x.Subject.Id == subject.Id &&
-                      (filter == "all" ||
-                        dayjs(x.AddDate).isAfter(dayjs().subtract(1, "day")))
-                  )
+                  (!editMode ? pointsData.Grades : tmpPoints)
+                    .filter(
+                      (x) =>
+                        x.Subject.Id == subject.Id &&
+                        (filter == "all" ||
+                          dayjs(x.AddDate).isAfter(dayjs().subtract(1, "day")))
+                    )
                     .filter(
                       (x) =>
                         (focusedSubject != subject.Id &&
@@ -235,12 +470,13 @@ const Grades = () => {
                     ))}
                 {!gradesLoading &&
                   !gradesError &&
-                  gradesData.Grades.filter(
-                    (x) =>
-                      x.Subject.Id == subject.Id &&
-                      (filter == "all" ||
-                        dayjs(x.AddDate).isAfter(dayjs().subtract(1, "day")))
-                  )
+                  (!editMode ? gradesData.Grades : tmpGrades)
+                    .filter(
+                      (x) =>
+                        x.Subject.Id == subject.Id &&
+                        (filter == "all" ||
+                          dayjs(x.AddDate).isAfter(dayjs().subtract(1, "day")))
+                    )
                     .sort((a, b) => dayjs(b.AddDate) - dayjs(a.AddDate))
                     .filter(
                       (x) =>
@@ -259,6 +495,26 @@ const Grades = () => {
                         {grade.Grade}
                       </button>
                     ))}
+                {editMode && semester == 1 && (
+                  <button
+                    className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                    onClick={() => {
+                      setEditedGrade({
+                        Id:
+                          Math.max(
+                            ...gradesData.Grades.map((x) => x.Id),
+                            ...pointsData.Grades.map((x) => x.Id),
+                            ...tmpGrades.map((x) => x.Id),
+                            ...tmpPoints.map((x) => x.Id)
+                          ) + 1,
+                        Semester: 1,
+                      });
+                      document.getElementById("edit_modal").showModal();
+                    }}
+                  >
+                    <Pencil className="text-lg" />
+                  </button>
+                )}
               </div>
               {focusedSubject === subject.Id && semester == 2 && (
                 <>
@@ -270,10 +526,14 @@ const Grades = () => {
                         {calculateAvarage(
                           [
                             ...(gradesData && gradesCategoriesData
-                              ? gradesData.Grades
+                              ? !editMode
+                                ? gradesData.Grades
+                                : tmpGrades
                               : []),
                             ...(pointsData && pointsCategoriesData
-                              ? pointsData.Grades
+                              ? !editMode
+                                ? pointsData.Grades
+                                : tmpPoints
                               : []),
                           ].filter(
                             (x) =>
@@ -295,17 +555,17 @@ const Grades = () => {
                             ...(pointsData && pointsCategoriesData
                               ? pointsCategoriesData.Categories
                               : []),
+                            ...tempCategories,
                           ]
                         )}
                       </span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 w-fit">
+                  <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2 w-fit">
                     {!pointsLoading &&
                       !pointsError &&
-                      pointsData.Grades.filter(
-                        (x) => x.Subject.Id == subject.Id
-                      )
+                      (!editMode ? pointsData.Grades : tmpPoints)
+                        .filter((x) => x.Subject.Id == subject.Id)
                         .sort((a, b) => dayjs(b.AddDate) - dayjs(a.AddDate))
                         .filter((x) => x.Semester == 2)
                         .map((point) => (
@@ -319,9 +579,8 @@ const Grades = () => {
                         ))}
                     {!gradesLoading &&
                       !gradesError &&
-                      gradesData.Grades.filter(
-                        (x) => x.Subject.Id == subject.Id
-                      )
+                      (!editMode ? gradesData.Grades : tmpGrades)
+                        .filter((x) => x.Subject.Id == subject.Id)
                         .sort((a, b) => dayjs(b.AddDate) - dayjs(a.AddDate))
                         .filter((x) => x.Semester == 2)
                         .map((grade) => (
@@ -335,12 +594,32 @@ const Grades = () => {
                             {grade.Grade}
                           </button>
                         ))}
+                    {editMode && semester == 2 && (
+                      <button
+                        className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                        onClick={() => {
+                          setEditedGrade({
+                            Id:
+                              Math.max(
+                                ...gradesData.Grades.map((x) => x.Id),
+                                ...pointsData.Grades.map((x) => x.Id),
+                                ...tmpGrades.map((x) => x.Id),
+                                ...tmpPoints.map((x) => x.Id)
+                              ) + 1,
+                            Semester: 2,
+                          });
+                          document.getElementById("edit_modal").showModal();
+                        }}
+                      >
+                        <Pencil className="text-lg" />
+                      </button>
+                    )}
                   </div>
                 </>
               )}
               {focusedSubject === subject.Id &&
                 focusedGrade?.startsWith("p-") &&
-                pointsData.Grades.find(
+                (!editMode ? pointsData.Grades : tmpPoints).find(
                   (x) =>
                     x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
                 ) && (
@@ -349,7 +628,7 @@ const Grades = () => {
                       <span class="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-md">
                         {Math.round(
                           parseFloat(
-                            pointsData.Grades.find(
+                            (!editMode ? pointsData.Grades : tmpPoints).find(
                               (x) => x.Id == focusedGrade.slice(2)
                             ).Grade
                           )
@@ -358,18 +637,23 @@ const Grades = () => {
                       <div className="flex flex-col h-max items-start justify-center">
                         <span className="text-xl font-semibold">
                           {upperFirst(
-                            pointsCategoriesData.Categories.find(
+                            [
+                              ...pointsCategoriesData.Categories,
+                              ...tempCategories,
+                            ].find(
                               (x) =>
                                 x.Id ==
-                                pointsData.Grades.find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.Category?.Id
+                                (!editMode
+                                  ? pointsData.Grades
+                                  : tmpPoints
+                                ).find((x) => x.Id == focusedGrade.slice(2))
+                                  ?.Category?.Id
                             ).Name
                           )}
                         </span>
                         <span className="text-lg">
                           {
-                            pointsData.Grades.find(
+                            (!editMode ? pointsData.Grades : tmpPoints).find(
                               (x) => x.Id == focusedGrade.slice(2)
                             ).AddDate
                           }
@@ -379,37 +663,34 @@ const Grades = () => {
                     <div className="flex flex-col">
                       <span className="text-lg">
                         <span className="font-semibold">Weight:</span>{" "}
-                        {
-                          pointsCategoriesData.Categories.find(
-                            (x) =>
-                              x.Id ==
-                              pointsData.Grades.find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.Category?.Id
-                          ).Weight || "None"
-                        }
+                        {[
+                          ...pointsCategoriesData.Categories,
+                          ...tempCategories,
+                        ].find(
+                          (x) =>
+                            x.Id ==
+                            (!editMode ? pointsData.Grades : tmpPoints).find(
+                              (x) => x.Id == focusedGrade.slice(2)
+                            )?.Category?.Id
+                        ).Weight || "None"}
                       </span>
                       {!teachersLoading && !teachersError && (
                         <span className="text-lg">
                           <span className="font-semibold">Teacher:</span>{" "}
-                          {
-                            teachersData.Users.find(
-                              (x) =>
-                                x.Id ==
-                                pointsData.Grades.find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.AddedBy?.Id
-                            ).FirstName
-                          }{" "}
-                          {
-                            teachersData.Users.find(
-                              (x) =>
-                                x.Id ==
-                                pointsData.Grades.find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.AddedBy?.Id
-                            ).LastName
-                          }
+                          {teachersData.Users.find(
+                            (x) =>
+                              x.Id ==
+                              (!editMode ? pointsData.Grades : tmpPoints).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )?.AddedBy?.Id
+                          )?.FirstName || "Gallus"}{" "}
+                          {teachersData.Users.find(
+                            (x) =>
+                              x.Id ==
+                              (!editMode ? pointsData.Grades : tmpPoints).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )?.AddedBy?.Id
+                          )?.LastName || "Anonymus"}
                         </span>
                       )}
                       {!pointCommentsLoading && !pointCommentsError && (
@@ -418,18 +699,76 @@ const Grades = () => {
                           {pointCommentsData.Comments.find(
                             (x) =>
                               x.Id ==
-                              pointsData.Grades.find(
+                              (!editMode ? pointsData.Grades : tmpPoints).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.Comments?.[0]?.Id
                           )?.Text || "None"}
                         </span>
                       )}
                     </div>
+                    {editMode && (
+                      <div className="flex flex-row gap-2">
+                        <button
+                          className="btn btn-primary flex-grow sm:flex-grow-0"
+                          onClick={() => {
+                            setEditedGrade(
+                              (!editMode ? pointsData.Grades : tmpPoints).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )
+                            );
+                            setValue("gradeType", "points");
+                            setValue(
+                              "gradeValue",
+                              Math.round(
+                                parseFloat(
+                                  (!editMode
+                                    ? pointsData.Grades
+                                    : tmpPoints
+                                  ).find((x) => x.Id == focusedGrade.slice(2))
+                                    .GradeValue
+                                )
+                              )
+                            );
+                            setValue(
+                              "gradeWage",
+                              [
+                                ...pointsCategoriesData.Categories,
+                                ...tempCategories,
+                              ].find(
+                                (x) =>
+                                  x.Id ==
+                                  (!editMode
+                                    ? pointsData.Grades
+                                    : tmpPoints
+                                  ).find((x) => x.Id == focusedGrade.slice(2))
+                                    ?.Category?.Id
+                              ).Weight
+                            );
+                            document.getElementById("edit_modal").showModal();
+                          }}
+                        >
+                          <Pencil className="text-lg" /> Edit
+                        </button>
+                        <button
+                          className="btn btn-error flex-grow sm:flex-grow-0"
+                          onClick={() => {
+                            setTmpPoints((current) =>
+                              current.filter(
+                                (x) => x.Id != focusedGrade.slice(2)
+                              )
+                            );
+                            setFocusedGrade(null);
+                          }}
+                        >
+                          <Trash className="text-lg" /> Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               {focusedSubject === subject.Id &&
                 focusedGrade?.startsWith("g-") &&
-                gradesData.Grades.find(
+                (!editMode ? gradesData.Grades : tmpGrades).find(
                   (x) =>
                     x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
                 ) && (
@@ -437,7 +776,7 @@ const Grades = () => {
                     <div className="flex flex-row gap-2 items-center">
                       <span class="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-md">
                         {
-                          gradesData.Grades.find(
+                          (!editMode ? gradesData.Grades : tmpGrades).find(
                             (x) => x.Id == focusedGrade.slice(2)
                           ).Grade
                         }
@@ -445,18 +784,23 @@ const Grades = () => {
                       <div className="flex flex-col h-max items-start justify-center">
                         <span className="text-xl font-semibold">
                           {upperFirst(
-                            gradesCategoriesData.Categories.find(
+                            [
+                              ...gradesCategoriesData.Categories,
+                              ...tempCategories,
+                            ].find(
                               (x) =>
                                 x.Id ==
-                                gradesData.Grades.find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.Category?.Id
+                                (!editMode
+                                  ? gradesData.Grades
+                                  : tmpGrades
+                                ).find((x) => x.Id == focusedGrade.slice(2))
+                                  ?.Category?.Id
                             ).Name
                           )}
                         </span>
                         <span className="text-lg">
                           {
-                            gradesData.Grades.find(
+                            (!editMode ? gradesData.Grades : tmpGrades).find(
                               (x) => x.Id == focusedGrade.slice(2)
                             ).AddDate
                           }
@@ -466,37 +810,34 @@ const Grades = () => {
                     <div className="flex flex-col">
                       <span className="text-lg">
                         <span className="font-semibold">Weight:</span>{" "}
-                        {
-                          gradesCategoriesData.Categories.find(
-                            (x) =>
-                              x.Id ==
-                              gradesData.Grades.find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.Category?.Id
-                          ).Weight || "None"
-                        }
+                        {[
+                          ...gradesCategoriesData.Categories,
+                          ...tempCategories,
+                        ].find(
+                          (x) =>
+                            x.Id ==
+                            (!editMode ? gradesData.Grades : tmpGrades).find(
+                              (x) => x.Id == focusedGrade.slice(2)
+                            )?.Category?.Id
+                        ).Weight || "None"}
                       </span>
                       {!teachersLoading && !teachersError && (
                         <span className="text-lg">
                           <span className="font-semibold">Teacher:</span>{" "}
-                          {
-                            teachersData.Users.find(
-                              (x) =>
-                                x.Id ==
-                                gradesData.Grades.find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.AddedBy?.Id
-                            ).FirstName
-                          }{" "}
-                          {
-                            teachersData.Users.find(
-                              (x) =>
-                                x.Id ==
-                                gradesData.Grades.find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.AddedBy?.Id
-                            ).LastName
-                          }
+                          {teachersData.Users.find(
+                            (x) =>
+                              x.Id ==
+                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )?.AddedBy?.Id
+                          )?.FirstName || "Gallus"}{" "}
+                          {teachersData.Users.find(
+                            (x) =>
+                              x.Id ==
+                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )?.AddedBy?.Id
+                          )?.LastName || "Anonymus"}
                         </span>
                       )}
                       {!gradeCommentsLoading && !gradeCommentsError && (
@@ -505,13 +846,65 @@ const Grades = () => {
                           {gradeCommentsData.Comments.find(
                             (x) =>
                               x.Id ==
-                              pointsData.Grades.find(
+                              (!editMode ? gradesData.Grades : tmpGrades).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.Comments?.[0]?.Id
                           )?.Text || "None"}
                         </span>
                       )}
                     </div>
+                    {editMode && (
+                      <div className="flex flex-row gap-2">
+                        <button
+                          className="btn btn-primary flex-grow sm:flex-grow-0"
+                          onClick={() => {
+                            setEditedGrade(
+                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )
+                            );
+                            setValue("gradeType", "grade");
+                            setValue(
+                              "gradeValue",
+                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              ).Grade
+                            );
+                            setValue(
+                              "gradeWage",
+                              [
+                                ...gradesCategoriesData.Categories,
+                                ...tempCategories,
+                              ].find(
+                                (x) =>
+                                  x.Id ==
+                                  (!editMode
+                                    ? gradesData.Grades
+                                    : tmpGrades
+                                  ).find((x) => x.Id == focusedGrade.slice(2))
+                                    ?.Category?.Id
+                              ).Weight
+                            );
+                            document.getElementById("edit_modal").showModal();
+                          }}
+                        >
+                          <Pencil className="text-lg" /> Edit
+                        </button>
+                        <button
+                          className="btn btn-error flex-grow sm:flex-grow-0"
+                          onClick={() => {
+                            setTmpGrades((current) =>
+                              current.filter(
+                                (x) => x.Id != focusedGrade.slice(2)
+                              )
+                            );
+                            setFocusedGrade(null);
+                          }}
+                        >
+                          <Trash className="text-lg" /> Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
             </div>
