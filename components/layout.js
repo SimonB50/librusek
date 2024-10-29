@@ -80,12 +80,9 @@ const Layout = ({ children, setAuthData }) => {
                 tabIndex="0"
                 className="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow"
               >
-                {/*                 <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
-                </li> */}
+                <li>
+                  <Link href="/profile">Profile</Link>
+                </li>
                 <li>
                   <Link href="/settings">Settings</Link>
                 </li>
@@ -159,19 +156,17 @@ const Layout = ({ children, setAuthData }) => {
               Attendance
             </Link>
           </li>
-          {
-            localStorage.getItem("developer") && (
-              <li>
-                <Link
-                  href="/developer"
-                  className="flex flex-row items-center text-xl"
-                >
-                  <CodeSlash />
-                  Developer
-                </Link>
-              </li>
-            )
-          }
+          {localStorage.getItem("developer") && (
+            <li>
+              <Link
+                href="/developer"
+                className="flex flex-row items-center text-xl"
+              >
+                <CodeSlash />
+                Developer
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>
