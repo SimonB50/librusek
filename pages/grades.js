@@ -178,7 +178,7 @@ const Grades = () => {
                 Grade: data.gradeValue,
                 GradeValue: data.gradeValue,
                 Category: {
-                  Id: -parseInt(data.gradeWage),
+                  Id: -parseInt(data.gradeWeight),
                 },
               }
             : x
@@ -192,7 +192,7 @@ const Grades = () => {
           Grade: data.gradeValue,
           GradeValue: data.gradeValue,
           Category: {
-            Id: -parseInt(data.gradeWage),
+            Id: -parseInt(data.gradeWeight),
           },
           AddDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
           Subject: {
@@ -204,7 +204,7 @@ const Grades = () => {
     setEditedGrade(null);
     setValue("gradeType", "select");
     resetField("gradeValue");
-    resetField("gradeWage");
+    resetField("gradeWeight");
     document.getElementById("edit_modal").close();
   };
 
@@ -245,16 +245,18 @@ const Grades = () => {
               <input
                 type="number"
                 className="input input-bordered"
-                min={1}
+                min={0}
                 max={watch("gradeType") == "grade" ? 6 : 100}
                 {...register("gradeValue", {
                   required: {
                     value: true,
-                    message: "Please enter valid grade value",
+                    message: `Please enter valid ${watch("gradeType")} value`,
                   },
                   min: {
-                    value: 1,
-                    message: "Grade value must be at least 1",
+                    value: 0,
+                    message: `${upperFirst(
+                      watch("gradeType")
+                    )} cannot be negative`,
                   },
                   max: {
                     value: watch("gradeType") == "grade" ? 6 : 100,
@@ -267,25 +269,29 @@ const Grades = () => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Wage</span>
+                <span className="label-text">Weight</span>
               </label>
               <input
                 type="number"
                 className="input input-bordered"
                 min={1}
                 max={6}
-                {...register("gradeWage", {
+                {...register("gradeWeight", {
                   required: {
                     value: true,
-                    message: "Please enter valid grade wage",
+                    message: `Please enter valid ${watch("gradeType")} weight`,
                   },
                   min: {
                     value: 1,
-                    message: "Grade wage must be at least 1",
+                    message: `${upperFirst(
+                      watch("gradeType")
+                    )} weight must be at least 1`,
                   },
                   max: {
                     value: 6,
-                    message: "Grade wage must be at most 6",
+                    message: `${upperFirst(
+                      watch("gradeType")
+                    )} weight must be at most 6`,
                   },
                 })}
               />
@@ -303,7 +309,7 @@ const Grades = () => {
                 setEditedGrade(null);
                 setValue("gradeType", "select");
                 resetField("gradeValue");
-                resetField("gradeWage");
+                resetField("gradeWeight");
                 document.getElementById("edit_modal").close();
               }}
             >
@@ -730,7 +736,7 @@ const Grades = () => {
                               )
                             );
                             setValue(
-                              "gradeWage",
+                              "gradeWeight",
                               [
                                 ...pointsCategoriesData.Categories,
                                 ...tempCategories,
@@ -871,7 +877,7 @@ const Grades = () => {
                               ).Grade
                             );
                             setValue(
-                              "gradeWage",
+                              "gradeWeight",
                               [
                                 ...gradesCategoriesData.Categories,
                                 ...tempCategories,
