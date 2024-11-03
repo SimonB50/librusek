@@ -63,9 +63,8 @@ const Attendance = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {!subjectsLoading && !subjectsError
           ? subjectsData.Subjects.map((subject) => {
-              const attendancePercentage =
-                (
-                  1 -
+              const attendancePercentage = (
+                (1 -
                   attendanceData.Attendances.filter(
                     (x) =>
                       lessonsData.Lessons.find((y) => x.Lesson.Id === y.Id)
@@ -77,8 +76,9 @@ const Attendance = () => {
                       (x) =>
                         lessonsData.Lessons.find((y) => x.Lesson.Id === y.Id)
                           .Subject.Id === subject.Id
-                    ).length
-                ).toFixed(2) * 100;
+                    ).length) *
+                100
+              ).toFixed();
               return (
                 <div
                   key={subject.Id}
@@ -128,7 +128,10 @@ const Attendance = () => {
                     .IsPresenceKind == false
               );
               return (
-                <div key={absenceGroup} className="flex flex-col gap-2 bg-base-200 p-4 rounded-box">
+                <div
+                  key={absenceGroup}
+                  className="flex flex-col gap-2 bg-base-200 p-4 rounded-box"
+                >
                   <span className="text-lg font-semibold">{absenceGroup}</span>
                   <div className="flex flex-row gap-2">
                     {selectedAbsences.map((absence) => (
