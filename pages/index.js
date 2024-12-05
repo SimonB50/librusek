@@ -118,7 +118,11 @@ const Home = () => {
           <div className="col-span-6 md:col-span-2 skeleton h-24"></div>
         )}
         {!versionLoading && !versionError ? (
-          <div className="relative col-span-6 md:col-span-2 flex flex-row items-center p-4 bg-base-200 rounded-box">
+          <a
+            href="https://github.com/SimonB50/librusek/releases/latest"
+            target="_blank"
+            className="relative col-span-6 md:col-span-2 flex flex-row items-center p-4 bg-base-200 rounded-box"
+          >
             <Git className="hidden sm:block text-5xl text-primary" />
             <div className="flex flex-col ml-4">
               <span className="text-2xl font-bold">Version</span>
@@ -129,7 +133,7 @@ const Home = () => {
                 <span className="badge badge-primary">Update available</span>
               )}
             </div>
-          </div>
+          </a>
         ) : (
           <div className="col-span-6 md:col-span-2 skeleton h-24"></div>
         )}
@@ -161,7 +165,9 @@ const Home = () => {
       <div className="flex flex-col mt-4 gap-2">
         {!announcementsLoading && !announcementsError ? (
           announcementsData.SchoolNotices.sort((a, b) => {
-            return dayjs(b.CreationDate).valueOf() - dayjs(a.CreationDate).valueOf();
+            return (
+              dayjs(b.CreationDate).valueOf() - dayjs(a.CreationDate).valueOf()
+            );
           }).map((a) => (
             <div
               key={a.Id}
@@ -199,9 +205,7 @@ const Home = () => {
                     method: "POST",
                   });
                   document.getElementById("annoucement_modal").showModal();
-                  document
-                    .getElementsByClassName("modal-box")[0]
-                    .scrollTop = 0;
+                  document.getElementsByClassName("modal-box")[0].scrollTop = 0;
                 }}
               >
                 Read more
