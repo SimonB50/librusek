@@ -2,14 +2,33 @@ import Layout from "@/components/layout";
 import { Person } from "react-bootstrap-icons";
 import { useState } from "react";
 import { useNotes } from "@/lib/user";
-import { deduplicate } from "@/lib/utils";
+import { deduplicate, upperFirst } from "@/lib/utils";
 import { useTeachers } from "@/lib/school";
+import { useBehaviourGrades, useBehaviourGradesTypes } from "@/lib/grades";
 
 const Profile = () => {
   // User info
   const [userData, setUserData] = useState(null);
 
-  // Behavior data
+  // Behaviour
+  const {
+    data: behaviourGradesData,
+    loading: behaviourGradesLoading,
+    error: behaviourGradesError,
+  } = useBehaviourGrades();
+  const {
+    data: behaviourGradesTypesData,
+    loading: behaviourGradesTypesLoading,
+    error: behaviourGradesTypesError,
+  } = useBehaviourGradesTypes(
+    deduplicate([
+      ...(behaviourGradesData
+        ? behaviourGradesData.Grades.map((x) => x.GradeType.Id)
+        : []),
+    ]).join(",")
+  );
+
+  // Notes data
   const {
     data: notesData,
     loading: notesLoading,
@@ -45,6 +64,51 @@ const Profile = () => {
         </div>
       ) : (
         <div className="skeleton h-24 w-full"></div>
+      )}
+      {!behaviourGradesLoading &&
+      !behaviourGradesError &&
+      !behaviourGradesTypesLoading &&
+      !behaviourGradesTypesError ? (
+        <div className="flex flex-col mt-4">
+          <span className="text-3xl font-semibold">Behaviour</span>
+          {behaviourGradesData.Grades.length > 0 ? (
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              {behaviourGradesData.Grades.sort(
+                (a, b) => new Date(b.AddDate) - new Date(a.AddDate)
+              ).map((grade) => (
+                <div
+                  key={grade.Id}
+                  className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
+                >
+                  <div className="flex flex-col">
+                    <span className="text-2xl font-semibold">
+                      {upperFirst(
+                        behaviourGradesTypesData.Types.find(
+                          (x) => x.Id == grade.GradeType.Id
+                        ).Name
+                      )}
+                    </span>
+                    <span className="text-md">
+                      Semester {"I".repeat(parseInt(grade.Semester))} -{" "}
+                      {grade.IsProposal == "1" ? "Proposal" : "Final"}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              {behaviourGradesData.Grades.length % 2 == 1 && (
+                <div className="flex rounded-box p-4 bg-base-200 justify-center items-center">
+                  <span className="text-lg text-primary">
+                    Awaiting final grade
+                  </span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <span className="text-lg">No behaviour grades available.</span>
+          )}
+        </div>
+      ) : (
+        <></>
       )}
       {!notesLoading && !notesError ? (
         <div className="flex flex-col mt-4">

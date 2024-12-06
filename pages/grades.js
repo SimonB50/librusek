@@ -7,6 +7,8 @@ import {
   usePointComments,
   usePoints,
   usePointsCategories,
+  useTextGrades,
+  useTextGradesCategories,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
 import {
@@ -81,6 +83,11 @@ const Grades = () => {
     error: pointsError,
   } = usePoints();
   const {
+    data: textGradesData,
+    loading: textGradesLoading,
+    error: textGradesError,
+  } = useTextGrades();
+  const {
     data: gradesCategoriesData,
     loading: gradesCategoriesLoading,
     error: gradesCategoriesError,
@@ -96,6 +103,17 @@ const Grades = () => {
   } = usePointsCategories(
     deduplicate([
       ...(pointsData ? pointsData.Grades.map((x) => x.Category.Id) : []),
+    ]).join(",")
+  );
+  const {
+    data: textGradesCategoriesData,
+    loading: textGradesCategoriesLoading,
+    error: textGradesCategoriesError,
+  } = useTextGradesCategories(
+    deduplicate([
+      ...(textGradesData
+        ? textGradesData.Grades.map((x) => x.Category.Id)
+        : []),
     ]).join(",")
   );
   const {
@@ -493,7 +511,9 @@ const Grades = () => {
                     .map((grade) => (
                       <button
                         key={grade.Id}
-                        className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                        className={`bg-${
+                          grade.IsConstituent ? "primary" : "secondary"
+                        } text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square`}
                         onClick={() => {
                           setFocusedGrade(`g-${grade.Id.toString()}`);
                         }}
@@ -592,7 +612,9 @@ const Grades = () => {
                         .map((grade) => (
                           <button
                             key={grade.Id}
-                            className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                            className={`bg-${
+                              grade.IsConstituent ? "primary" : "secondary"
+                            } text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square`}
                             onClick={() => {
                               setFocusedGrade(`g-${grade.Id.toString()}`);
                             }}
@@ -780,7 +802,15 @@ const Grades = () => {
                 ) && (
                   <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
                     <div className="flex flex-row gap-2 items-center">
-                      <span class="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-md">
+                      <span
+                        class={`text-4xl font-semibold bg-${
+                          (!editMode ? gradesData.Grades : tmpGrades).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          ).IsConstituent
+                            ? "primary"
+                            : "secondary"
+                        } w-20 h-20 flex items-center justify-center text-primary-content rounded-md`}
+                      >
                         {
                           (!editMode ? gradesData.Grades : tmpGrades).find(
                             (x) => x.Id == focusedGrade.slice(2)
@@ -814,19 +844,23 @@ const Grades = () => {
                       </div>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-lg">
-                        <span className="font-semibold">Weight:</span>{" "}
-                        {[
-                          ...gradesCategoriesData.Categories,
-                          ...tempCategories,
-                        ].find(
-                          (x) =>
-                            x.Id ==
-                            (!editMode ? gradesData.Grades : tmpGrades).find(
-                              (x) => x.Id == focusedGrade.slice(2)
-                            )?.Category?.Id
-                        ).Weight || "None"}
-                      </span>
+                      {(!editMode ? gradesData.Grades : tmpGrades).find(
+                        (x) => x.Id == focusedGrade.slice(2)
+                      ).IsConstituent && (
+                        <span className="text-lg">
+                          <span className="font-semibold">Weight:</span>{" "}
+                          {[
+                            ...gradesCategoriesData.Categories,
+                            ...tempCategories,
+                          ].find(
+                            (x) =>
+                              x.Id ==
+                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )?.Category?.Id
+                          ).Weight || "None"}
+                        </span>
+                      )}
                       {!teachersLoading && !teachersError && (
                         <span className="text-lg">
                           <span className="font-semibold">Teacher:</span>{" "}
@@ -917,6 +951,33 @@ const Grades = () => {
           ))
         ) : (
           <div className="skeleton h-24"></div>
+        )}
+      </div>
+      <div className="flex flex-row sm:flex-row justify-start items-center gap-2 mt-3">
+        <span className="text-3xl font-semibold">Text Grades</span>
+        <span className="badge badge-primary">Early access</span>
+      </div>
+      <div className="flex flex-col gap-2 mt-3">
+        {!textGradesLoading && !textGradesError ? (
+          textGradesData.Grades.map((textGrade) => (
+            <div
+              key={textGrade.Id}
+              className="flex flex-row p-4 bg-base-200 rounded-box items-center justify-start"
+            >
+              <div className="flex flex-col gap-1 ml-2 items-start justify-center">
+                <span className="text-xl font-bold">
+                  {upperFirst(textGrade.Grade)}
+                </span>
+                <span className="text-lg">
+                  {upperFirst(!subjectsLoading && !subjectsError && subjectsData.Subjects.find(
+                    (x) => x.Id == textGrade.Subject.Id
+                  ).Name)} - {textGrade.Date}
+                </span>
+              </div>
+            </div>
+          ))
+        ) : (
+          <></>
         )}
       </div>
     </Layout>
