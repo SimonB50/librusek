@@ -511,8 +511,8 @@ const Grades = () => {
                     .map((grade) => (
                       <button
                         key={grade.Id}
-                        className={`bg-${
-                          grade.IsConstituent ? "primary" : "secondary"
+                        className={`${
+                          grade.IsConstituent ? "bg-primary" : "bg-secondary"
                         } text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square`}
                         onClick={() => {
                           setFocusedGrade(`g-${grade.Id.toString()}`);
@@ -612,8 +612,10 @@ const Grades = () => {
                         .map((grade) => (
                           <button
                             key={grade.Id}
-                            className={`bg-${
-                              grade.IsConstituent ? "primary" : "secondary"
+                            className={`${
+                              grade.IsConstituent
+                                ? "bg-primary"
+                                : "bg-secondary"
                             } text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square`}
                             onClick={() => {
                               setFocusedGrade(`g-${grade.Id.toString()}`);
@@ -803,12 +805,12 @@ const Grades = () => {
                   <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
                     <div className="flex flex-row gap-2 items-center">
                       <span
-                        class={`text-4xl font-semibold bg-${
+                        class={`text-4xl font-semibold ${
                           (!editMode ? gradesData.Grades : tmpGrades).find(
                             (x) => x.Id == focusedGrade.slice(2)
                           ).IsConstituent
-                            ? "primary"
-                            : "secondary"
+                            ? "bg-primary"
+                            : "bg-secondary"
                         } w-20 h-20 flex items-center justify-center text-primary-content rounded-md`}
                       >
                         {
@@ -969,9 +971,14 @@ const Grades = () => {
                   {upperFirst(textGrade.Grade)}
                 </span>
                 <span className="text-lg">
-                  {upperFirst(!subjectsLoading && !subjectsError && subjectsData.Subjects.find(
-                    (x) => x.Id == textGrade.Subject.Id
-                  ).Name)} - {textGrade.Date}
+                  {upperFirst(
+                    !subjectsLoading &&
+                      !subjectsError &&
+                      subjectsData.Subjects.find(
+                        (x) => x.Id == textGrade.Subject.Id
+                      ).Name
+                  )}{" "}
+                  - {textGrade.Date}
                 </span>
               </div>
             </div>

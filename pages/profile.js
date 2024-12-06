@@ -72,7 +72,7 @@ const Profile = () => {
         <div className="flex flex-col mt-4">
           <span className="text-3xl font-semibold">Behaviour</span>
           {behaviourGradesData.Grades.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
               {behaviourGradesData.Grades.sort(
                 (a, b) => new Date(b.AddDate) - new Date(a.AddDate)
               ).map((grade) => (
@@ -97,7 +97,7 @@ const Profile = () => {
               ))}
               {behaviourGradesData.Grades.length % 2 == 1 && (
                 <div className="flex rounded-box p-4 bg-base-200 justify-center items-center">
-                  <span className="text-lg text-primary">
+                  <span className="text-lg text-primary text-center">
                     Awaiting final grade
                   </span>
                 </div>
