@@ -16,6 +16,8 @@ View your grades and averages for each subject. You can also see the grades adde
 Know when your upcoming exams take place. You can view all your upcoming and previous exams along with their dates, all neatly sorted and highlighted for your convenience.
 - **Timetable**<br/>
 Stay up-to-date with your daily schedule. You can view your timetable for each week, including all substitutions and cancelled classes. 
+- **Attendance**<br/>
+Keep track of your attendance. You can view your attendance for each subject and see the number of absences and lates.
 
 ## Unique app features
 Since Librusek is a fully custom application, it has some unique features that are not available in the original Librus Synergia.
@@ -51,3 +53,9 @@ Librusek has a modern and clean design that is easy to use and looks great.
 
 ## Credits
 The idea for Librusek was born because of [Librusik](https://github.com/dani3l0/librusik) created by [dani3l0](https://github.com/dani3l0). Some of the code (especially for authorization) was inspired by this project.
+
+## Contact
+If you have any questions or suggestions, feel free to contact me using the following methods:
+- GitHub Issues: [SimonB50/librusek](https://github.com/SimonB50/librusek/issues)
+- Discord: [simonb50](https://discord.com/users/426778259938738187)
+- Email: [szymon.dawid@gmail.com](mailto:szymon.dawid@gmail.com)
