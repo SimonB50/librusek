@@ -9,7 +9,7 @@
     "core:default",
     {
       "identifier": "http:default",
-      "allow": [{ "url": "https://*.librus.pl" }]
+      "allow": [{ "url": "https://*.librus.pl" }, { "url": "https://*.github.com" }]
     }
   ]
 }
