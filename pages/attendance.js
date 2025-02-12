@@ -6,6 +6,7 @@ import { useState } from "react";
 
 const Attendance = () => {
   // Page data
+  const [focusedSubject, setFocusedSubject] = useState(null);
   const [focusedAbsence, setFocusedAbsence] = useState(null);
 
   // Attendance data
@@ -53,6 +54,240 @@ const Attendance = () => {
 
   return (
     <Layout>
+      <dialog id="attendanceDetails" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <h3 class="text-2xl font-bold">
+            {focusedSubject &&
+              upperFirst(subjectsData.find((x) => x.Id == focusedSubject).Name)}
+          </h3>
+          <div className="flex flex-col mt-4">
+            <span className="text-lg font-semibold">Semester I</span>
+            <div className="flex flex-col">
+              <div className="flex flex-row gap-2">
+                <span>
+                  Presence:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          x.Semester == 1 &&
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject &&
+                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                            .IsPresenceKind == true
+                      ).length}
+                  </span>
+                </span>
+                <span>
+                  Absences:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          x.Semester == 1 &&
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject &&
+                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                            .IsPresenceKind == false
+                      ).length}
+                  </span>
+                </span>
+                <span>
+                  Total:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          x.Semester == 1 &&
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject
+                      ).length}
+                  </span>
+                </span>
+              </div>
+              <span>
+                Attendance percentage:{" "}
+                <span className="font-bold">
+                  {attendanceData &&
+                    lessonsData &&
+                    (
+                      (1 -
+                        attendanceData.filter(
+                          (x) =>
+                            x.Semester == 1 &&
+                            lessonsData.find((y) => x.Lesson.Id === y.Id)
+                              .Subject.Id === focusedSubject &&
+                            attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                              .IsPresenceKind == false
+                        ).length /
+                          attendanceData.filter(
+                            (x) =>
+                              x.Semester == 1 &&
+                              lessonsData.find((y) => x.Lesson.Id === y.Id)
+                                .Subject.Id === focusedSubject
+                          ).length) *
+                      100
+                    ).toFixed()}
+                  %
+                </span>
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-col mt-4">
+            <span className="text-lg font-semibold">Semester II</span>
+            <div className="flex flex-col">
+              <div className="flex flex-row gap-2">
+                <span>
+                  Presence:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          x.Semester == 2 &&
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject &&
+                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                            .IsPresenceKind == true
+                      ).length}
+                  </span>
+                </span>
+                <span>
+                  Absences:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          x.Semester == 2 &&
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject &&
+                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                            .IsPresenceKind == false
+                      ).length}
+                  </span>
+                </span>
+                <span>
+                  Total:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          x.Semester == 2 &&
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject
+                      ).length}
+                  </span>
+                </span>
+              </div>
+              <span>
+                Attendance percentage:{" "}
+                <span className="font-bold">
+                  {attendanceData &&
+                    lessonsData &&
+                    (
+                      (1 -
+                        attendanceData.filter(
+                          (x) =>
+                            x.Semester == 2 &&
+                            lessonsData.find((y) => x.Lesson.Id === y.Id)
+                              .Subject.Id === focusedSubject &&
+                            attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                              .IsPresenceKind == false
+                        ).length /
+                          attendanceData.filter(
+                            (x) =>
+                              x.Semester == 2 &&
+                              lessonsData.find((y) => x.Lesson.Id === y.Id)
+                                .Subject.Id === focusedSubject
+                          ).length) *
+                      100
+                    ).toFixed()}
+                  %
+                </span>
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-col mt-4">
+            <span className="text-lg font-semibold">Summary</span>
+            <div className="flex flex-col">
+              <div className="flex flex-row gap-2">
+                <span>
+                  Presence:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject &&
+                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                            .IsPresenceKind == true
+                      ).length}
+                  </span>
+                </span>
+                <span>
+                  Absences:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject &&
+                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                            .IsPresenceKind == false
+                      ).length}
+                  </span>
+                </span>
+                <span>
+                  Total:{" "}
+                  <span className="font-bold">
+                    {attendanceData &&
+                      lessonsData &&
+                      attendanceData.filter(
+                        (x) =>
+                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                            .Id === focusedSubject
+                      ).length}
+                  </span>
+                </span>
+              </div>
+              <span>
+                Attendance percentage:{" "}
+                <span className="font-bold">
+                  {attendanceData &&
+                    lessonsData &&
+                    (
+                      (1 -
+                        attendanceData.filter(
+                          (x) =>
+                            lessonsData.find((y) => x.Lesson.Id === y.Id)
+                              .Subject.Id === focusedSubject &&
+                            attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                              .IsPresenceKind == false
+                        ).length /
+                          attendanceData.filter(
+                            (x) =>
+                              lessonsData.find((y) => x.Lesson.Id === y.Id)
+                                .Subject.Id === focusedSubject
+                          ).length) *
+                      100
+                    ).toFixed()}
+                  %
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
       <span className="text-3xl font-semibold mb-4">Attendance</span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {!subjectsLoading && !subjectsError ? (
@@ -77,7 +312,11 @@ const Attendance = () => {
               return (
                 <div
                   key={subject.Id}
-                  className="relative overflow-hidden flex flex-col gap-4 p-4 bg-base-200 rounded-box shadow-md"
+                  className="relative overflow-hidden flex flex-col gap-4 p-4 bg-base-200 rounded-box shadow-md cursor-pointer"
+                  onClick={() => {
+                    setFocusedSubject(subject.Id);
+                    document.getElementById("attendanceDetails").showModal();
+                  }}
                 >
                   <div className="flex justify-between items-center">
                     <span className="text-xl font-semibold">
