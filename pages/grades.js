@@ -11,12 +11,7 @@ import {
   useTextGradesCategories,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
-import {
-  upperFirst,
-  calculateAvarage,
-  getSemester,
-  deduplicate,
-} from "@/lib/utils";
+import { upperFirst, calculateAvarage, getSemester } from "@/lib/utils";
 
 import { useState } from "react";
 import {
@@ -92,75 +87,71 @@ const Grades = () => {
     loading: gradesCategoriesLoading,
     error: gradesCategoriesError,
   } = useGradesCategories(
-    deduplicate([
-      ...(gradesData ? gradesData.Grades.map((x) => x.Category.Id) : []),
-    ]).join(",")
+    gradesData ? gradesData.map((x) => x.Category.Id).join(",") : false
   );
   const {
     data: pointsCategoriesData,
     loading: pointsCategoriesLoading,
     error: pointsCategoriesError,
   } = usePointsCategories(
-    deduplicate([
-      ...(pointsData ? pointsData.Grades.map((x) => x.Category.Id) : []),
-    ]).join(",")
+    pointsData ? pointsData.map((x) => x.Category.Id).join(",") : false
   );
   const {
     data: textGradesCategoriesData,
     loading: textGradesCategoriesLoading,
     error: textGradesCategoriesError,
   } = useTextGradesCategories(
-    deduplicate([
-      ...(textGradesData
-        ? textGradesData.Grades.map((x) => x.Category.Id)
-        : []),
-    ]).join(",")
+    textGradesData ? textGradesData.map((x) => x.Category.Id).join(",") : false
   );
   const {
     data: subjectsData,
     loading: subjectsLoading,
     error: subjectsError,
   } = useSubjects(
-    deduplicate([
-      ...(gradesData ? gradesData.Grades.map((x) => x.Subject.Id) : []),
-      ...(pointsData ? pointsData.Grades.map((x) => x.Subject.Id) : []),
-    ]).join(",")
+    !gradesLoading && !gradesError && !pointsLoading && !pointsError
+      ? [
+          ...gradesData.map((x) => x.Subject.Id),
+          ...pointsData.map((x) => x.Subject.Id),
+        ].join(",")
+      : false
   );
   const {
     data: teachersData,
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    deduplicate([
-      ...(gradesData ? gradesData.Grades.map((x) => x.AddedBy.Id) : []),
-      ...(pointsData ? pointsData.Grades.map((x) => x.AddedBy.Id) : []),
-    ]).join(",")
+    !gradesLoading && !gradesError && !pointsLoading && !pointsError
+      ? [
+          ...gradesData.map((x) => x.AddedBy.Id),
+          ...pointsData.map((x) => x.AddedBy.Id),
+        ].join(",")
+      : false
   );
   const {
     data: gradeCommentsData,
     loading: gradeCommentsLoading,
     error: gradeCommentsError,
   } = useGradeComments(
-    deduplicate([
-      ...(gradesData
-        ? gradesData.Grades.filter((x) => x.Comments)
-            .map((y) => y.Comments.map((z) => z.Id))
-            .flat()
-        : []),
-    ]).join(",")
+    gradesData
+      ? gradesData
+          .filter((x) => x.Comments)
+          .map((y) => y.Comments.map((z) => z.Id))
+          .flat()
+          .join(",")
+      : false
   );
   const {
     data: pointCommentsData,
     loading: pointCommentsLoading,
     error: pointCommentsError,
   } = usePointComments(
-    deduplicate([
-      ...(pointsData
-        ? pointsData.Grades.filter((x) => x.Comments)
-            .map((y) => y.Comments.map((z) => z.Id))
-            .flat()
-        : []),
-    ]).join(",")
+    pointsData
+      ? pointsData
+          .filter((x) => x.Comments)
+          .map((y) => y.Comments.map((z) => z.Id))
+          .flat()
+          .join(",")
+      : false
   );
 
   const semester =
@@ -168,10 +159,10 @@ const Grades = () => {
     !subjectsError &&
     getSemester(
       [
-        ...(!gradesLoading && !gradesError ? gradesData.Grades : []),
-        ...(!pointsLoading && !pointsError ? pointsData.Grades : []),
+        ...(!gradesLoading && !gradesError ? gradesData : []),
+        ...(!pointsLoading && !pointsError ? pointsData : []),
       ],
-      subjectsData.Subjects
+      subjectsData
     );
 
   const {
@@ -373,10 +364,8 @@ const Grades = () => {
             <button
               className="btn flex-grow"
               onClick={() => {
-                if (!gradesLoading && !gradesError)
-                  setTmpGrades(gradesData.Grades);
-                if (!pointsLoading && !pointsError)
-                  setTmpPoints(pointsData.Grades);
+                if (!gradesLoading && !gradesError) setTmpGrades(gradesData);
+                if (!pointsLoading && !pointsError) setTmpPoints(pointsData);
                 setEditMode(true);
               }}
             >
@@ -398,7 +387,7 @@ const Grades = () => {
       </div>
       <div className="flex flex-col gap-2 mt-3">
         {!subjectsLoading && !subjectsError ? (
-          subjectsData.Subjects.map((subject) => (
+          subjectsData.map((subject) => (
             <div
               key={subject.Id}
               className="flex flex-col p-4 bg-base-200 rounded-box cursor-pointer"
@@ -431,12 +420,12 @@ const Grades = () => {
                       [
                         ...(gradesData && gradesCategoriesData
                           ? !editMode
-                            ? gradesData.Grades
+                            ? gradesData
                             : tmpGrades
                           : []),
                         ...(pointsData && pointsCategoriesData
                           ? !editMode
-                            ? pointsData.Grades
+                            ? pointsData
                             : tmpPoints
                           : []),
                       ].filter(
@@ -454,10 +443,10 @@ const Grades = () => {
                       ),
                       [
                         ...(gradesData && gradesCategoriesData
-                          ? gradesCategoriesData.Categories
+                          ? gradesCategoriesData
                           : []),
                         ...(pointsData && pointsCategoriesData
-                          ? pointsCategoriesData.Categories
+                          ? pointsCategoriesData
                           : []),
                         ...tempCategories,
                       ]
@@ -468,7 +457,7 @@ const Grades = () => {
               <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2 w-fit mt-2">
                 {!pointsLoading &&
                   !pointsError &&
-                  (!editMode ? pointsData.Grades : tmpPoints)
+                  (!editMode ? pointsData : tmpPoints)
                     .filter(
                       (x) =>
                         x.Subject.Id == subject.Id &&
@@ -494,7 +483,7 @@ const Grades = () => {
                     ))}
                 {!gradesLoading &&
                   !gradesError &&
-                  (!editMode ? gradesData.Grades : tmpGrades)
+                  (!editMode ? gradesData : tmpGrades)
                     .filter(
                       (x) =>
                         x.Subject.Id == subject.Id &&
@@ -528,8 +517,8 @@ const Grades = () => {
                       setEditedGrade({
                         Id:
                           Math.max(
-                            ...gradesData.Grades.map((x) => x.Id),
-                            ...pointsData.Grades.map((x) => x.Id),
+                            ...gradesData.map((x) => x.Id),
+                            ...pointsData.map((x) => x.Id),
                             ...tmpGrades.map((x) => x.Id),
                             ...tmpPoints.map((x) => x.Id)
                           ) + 1,
@@ -553,12 +542,12 @@ const Grades = () => {
                           [
                             ...(gradesData && gradesCategoriesData
                               ? !editMode
-                                ? gradesData.Grades
+                                ? gradesData
                                 : tmpGrades
                               : []),
                             ...(pointsData && pointsCategoriesData
                               ? !editMode
-                                ? pointsData.Grades
+                                ? pointsData
                                 : tmpPoints
                               : []),
                           ].filter(
@@ -576,10 +565,10 @@ const Grades = () => {
                           ),
                           [
                             ...(gradesData && gradesCategoriesData
-                              ? gradesCategoriesData.Categories
+                              ? gradesCategoriesData
                               : []),
                             ...(pointsData && pointsCategoriesData
-                              ? pointsCategoriesData.Categories
+                              ? pointsCategoriesData
                               : []),
                             ...tempCategories,
                           ]
@@ -590,7 +579,7 @@ const Grades = () => {
                   <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2 w-fit">
                     {!pointsLoading &&
                       !pointsError &&
-                      (!editMode ? pointsData.Grades : tmpPoints)
+                      (!editMode ? pointsData : tmpPoints)
                         .filter((x) => x.Subject.Id == subject.Id)
                         .sort((a, b) => dayjs(b.AddDate) - dayjs(a.AddDate))
                         .filter((x) => x.Semester == 2)
@@ -605,7 +594,7 @@ const Grades = () => {
                         ))}
                     {!gradesLoading &&
                       !gradesError &&
-                      (!editMode ? gradesData.Grades : tmpGrades)
+                      (!editMode ? gradesData : tmpGrades)
                         .filter((x) => x.Subject.Id == subject.Id)
                         .sort((a, b) => dayjs(b.AddDate) - dayjs(a.AddDate))
                         .filter((x) => x.Semester == 2)
@@ -631,8 +620,8 @@ const Grades = () => {
                           setEditedGrade({
                             Id:
                               Math.max(
-                                ...gradesData.Grades.map((x) => x.Id),
-                                ...pointsData.Grades.map((x) => x.Id),
+                                ...gradesData.map((x) => x.Id),
+                                ...pointsData.map((x) => x.Id),
                                 ...tmpGrades.map((x) => x.Id),
                                 ...tmpPoints.map((x) => x.Id)
                               ) + 1,
@@ -649,16 +638,16 @@ const Grades = () => {
               )}
               {focusedSubject === subject.Id &&
                 focusedGrade?.startsWith("p-") &&
-                (!editMode ? pointsData.Grades : tmpPoints).find(
+                (!editMode ? pointsData : tmpPoints).find(
                   (x) =>
                     x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
                 ) && (
                   <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
                     <div className="flex flex-row gap-2 items-center">
-                      <span class="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-md">
+                      <span className="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-md">
                         {Math.round(
                           parseFloat(
-                            (!editMode ? pointsData.Grades : tmpPoints).find(
+                            (!editMode ? pointsData : tmpPoints).find(
                               (x) => x.Id == focusedGrade.slice(2)
                             ).Grade
                           )
@@ -667,23 +656,18 @@ const Grades = () => {
                       <div className="flex flex-col h-max items-start justify-center">
                         <span className="text-xl font-semibold">
                           {upperFirst(
-                            [
-                              ...pointsCategoriesData.Categories,
-                              ...tempCategories,
-                            ].find(
+                            [...pointsCategoriesData, ...tempCategories].find(
                               (x) =>
                                 x.Id ==
-                                (!editMode
-                                  ? pointsData.Grades
-                                  : tmpPoints
-                                ).find((x) => x.Id == focusedGrade.slice(2))
-                                  ?.Category?.Id
+                                (!editMode ? pointsData : tmpPoints).find(
+                                  (x) => x.Id == focusedGrade.slice(2)
+                                )?.Category?.Id
                             ).Name
                           )}
                         </span>
                         <span className="text-lg">
                           {
-                            (!editMode ? pointsData.Grades : tmpPoints).find(
+                            (!editMode ? pointsData : tmpPoints).find(
                               (x) => x.Id == focusedGrade.slice(2)
                             ).AddDate
                           }
@@ -693,13 +677,10 @@ const Grades = () => {
                     <div className="flex flex-col">
                       <span className="text-lg">
                         <span className="font-semibold">Weight:</span>{" "}
-                        {[
-                          ...pointsCategoriesData.Categories,
-                          ...tempCategories,
-                        ].find(
+                        {[...pointsCategoriesData, ...tempCategories].find(
                           (x) =>
                             x.Id ==
-                            (!editMode ? pointsData.Grades : tmpPoints).find(
+                            (!editMode ? pointsData : tmpPoints).find(
                               (x) => x.Id == focusedGrade.slice(2)
                             )?.Category?.Id
                         ).Weight || "None"}
@@ -707,17 +688,17 @@ const Grades = () => {
                       {!teachersLoading && !teachersError && (
                         <span className="text-lg">
                           <span className="font-semibold">Teacher:</span>{" "}
-                          {teachersData.Users.find(
+                          {teachersData.find(
                             (x) =>
                               x.Id ==
-                              (!editMode ? pointsData.Grades : tmpPoints).find(
+                              (!editMode ? pointsData : tmpPoints).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.AddedBy?.Id
                           )?.FirstName || "Gallus"}{" "}
-                          {teachersData.Users.find(
+                          {teachersData.find(
                             (x) =>
                               x.Id ==
-                              (!editMode ? pointsData.Grades : tmpPoints).find(
+                              (!editMode ? pointsData : tmpPoints).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.AddedBy?.Id
                           )?.LastName || "Anonymus"}
@@ -726,10 +707,10 @@ const Grades = () => {
                       {!pointCommentsLoading && !pointCommentsError && (
                         <span className="text-lg">
                           <span className=" font-semibold">Description:</span>{" "}
-                          {pointCommentsData.Comments.find(
+                          {pointCommentsData.find(
                             (x) =>
                               x.Id ==
-                              (!editMode ? pointsData.Grades : tmpPoints).find(
+                              (!editMode ? pointsData : tmpPoints).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.Comments?.[0]?.Id
                           )?.Text || "None"}
@@ -742,7 +723,7 @@ const Grades = () => {
                           className="btn btn-primary flex-grow sm:flex-grow-0"
                           onClick={() => {
                             setEditedGrade(
-                              (!editMode ? pointsData.Grades : tmpPoints).find(
+                              (!editMode ? pointsData : tmpPoints).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )
                             );
@@ -751,27 +732,20 @@ const Grades = () => {
                               "gradeValue",
                               Math.round(
                                 parseFloat(
-                                  (!editMode
-                                    ? pointsData.Grades
-                                    : tmpPoints
-                                  ).find((x) => x.Id == focusedGrade.slice(2))
-                                    .GradeValue
+                                  (!editMode ? pointsData : tmpPoints).find(
+                                    (x) => x.Id == focusedGrade.slice(2)
+                                  ).GradeValue
                                 )
                               )
                             );
                             setValue(
                               "gradeWeight",
-                              [
-                                ...pointsCategoriesData.Categories,
-                                ...tempCategories,
-                              ].find(
+                              [...pointsCategoriesData, ...tempCategories].find(
                                 (x) =>
                                   x.Id ==
-                                  (!editMode
-                                    ? pointsData.Grades
-                                    : tmpPoints
-                                  ).find((x) => x.Id == focusedGrade.slice(2))
-                                    ?.Category?.Id
+                                  (!editMode ? pointsData : tmpPoints).find(
+                                    (x) => x.Id == focusedGrade.slice(2)
+                                  )?.Category?.Id
                               ).Weight
                             );
                             document.getElementById("edit_modal").showModal();
@@ -798,15 +772,15 @@ const Grades = () => {
                 )}
               {focusedSubject === subject.Id &&
                 focusedGrade?.startsWith("g-") &&
-                (!editMode ? gradesData.Grades : tmpGrades).find(
+                (!editMode ? gradesData : tmpGrades).find(
                   (x) =>
                     x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
                 ) && (
                   <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
                     <div className="flex flex-row gap-2 items-center">
                       <span
-                        class={`text-4xl font-semibold ${
-                          (!editMode ? gradesData.Grades : tmpGrades).find(
+                        className={`text-4xl font-semibold ${
+                          (!editMode ? gradesData : tmpGrades).find(
                             (x) => x.Id == focusedGrade.slice(2)
                           ).IsConstituent
                             ? "bg-primary"
@@ -814,7 +788,7 @@ const Grades = () => {
                         } w-20 h-20 flex items-center justify-center text-primary-content rounded-md`}
                       >
                         {
-                          (!editMode ? gradesData.Grades : tmpGrades).find(
+                          (!editMode ? gradesData : tmpGrades).find(
                             (x) => x.Id == focusedGrade.slice(2)
                           ).Grade
                         }
@@ -822,23 +796,18 @@ const Grades = () => {
                       <div className="flex flex-col h-max items-start justify-center">
                         <span className="text-xl font-semibold">
                           {upperFirst(
-                            [
-                              ...gradesCategoriesData.Categories,
-                              ...tempCategories,
-                            ].find(
+                            [...gradesCategoriesData, ...tempCategories].find(
                               (x) =>
                                 x.Id ==
-                                (!editMode
-                                  ? gradesData.Grades
-                                  : tmpGrades
-                                ).find((x) => x.Id == focusedGrade.slice(2))
-                                  ?.Category?.Id
+                                (!editMode ? gradesData : tmpGrades).find(
+                                  (x) => x.Id == focusedGrade.slice(2)
+                                )?.Category?.Id
                             ).Name
                           )}
                         </span>
                         <span className="text-lg">
                           {
-                            (!editMode ? gradesData.Grades : tmpGrades).find(
+                            (!editMode ? gradesData : tmpGrades).find(
                               (x) => x.Id == focusedGrade.slice(2)
                             ).AddDate
                           }
@@ -846,18 +815,15 @@ const Grades = () => {
                       </div>
                     </div>
                     <div className="flex flex-col">
-                      {(!editMode ? gradesData.Grades : tmpGrades).find(
+                      {(!editMode ? gradesData : tmpGrades).find(
                         (x) => x.Id == focusedGrade.slice(2)
                       ).IsConstituent && (
                         <span className="text-lg">
                           <span className="font-semibold">Weight:</span>{" "}
-                          {[
-                            ...gradesCategoriesData.Categories,
-                            ...tempCategories,
-                          ].find(
+                          {[...gradesCategoriesData, ...tempCategories].find(
                             (x) =>
                               x.Id ==
-                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                              (!editMode ? gradesData : tmpGrades).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.Category?.Id
                           ).Weight || "None"}
@@ -866,17 +832,17 @@ const Grades = () => {
                       {!teachersLoading && !teachersError && (
                         <span className="text-lg">
                           <span className="font-semibold">Teacher:</span>{" "}
-                          {teachersData.Users.find(
+                          {teachersData.find(
                             (x) =>
                               x.Id ==
-                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                              (!editMode ? gradesData : tmpGrades).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.AddedBy?.Id
                           )?.FirstName || "Gallus"}{" "}
-                          {teachersData.Users.find(
+                          {teachersData.find(
                             (x) =>
                               x.Id ==
-                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                              (!editMode ? gradesData : tmpGrades).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.AddedBy?.Id
                           )?.LastName || "Anonymus"}
@@ -885,10 +851,10 @@ const Grades = () => {
                       {!gradeCommentsLoading && !gradeCommentsError && (
                         <span className="text-lg">
                           <span className=" font-semibold">Description:</span>{" "}
-                          {gradeCommentsData.Comments.find(
+                          {gradeCommentsData.find(
                             (x) =>
                               x.Id ==
-                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                              (!editMode ? gradesData : tmpGrades).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )?.Comments?.[0]?.Id
                           )?.Text || "None"}
@@ -901,30 +867,25 @@ const Grades = () => {
                           className="btn btn-primary flex-grow sm:flex-grow-0"
                           onClick={() => {
                             setEditedGrade(
-                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                              (!editMode ? gradesData : tmpGrades).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               )
                             );
                             setValue("gradeType", "grade");
                             setValue(
                               "gradeValue",
-                              (!editMode ? gradesData.Grades : tmpGrades).find(
+                              (!editMode ? gradesData : tmpGrades).find(
                                 (x) => x.Id == focusedGrade.slice(2)
                               ).Grade
                             );
                             setValue(
                               "gradeWeight",
-                              [
-                                ...gradesCategoriesData.Categories,
-                                ...tempCategories,
-                              ].find(
+                              [...gradesCategoriesData, ...tempCategories].find(
                                 (x) =>
                                   x.Id ==
-                                  (!editMode
-                                    ? gradesData.Grades
-                                    : tmpGrades
-                                  ).find((x) => x.Id == focusedGrade.slice(2))
-                                    ?.Category?.Id
+                                  (!editMode ? gradesData : tmpGrades).find(
+                                    (x) => x.Id == focusedGrade.slice(2)
+                                  )?.Category?.Id
                               ).Weight
                             );
                             document.getElementById("edit_modal").showModal();
@@ -955,37 +916,52 @@ const Grades = () => {
           <div className="skeleton h-24"></div>
         )}
       </div>
-      <div className="flex flex-row sm:flex-row justify-start items-center gap-2 mt-3">
+      <div className="flex flex-col gap-4 mt-4">
         <span className="text-3xl font-semibold">Text Grades</span>
-        <span className="badge badge-primary">Early access</span>
-      </div>
-      <div className="flex flex-col gap-2 mt-3">
-        {!textGradesLoading && !textGradesError ? (
-          textGradesData.Grades.map((textGrade) => (
-            <div
-              key={textGrade.Id}
-              className="flex flex-row p-4 bg-base-200 rounded-box items-center justify-start"
-            >
-              <div className="flex flex-col gap-1 ml-2 items-start justify-center">
-                <span className="text-xl font-bold">
-                  {upperFirst(textGrade.Grade)}
-                </span>
-                <span className="text-lg">
-                  {upperFirst(
-                    !subjectsLoading &&
-                      !subjectsError &&
-                      subjectsData.Subjects.find(
-                        (x) => x.Id == textGrade.Subject.Id
-                      ).Name
-                  )}{" "}
-                  - {textGrade.Date}
-                </span>
-              </div>
-            </div>
-          ))
-        ) : (
-          <></>
-        )}
+        <div className="flex flex-col gap-2">
+          {!textGradesLoading && !textGradesError ? (
+            textGradesData.length > 0 ? (
+              textGradesData.map((textGrade) => (
+                <div
+                  key={textGrade.Id}
+                  className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
+                >
+                  <div className="flex flex-col">
+                    <span className="text-xl font-semibold">
+                      {upperFirst(
+                        !subjectsLoading &&
+                          !subjectsError &&
+                          subjectsData.find((x) => x.Id == textGrade.Subject.Id)
+                            ?.Name
+                      )}
+                    </span>
+                    <span className="text-md">
+                      {upperFirst(textGrade.Grade)}
+                    </span>
+                  </div>
+                  {!teachersLoading && !teachersError && (
+                    <span className="text-sm text-primary">
+                      Added by{" "}
+                      {
+                        teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
+                          .FirstName
+                      }{" "}
+                      {
+                        teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
+                          .LastName
+                      }{" "}
+                      at {textGrade.Date}
+                    </span>
+                  )}
+                </div>
+              ))
+            ) : (
+              <span className="text-lg">No text grades available.</span>
+            )
+          ) : (
+            <div className="skeleton h-24"></div>
+          )}
+        </div>
       </div>
     </Layout>
   );

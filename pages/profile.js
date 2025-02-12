@@ -21,11 +21,9 @@ const Profile = () => {
     loading: behaviourGradesTypesLoading,
     error: behaviourGradesTypesError,
   } = useBehaviourGradesTypes(
-    deduplicate([
-      ...(behaviourGradesData
-        ? behaviourGradesData.Grades.map((x) => x.GradeType.Id)
-        : []),
-    ]).join(",")
+    behaviourGradesData
+      ? behaviourGradesData.map((x) => x.GradeType.Id).join(",")
+      : false
   );
 
   // Notes data
@@ -39,9 +37,7 @@ const Profile = () => {
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    deduplicate([
-      ...(notesData ? notesData.Notes.map((x) => x.Teacher.Id) : []),
-    ]).join(",")
+    notesData ? notesData.map((x) => x.Teacher.Id).join(",") : false
   );
 
   return (
@@ -57,9 +53,9 @@ const Profile = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-3xl font-semibold">
-              {userData.Me.Account.FirstName} {userData.Me.Account.LastName}
+              {userData.Account.FirstName} {userData.Account.LastName}
             </span>
-            <span className="text-lg">{userData.Me.Account.Email}</span>
+            <span className="text-lg">{userData.Account.Email}</span>
           </div>
         </div>
       ) : (
@@ -71,31 +67,31 @@ const Profile = () => {
       !behaviourGradesTypesError ? (
         <div className="flex flex-col mt-4">
           <span className="text-3xl font-semibold">Behaviour</span>
-          {behaviourGradesData.Grades.length > 0 ? (
+          {behaviourGradesData.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
-              {behaviourGradesData.Grades.sort(
-                (a, b) => new Date(b.AddDate) - new Date(a.AddDate)
-              ).map((grade) => (
-                <div
-                  key={grade.Id}
-                  className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
-                >
-                  <div className="flex flex-col">
-                    <span className="text-2xl font-semibold">
-                      {upperFirst(
-                        behaviourGradesTypesData.Types.find(
-                          (x) => x.Id == grade.GradeType.Id
-                        ).Name
-                      )}
-                    </span>
-                    <span className="text-md">
-                      Semester {"I".repeat(parseInt(grade.Semester))} -{" "}
-                      {grade.IsProposal == "1" ? "Proposal" : "Final"}
-                    </span>
+              {behaviourGradesData
+                .sort((a, b) => new Date(b.AddDate) - new Date(a.AddDate))
+                .map((grade) => (
+                  <div
+                    key={grade.Id}
+                    className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
+                  >
+                    <div className="flex flex-col">
+                      <span className="text-2xl font-semibold">
+                        {upperFirst(
+                          behaviourGradesTypesData.find(
+                            (x) => x.Id == grade.GradeType.Id
+                          ).Name
+                        )}
+                      </span>
+                      <span className="text-md">
+                        Semester {"I".repeat(parseInt(grade.Semester))} -{" "}
+                        {grade.IsProposal == "1" ? "Proposal" : "Final"}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-              {behaviourGradesData.Grades.length % 2 == 1 && (
+                ))}
+              {behaviourGradesData.length % 2 == 1 && (
                 <div className="flex rounded-box p-4 bg-base-200 justify-center items-center">
                   <span className="text-lg text-primary text-center">
                     Awaiting final grade
@@ -110,46 +106,41 @@ const Profile = () => {
       ) : (
         <></>
       )}
-      {!notesLoading && !notesError ? (
-        <div className="flex flex-col mt-4">
-          <span className="text-3xl font-semibold">Notes</span>
-          {notesData.Notes.length > 0 ? (
-            <div className="flex flex-col gap-4 mt-4">
-              {notesData.Notes.map((note) => (
-                <div
-                  key={note.Id}
-                  className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
-                >
-                  <div className="flex flex-col">
-                    <span className="text-xl font-semibold">
-                      {note.Positive > 0 ? "Positive" : "Negative"}
-                    </span>
-                    <span className="text-md">{note.Text}</span>
-                  </div>
-                  {!teachersLoading && !teachersError && (
-                    <span className="text-sm text-primary">
-                      Added by{" "}
-                      {
-                        teachersData.Users.find((x) => x.Id == note.Teacher.Id)
-                          .FirstName
-                      }{" "}
-                      {
-                        teachersData.Users.find((x) => x.Id == note.Teacher.Id)
-                          .LastName
-                      }{" "}
-                      at {note.Date}
-                    </span>
-                  )}
+      <div className="flex flex-col gap-2 mt-4">
+        <span className="text-3xl font-semibold">Notes</span>
+        {!notesLoading && !notesError ? (
+          notesData.length > 0 ? (
+            notesData.map((note) => (
+              <div
+                key={note.Id}
+                className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
+              >
+                <div className="flex flex-col">
+                  <span className="text-xl font-semibold">
+                    {note.Positive > 0 ? "Positive" : "Negative"}
+                  </span>
+                  <span className="text-md">{note.Text}</span>
                 </div>
-              ))}
-            </div>
+                {!teachersLoading && !teachersError && (
+                  <span className="text-sm text-primary">
+                    Added by{" "}
+                    {
+                      teachersData.find((x) => x.Id == note.Teacher.Id)
+                        .FirstName
+                    }{" "}
+                    {teachersData.find((x) => x.Id == note.Teacher.Id).LastName}{" "}
+                    at {note.Date}
+                  </span>
+                )}
+              </div>
+            ))
           ) : (
             <span className="text-lg">No notes available.</span>
-          )}
-        </div>
-      ) : (
-        <div className="skeleton h-24 w-full mt-4"></div>
-      )}
+          )
+        ) : (
+          <div className="skeleton h-24 w-full"></div>
+        )}
+      </div>
     </Layout>
   );
 };

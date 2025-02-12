@@ -17,8 +17,6 @@ const Auth = () => {
 
   const onSubmit = async (data) => {
     setAuthLoading(true);
-    const userData = await getUser();
-    if (userData) return router.push("/");
     const { login, password, nickname } = data;
     const authenticated = await authenticate(login, password);
     if (!authenticated || authenticated.error) {
@@ -39,7 +37,7 @@ const Auth = () => {
       currentAccounts.push(account);
       localStorage.setItem("accounts", JSON.stringify(currentAccounts));
     }
-    router.push("/");
+    await router.push("/");
   };
   const onError = (errors, e) => console.error(errors, e);
 
@@ -153,19 +151,19 @@ const Auth = () => {
               {...register("password", { required: true })}
             />
           </label>
-          <div class="form-control">
-            <label class="cursor-pointer label self-start gap-2">
+          <div className="form-control">
+            <label className="cursor-pointer label self-start gap-2">
               <input
                 id="save_account_checkbox"
                 type="checkbox"
-                class="checkbox"
+                className="checkbox"
                 onClick={(e) => {
                   if (e.target.checked)
                     document.getElementById("save_account").showModal();
                   else resetField("nickname");
                 }}
               />
-              <span class="label-text">Save this account</span>
+              <span className="label-text">Save this account</span>
             </label>
           </div>
           {error && (

@@ -7,7 +7,6 @@ import { apiUrl, useVersion } from "@/lib/core";
 
 import { useState } from "react";
 import { Buildings, People, Star, Person, Git } from "react-bootstrap-icons";
-import { deduplicate } from "@/lib/utils";
 import { fetch } from "@tauri-apps/plugin-http";
 import dayjs from "dayjs";
 
@@ -49,11 +48,9 @@ const Home = () => {
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    deduplicate([
-      ...(announcementsData
-        ? announcementsData?.SchoolNotices.map((a) => a.AddedBy.Id)
-        : []),
-    ]).join(",")
+    announcementsData
+      ? announcementsData.map((a) => a.AddedBy.Id).join(",")
+      : false
   );
 
   return (
@@ -68,7 +65,7 @@ const Home = () => {
             <div className="flex flex-col ml-4">
               <span className="text-2xl font-bold">Student</span>
               <span>
-                {userData.Me.Account.FirstName} {userData.Me.Account.LastName}
+                {userData.Account.FirstName} {userData.Account.LastName}
               </span>
             </div>
           </div>
@@ -80,7 +77,7 @@ const Home = () => {
             <Buildings className="hidden sm:block text-5xl text-primary" />
             <div className="flex flex-col ml-4">
               <span className="text-2xl font-bold">School</span>
-              <span>{schoolData.School.Name}</span>
+              <span>{schoolData.Name}</span>
             </div>
           </div>
         ) : (
@@ -92,11 +89,11 @@ const Home = () => {
             <div className="flex flex-col ml-4">
               <span className="text-2xl font-bold">Class</span>
               <span>
-                {classData.Class.Number}
-                {classData.Class.Symbol} (
-                {parseInt(classData.Class.EndSchoolYear.split("-")[0]) -
-                  parseInt(classData.Class.Number)}
-                -{classData.Class.EndSchoolYear.split("-")[0]})
+                {classData.Number}
+                {classData.Symbol} (
+                {parseInt(classData.EndSchoolYear.split("-")[0]) -
+                  parseInt(classData.Number)}
+                -{classData.EndSchoolYear.split("-")[0]})
               </span>
             </div>
           </div>
@@ -109,8 +106,8 @@ const Home = () => {
             <div className="flex flex-col ml-4">
               <span className="text-2xl font-bold">Lucky number</span>
               <span>
-                {luckyNumberData.LuckyNumber.LuckyNumber} (As of{" "}
-                {luckyNumberData.LuckyNumber.LuckyNumberDay})
+                {luckyNumberData.LuckyNumber} (As of{" "}
+                {luckyNumberData.LuckyNumberDay})
               </span>
             </div>
           </div>
@@ -164,54 +161,59 @@ const Home = () => {
       </dialog>
       <div className="flex flex-col mt-4 gap-2">
         {!announcementsLoading && !announcementsError ? (
-          announcementsData.SchoolNotices.sort((a, b) => {
-            return (
-              dayjs(b.CreationDate).valueOf() - dayjs(a.CreationDate).valueOf()
-            );
-          }).map((a) => (
-            <div
-              key={a.Id}
-              className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 rounded-box gap-2 p-4 ${
-                !a.WasRead && "border border-primary"
-              }`}
-            >
-              <div className="flex flex-col">
-                <span className="text-lg font-bold">{a.Subject}</span>
-                <div className="flex flex-row items-center gap-x-2 gap-y-1 flex-wrap">
-                  <span>
-                    {!teachersLoading && teachersData
-                      ? `${
-                          teachersData.Users.find((t) => t.Id === a.AddedBy.Id)
-                            .FirstName
-                        } ${
-                          teachersData.Users.find((t) => t.Id === a.AddedBy.Id)
-                            .LastName
-                        }`
-                      : "Unknown teacher"}
-                  </span>
-                  <span>-</span>
-                  <span>{a.CreationDate}</span>
-                </div>
-              </div>
-              <button
-                className="btn btn-primary self-end"
-                onClick={async () => {
-                  setFocusedAnnouncement(a.Id);
-                  document.getElementById("annoucement_title").innerText =
-                    a.Subject;
-                  document.getElementById("annoucement_content").innerText =
-                    a.Content;
-                  await fetch(`${apiUrl}/SchoolNotices/MarkAsRead/${a.Id}`, {
-                    method: "POST",
-                  });
-                  document.getElementById("annoucement_modal").showModal();
-                  document.getElementsByClassName("modal-box")[0].scrollTop = 0;
-                }}
+          announcementsData
+            .sort((a, b) => {
+              return (
+                dayjs(b.CreationDate).valueOf() -
+                dayjs(a.CreationDate).valueOf()
+              );
+            })
+            .map((a) => (
+              <div
+                key={a.Id}
+                className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 rounded-box gap-2 p-4 ${
+                  !a.WasRead && "border border-primary"
+                }`}
               >
-                Read more
-              </button>
-            </div>
-          ))
+                <div className="flex flex-col">
+                  <span className="text-lg font-bold">{a.Subject}</span>
+                  <div className="flex flex-row items-center gap-x-2 gap-y-1 flex-wrap">
+                    <span>
+                      {!teachersLoading && teachersData
+                        ? `${
+                            teachersData.find((t) => t.Id === a.AddedBy.Id)
+                              ?.FirstName
+                          } ${
+                            teachersData.find((t) => t.Id === a.AddedBy.Id)
+                              ?.LastName
+                          }`
+                        : "Unknown teacher"}
+                    </span>
+                    <span>-</span>
+                    <span>{a.CreationDate}</span>
+                  </div>
+                </div>
+                <button
+                  className="btn btn-primary self-end"
+                  onClick={async () => {
+                    setFocusedAnnouncement(a.Id);
+                    document.getElementById("annoucement_title").innerText =
+                      a.Subject;
+                    document.getElementById("annoucement_content").innerText =
+                      a.Content;
+                    await fetch(`${apiUrl}/SchoolNotices/MarkAsRead/${a.Id}`, {
+                      method: "POST",
+                    });
+                    document.getElementById("annoucement_modal").showModal();
+                    document.getElementsByClassName(
+                      "modal-box"
+                    )[0].scrollTop = 0;
+                  }}
+                >
+                  Read more
+                </button>
+              </div>
+            ))
         ) : (
           <div className="skeleton h-24"></div>
         )}
