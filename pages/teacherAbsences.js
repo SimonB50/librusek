@@ -1,7 +1,7 @@
 import Layout from "@/components/layout";
 import { useTeachers } from "@/lib/school";
 import { useTeacherAbsences } from "@/lib/timetable";
-import { deduplicate, sortTeacherAbsences } from "@/lib/utils";
+import { sortTeacherAbsences } from "@/lib/utils";
 import dayjs from "dayjs";
 
 const TeacherAbsences = () => {
@@ -16,11 +16,9 @@ const TeacherAbsences = () => {
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    deduplicate([
-      ...(teacherAbsencesData
-        ? teacherAbsencesData.TeacherFreeDays.map((x) => x.Teacher.Id)
-        : []),
-    ]).join(",")
+    teacherAbsencesData && teacherAbsencesData.length
+      ? teacherAbsencesData.map((x) => x.Teacher.Id).join(",")
+      : false
   );
 
   return (
@@ -31,10 +29,8 @@ const TeacherAbsences = () => {
         !teacherAbsencesLoading &&
         !teachersLoading &&
         !teachersError
-          ? sortTeacherAbsences(teacherAbsencesData.TeacherFreeDays)
-              .filter((x) =>
-                teachersData.Users.find((y) => y.Id == x.Teacher.Id)
-              )
+          ? sortTeacherAbsences(teacherAbsencesData)
+              .filter((x) => teachersData.find((y) => y.Id == x.Teacher.Id))
               .map((absence) => (
                 <div
                   key={absence.Id}
@@ -52,13 +48,11 @@ const TeacherAbsences = () => {
                       {!teachersLoading &&
                         !teachersError &&
                         `${
-                          teachersData.Users.find(
-                            (x) => x.Id == absence.Teacher.Id
-                          )?.FirstName
+                          teachersData.find((x) => x.Id == absence.Teacher.Id)
+                            ?.FirstName
                         } ${
-                          teachersData.Users.find(
-                            (x) => x.Id == absence.Teacher.Id
-                          )?.LastName
+                          teachersData.find((x) => x.Id == absence.Teacher.Id)
+                            ?.LastName
                         }`}
                     </span>
                   </div>

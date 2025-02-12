@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import NoSSR from "react-no-ssr";
+import NoSSR from "@/components/no-srr";
 import { ThemeProvider } from 'next-themes'
 
 const App = ({ Component, pageProps }) => {

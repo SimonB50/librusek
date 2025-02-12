@@ -59,8 +59,8 @@ const Timetable = () => {
       </div>
       <div className="flex flex-row flex-wrap">
         {!timetableLoading && !timetableError ? (
-          Object.keys(timetableData.Timetable).map((day) => {
-            const dayData = timetableData.Timetable[day];
+          Object.keys(timetableData).map((day) => {
+            const dayData = timetableData[day];
             if (dayjs(day).isoWeekday() > 5) return;
             return (
               <div
@@ -77,7 +77,7 @@ const Timetable = () => {
                     </div>
                   )}
                   {dayData
-                    .filter((x) => x.length > 0)
+                    .filter((x) => x.length)
                     .map((entry, index) => {
                       return (
                         <div

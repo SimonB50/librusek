@@ -62,8 +62,8 @@ const Layout = ({ children, setAuthData }) => {
                 >
                   <Person className="text-3xl" />
                   <span>
-                    {userData.Me.Account.FirstName}{" "}
-                    {userData.Me.Account.LastName}
+                    {userData.Account.FirstName}{" "}
+                    {userData.Account.LastName}
                   </span>
                 </div>
               ) : (
