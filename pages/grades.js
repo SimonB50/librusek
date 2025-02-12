@@ -637,6 +637,48 @@ const Grades = () => {
                   </div>
                 </>
               )}
+              {focusedSubject === subject.Id && (
+                <div className="flex flex-col my-2">
+                  <span className="text-lg font-bold">Summary</span>
+                  <span className="text-base">
+                    Average:{" "}
+                    {calculateAvarage(
+                      [
+                        ...(gradesData && gradesCategoriesData
+                          ? !editMode
+                            ? gradesData
+                            : tmpGrades
+                          : []),
+                        ...(pointsData && pointsCategoriesData
+                          ? !editMode
+                            ? pointsData
+                            : tmpPoints
+                          : []),
+                      ].filter(
+                        (x) =>
+                          focusedSubject == x.Subject.Id &&
+                          (filter == "all" ||
+                            dayjs(x.AddDate).isAfter(
+                              dayjs().subtract(1, "day")
+                            )) &&
+                          !x.IsSemester &&
+                          !x.IsSemesterProposition &&
+                          !x.IsFinal &&
+                          !x.IsFinalProposition
+                      ),
+                      [
+                        ...(gradesData && gradesCategoriesData
+                          ? gradesCategoriesData
+                          : []),
+                        ...(pointsData && pointsCategoriesData
+                          ? pointsCategoriesData
+                          : []),
+                        ...tempCategories,
+                      ]
+                    )}
+                  </span>
+                </div>
+              )}
               {focusedSubject === subject.Id &&
                 focusedGrade?.startsWith("p-") &&
                 (!editMode ? pointsData : tmpPoints).find(
@@ -943,14 +985,10 @@ const Grades = () => {
                   {!teachersLoading && !teachersError && (
                     <span className="text-sm text-primary">
                       Added by{" "}
-                      {
-                        teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
-                          .FirstName
-                      }{" "}
-                      {
-                        teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
-                          .LastName
-                      }{" "}
+                      {teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
+                        ?.FirstName || "Gallus"}{" "}
+                      {teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
+                        ?.LastName || "Anonymus"}{" "}
                       at {textGrade.Date}
                     </span>
                   )}
