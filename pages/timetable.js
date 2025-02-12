@@ -77,7 +77,7 @@ const Timetable = () => {
                     </div>
                   )}
                   {dayData
-                    .filter((x) => x.length > 0)
+                    .filter((x) => x.length)
                     .map((entry, index) => {
                       return (
                         <div

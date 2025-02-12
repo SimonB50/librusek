@@ -8,7 +8,6 @@ import {
   usePoints,
   usePointsCategories,
   useTextGrades,
-  useTextGradesCategories,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
 import { upperFirst, calculateAvarage, getSemester } from "@/lib/utils";
@@ -87,32 +86,31 @@ const Grades = () => {
     loading: gradesCategoriesLoading,
     error: gradesCategoriesError,
   } = useGradesCategories(
-    gradesData ? gradesData.map((x) => x.Category.Id).join(",") : false
+    gradesData && gradesData.length
+      ? gradesData.map((x) => x.Category.Id).join(",")
+      : false
   );
   const {
     data: pointsCategoriesData,
     loading: pointsCategoriesLoading,
     error: pointsCategoriesError,
   } = usePointsCategories(
-    pointsData ? pointsData.map((x) => x.Category.Id).join(",") : false
-  );
-  const {
-    data: textGradesCategoriesData,
-    loading: textGradesCategoriesLoading,
-    error: textGradesCategoriesError,
-  } = useTextGradesCategories(
-    textGradesData ? textGradesData.map((x) => x.Category.Id).join(",") : false
+    pointsData && pointsData.length
+      ? pointsData.map((x) => x.Category.Id).join(",")
+      : false
   );
   const {
     data: subjectsData,
     loading: subjectsLoading,
     error: subjectsError,
   } = useSubjects(
-    !gradesLoading && !gradesError && !pointsLoading && !pointsError
-      ? [
-          ...gradesData.map((x) => x.Subject.Id),
-          ...pointsData.map((x) => x.Subject.Id),
-        ].join(",")
+    (gradesData && gradesData.length) ||
+      (pointsData && pointsData.length) ||
+      (textGradesData && textGradesData.length)
+      ? (gradesData ? gradesData.map((x) => x.Subject.Id) : [])
+          .concat(pointsData ? pointsData.map((x) => x.Subject.Id) : [])
+          .concat(textGradesData ? textGradesData.map((x) => x.Subject.Id) : [])
+          .join(",")
       : false
   );
   const {
@@ -120,11 +118,13 @@ const Grades = () => {
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    !gradesLoading && !gradesError && !pointsLoading && !pointsError
-      ? [
-          ...gradesData.map((x) => x.AddedBy.Id),
-          ...pointsData.map((x) => x.AddedBy.Id),
-        ].join(",")
+    (gradesData && gradesData.length) ||
+      (pointsData && pointsData.length) ||
+      (textGradesData && textGradesData.length)
+      ? (gradesData ? gradesData.map((x) => x.AddedBy.Id) : [])
+          .concat(pointsData ? pointsData.map((x) => x.AddedBy.Id) : [])
+          .concat(textGradesData ? textGradesData.map((x) => x.AddedBy.Id) : [])
+          .join(",")
       : false
   );
   const {
@@ -132,7 +132,7 @@ const Grades = () => {
     loading: gradeCommentsLoading,
     error: gradeCommentsError,
   } = useGradeComments(
-    gradesData
+    gradesData && gradesData.length
       ? gradesData
           .filter((x) => x.Comments)
           .map((y) => y.Comments.map((z) => z.Id))
@@ -145,7 +145,7 @@ const Grades = () => {
     loading: pointCommentsLoading,
     error: pointCommentsError,
   } = usePointComments(
-    pointsData
+    pointsData && pointsData.length
       ? pointsData
           .filter((x) => x.Comments)
           .map((y) => y.Comments.map((z) => z.Id))
@@ -237,8 +237,9 @@ const Grades = () => {
                   validate: (value) =>
                     value != "select" || "Please select grade type",
                 })}
+                defaultValue={"select"}
               >
-                <option value="select" disabled selected>
+                <option value="select" disabled>
                   Select type
                 </option>
                 <option value="grade">Grade</option>
@@ -306,7 +307,7 @@ const Grades = () => {
               />
             </div>
           </div>
-          {Object.keys(errors).length > 0 && (
+          {Object.keys(errors).length && (
             <div className="alert alert-error">
               {errors[Object.keys(errors)[0]]?.message}
             </div>
@@ -510,7 +511,7 @@ const Grades = () => {
                         {grade.Grade}
                       </button>
                     ))}
-                {editMode && semester == 1 && (
+                {editMode && (
                   <button
                     className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
                     onClick={() => {
@@ -522,7 +523,7 @@ const Grades = () => {
                             ...tmpGrades.map((x) => x.Id),
                             ...tmpPoints.map((x) => x.Id)
                           ) + 1,
-                        Semester: 1,
+                        Semester: focusedSubject != subject.Id ? semester : 1,
                       });
                       document.getElementById("edit_modal").showModal();
                     }}
@@ -920,7 +921,7 @@ const Grades = () => {
         <span className="text-3xl font-semibold">Text Grades</span>
         <div className="flex flex-col gap-2">
           {!textGradesLoading && !textGradesError ? (
-            textGradesData.length > 0 ? (
+            textGradesData && textGradesData.length ? (
               textGradesData.map((textGrade) => (
                 <div
                   key={textGrade.Id}

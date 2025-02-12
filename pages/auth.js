@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { authenticate } from "@/lib/auth";
-import { getUser } from "@/lib/user";
 import { useState } from "react";
 import { Person } from "react-bootstrap-icons";
 import { Trash } from "react-bootstrap-icons";
@@ -37,6 +36,7 @@ const Auth = () => {
       currentAccounts.push(account);
       localStorage.setItem("accounts", JSON.stringify(currentAccounts));
     }
+    sessionStorage.clear();
     await router.push("/");
   };
   const onError = (errors, e) => console.error(errors, e);

@@ -2,7 +2,7 @@ import Layout from "@/components/layout";
 import { Person } from "react-bootstrap-icons";
 import { useState } from "react";
 import { useNotes } from "@/lib/user";
-import { deduplicate, upperFirst } from "@/lib/utils";
+import { upperFirst } from "@/lib/utils";
 import { useTeachers } from "@/lib/school";
 import { useBehaviourGrades, useBehaviourGradesTypes } from "@/lib/grades";
 
@@ -21,7 +21,7 @@ const Profile = () => {
     loading: behaviourGradesTypesLoading,
     error: behaviourGradesTypesError,
   } = useBehaviourGradesTypes(
-    behaviourGradesData
+    behaviourGradesData && behaviourGradesData.length
       ? behaviourGradesData.map((x) => x.GradeType.Id).join(",")
       : false
   );
@@ -37,7 +37,9 @@ const Profile = () => {
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    notesData ? notesData.map((x) => x.Teacher.Id).join(",") : false
+    notesData && notesData.length
+      ? notesData.map((x) => x.Teacher.Id).join(",")
+      : false
   );
 
   return (
@@ -67,7 +69,7 @@ const Profile = () => {
       !behaviourGradesTypesError ? (
         <div className="flex flex-col mt-4">
           <span className="text-3xl font-semibold">Behaviour</span>
-          {behaviourGradesData.length > 0 ? (
+          {behaviourGradesData && behaviourGradesData.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
               {behaviourGradesData
                 .sort((a, b) => new Date(b.AddDate) - new Date(a.AddDate))
@@ -109,15 +111,17 @@ const Profile = () => {
       <div className="flex flex-col gap-2 mt-4">
         <span className="text-3xl font-semibold">Notes</span>
         {!notesLoading && !notesError ? (
-          notesData.length > 0 ? (
+          notesData && notesData.length ? (
             notesData.map((note) => (
               <div
                 key={note.Id}
-                className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
+                className={`flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between border ${
+                  note.Positive ? "border-success" : "border-error"
+                }`}
               >
                 <div className="flex flex-col">
                   <span className="text-xl font-semibold">
-                    {note.Positive > 0 ? "Positive" : "Negative"}
+                    {note.Positive ? "Positive" : "Negative"}
                   </span>
                   <span className="text-md">{note.Text}</span>
                 </div>

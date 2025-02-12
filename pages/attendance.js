@@ -1,7 +1,7 @@
 import Layout from "@/components/layout";
 import { useAttendance, useAttendancesTypes, useLessons } from "@/lib/lessons";
 import { useSubjects, useTeachers } from "@/lib/school";
-import { upperFirst, deduplicate, groupAbsences } from "@/lib/utils";
+import { upperFirst, groupAbsences } from "@/lib/utils";
 import { useState } from "react";
 
 const Attendance = () => {
@@ -19,32 +19,45 @@ const Attendance = () => {
     loading: attendanceTypesLoading,
     error: attendanceTypesError,
   } = useAttendancesTypes(
-    attendanceData ? attendanceData.map((x) => x.Type.Id).join(",") : false
+    attendanceData && attendanceData.length
+      ? attendanceData.map((x) => x.Type.Id).join(",")
+      : false
   );
   const {
     data: lessonsData,
     loading: lessonsLoading,
     error: lessonsError,
-  } = useLessons(attendanceData ? attendanceData.map((x) => x.Lesson.Id).join(",") : false);
+  } = useLessons(
+    attendanceData && attendanceData.length
+      ? attendanceData.map((x) => x.Lesson.Id).join(",")
+      : false
+  );
   const {
     data: subjectsData,
     loading: subjectsLoading,
     error: subjectsError,
-  } = useSubjects(lessonsData ? lessonsData.map((x) => x.Subject.Id).join(",") : false);
+  } = useSubjects(
+    lessonsData && lessonsData.length
+      ? lessonsData.map((x) => x.Subject.Id).join(",")
+      : false
+  );
   const {
     data: teachersData,
     loading: teachersLoading,
     error: teachersError,
   } = useTeachers(
-    attendanceData ? attendanceData.map((x) => x.AddedBy.Id).join(",") : false
+    attendanceData && attendanceData.length
+      ? attendanceData.map((x) => x.AddedBy.Id).join(",")
+      : false
   );
 
   return (
     <Layout>
       <span className="text-3xl font-semibold mb-4">Attendance</span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {!subjectsLoading && !subjectsError
-          ? subjectsData.map((subject) => {
+        {!subjectsLoading && !subjectsError ? (
+          subjectsData && subjectsData.length ? (
+            subjectsData.map((subject) => {
               const attendancePercentage = (
                 (1 -
                   attendanceData.filter(
@@ -85,9 +98,16 @@ const Attendance = () => {
                 </div>
               );
             })
-          : Array.from({ length: 5 }, (_, i) => (
-              <div key={i} className="skeleton w-full h-10 rounded-box"></div>
-            ))}
+          ) : (
+            <div className="flex flex-col gap-4">
+              <span className="text-lg">No attendance data available.</span>
+            </div>
+          )
+        ) : (
+          Array.from({ length: 5 }, (_, i) => (
+            <div key={i} className="skeleton w-full h-10 rounded-box"></div>
+          ))
+        )}
       </div>
       <div className="flex flex-col mt-4">
         <span className="text-3xl font-semibold mb-4">Your absences</span>
@@ -255,7 +275,7 @@ const Attendance = () => {
               );
             })
           ) : (
-            <></>
+            <span className="text-lg">No absences available.</span>
           )}
         </div>
       </div>
