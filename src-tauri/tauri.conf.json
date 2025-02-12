@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Librusek",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "identifier": "com.librusek.dev",
   "build": {
     "frontendDist": "../out",
