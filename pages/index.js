@@ -136,8 +136,8 @@ const Home = () => {
         )}
       </div>
       <span className="text-3xl font-bold">Announcements</span>
-      <dialog id="annoucement_modal" className="modal">
-        <div className="modal-box w-11/12 max-w-5xl">
+      <dialog id="annoucement_modal" class="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
           <h3 id="annoucement_title" className="font-bold text-lg">
             Announcement title
           </h3>
@@ -158,6 +158,16 @@ const Home = () => {
             </form>
           </div>
         </div>
+        <form method="dialog" class="modal-backdrop">
+          <button
+            onClick={() => {
+              setFocusedAnnouncement(null);
+              document.getElementById("annoucement_modal").scrollTop = 0;
+            }}
+          >
+            close
+          </button>
+        </form>
       </dialog>
       <div className="flex flex-col mt-4 gap-2">
         {!announcementsLoading && !announcementsError ? (
