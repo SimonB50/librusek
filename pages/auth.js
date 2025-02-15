@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { authenticate } from "@/lib/auth";
 import { useState } from "react";
-import { Person } from "react-bootstrap-icons";
+import { Key, Person } from "react-bootstrap-icons";
 import { Trash } from "react-bootstrap-icons";
 
 const Auth = () => {
@@ -43,7 +43,7 @@ const Auth = () => {
 
   return (
     <>
-      <dialog id="accounts_modal" className="modal">
+      <dialog id="accounts_modal" class="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Saved Accounts</h3>
           <p className="py-4">
@@ -71,7 +71,9 @@ const Auth = () => {
                 <button
                   className="btn btn-error items-center justify-center flex-shrink-0"
                   onClick={() => {
-                    setSavedAccounts((prev) => prev.filter((acc) => acc !== account));
+                    setSavedAccounts((prev) =>
+                      prev.filter((acc) => acc !== account)
+                    );
                   }}
                 >
                   <Trash className="text-error-content text-md" />
@@ -79,14 +81,12 @@ const Auth = () => {
               </div>
             )) || <p>No accounts saved.</p>}
           </div>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
-      <dialog id="save_account" className="modal">
+      <dialog id="save_account" class="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Save your account</h3>
           <p className="py-4">
@@ -120,15 +120,19 @@ const Auth = () => {
             </form>
           </div>
         </div>
+        <form method="dialog" class="modal-backdrop">
+          <button
+            onClick={() => {
+              document.getElementById("save_account_checkbox").checked = false;
+              resetField("nickname");
+            }}
+          >
+            close
+          </button>
+        </form>
       </dialog>
-      <div className="flex flex-col items-center justify-center w-full min-h-screen relative">
-        <button
-          className="btn btn-primary absolute top-3 right-3 p-2 rounded-md z-10 h-fit"
-          onClick={() => document.getElementById("accounts_modal").showModal()}
-        >
-          <Person className="text-4xl text-primary-content" />
-        </button>
-        <div className="flex flex-col gap-4 rounded-box bg-base-200 p-6 w-full max-w-md">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen bg-base-200 relative">
+        <div className="flex flex-col gap-4 rounded-box p-6 w-full max-w-md">
           <h1 className="text-3xl font-bold self-center text-center">
             Login to Synergia
           </h1>
@@ -183,7 +187,22 @@ const Auth = () => {
             onClick={handleSubmit(onSubmit, onError)}
             disabled={authLoading}
           >
-            {authLoading ? "Loading..." : "Login"}
+            {authLoading ? (
+              <>Loading...</>
+            ) : (
+              <>
+                <Key className="text-2xl text-primary-content" /> Login
+              </>
+            )}
+          </button>
+          <div class="divider my-1">OR</div>
+          <button
+            className="btn btn-primary"
+            onClick={() =>
+              document.getElementById("accounts_modal").showModal()
+            }
+          >
+            <Person className="text-2xl text-primary-content" /> Saved accounts
           </button>
         </div>
       </div>
