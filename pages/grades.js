@@ -307,7 +307,7 @@ const Grades = () => {
               />
             </div>
           </div>
-          {Object.keys(errors).length && (
+          {Object.keys(errors).length > 0 && (
             <div className="alert alert-error">
               {errors[Object.keys(errors)[0]]?.message}
             </div>
