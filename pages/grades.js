@@ -476,7 +476,7 @@ const Grades = () => {
                     .map((point) => (
                       <button
                         key={point.Id}
-                        className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                        className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
                         onClick={() => setFocusedGrade(`p-${point.Id}`)}
                       >
                         {Math.round(parseFloat(point.Grade))}
@@ -503,7 +503,7 @@ const Grades = () => {
                         key={grade.Id}
                         className={`${
                           grade.IsConstituent ? "bg-primary" : "bg-secondary"
-                        } text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square`}
+                        } text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square`}
                         onClick={() => {
                           setFocusedGrade(`g-${grade.Id.toString()}`);
                         }}
@@ -513,7 +513,7 @@ const Grades = () => {
                     ))}
                 {editMode && (
                   <button
-                    className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                    className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
                     onClick={() => {
                       setEditedGrade({
                         Id:
@@ -587,7 +587,7 @@ const Grades = () => {
                         .map((point) => (
                           <button
                             key={point.Id}
-                            className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                            className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
                             onClick={() => setFocusedGrade(`p-${point.Id}`)}
                           >
                             {Math.round(parseFloat(point.Grade))}
@@ -606,7 +606,7 @@ const Grades = () => {
                               grade.IsConstituent
                                 ? "bg-primary"
                                 : "bg-secondary"
-                            } text-primary-content w-fit p-2 font-semibold rounded-md text-center aspect-square`}
+                            } text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square`}
                             onClick={() => {
                               setFocusedGrade(`g-${grade.Id.toString()}`);
                             }}
@@ -616,7 +616,7 @@ const Grades = () => {
                         ))}
                     {editMode && semester == 2 && (
                       <button
-                        className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-md text-center aspect-square"
+                        className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
                         onClick={() => {
                           setEditedGrade({
                             Id:
@@ -685,9 +685,9 @@ const Grades = () => {
                   (x) =>
                     x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
                 ) && (
-                  <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
+                  <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-box">
                     <div className="flex flex-row gap-2 items-center">
-                      <span className="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-md">
+                      <span className="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-btn">
                         {Math.round(
                           parseFloat(
                             (!editMode ? pointsData : tmpPoints).find(
@@ -819,7 +819,7 @@ const Grades = () => {
                   (x) =>
                     x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
                 ) && (
-                  <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
+                  <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-box">
                     <div className="flex flex-row gap-2 items-center">
                       <span
                         className={`text-4xl font-semibold ${
@@ -828,7 +828,7 @@ const Grades = () => {
                           ).IsConstituent
                             ? "bg-primary"
                             : "bg-secondary"
-                        } w-20 h-20 flex items-center justify-center text-primary-content rounded-md`}
+                        } w-20 h-20 flex items-center justify-center text-primary-content rounded-btn`}
                       >
                         {
                           (!editMode ? gradesData : tmpGrades).find(

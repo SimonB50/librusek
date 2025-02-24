@@ -384,7 +384,7 @@ const Attendance = () => {
                           ).Short == "nb"
                             ? "bg-error"
                             : "bg-warning"
-                        } rounded-md`}
+                        } rounded-btn`}
                         onClick={() =>
                           focusedAbsence == absence.Id
                             ? setFocusedAbsence(null)
@@ -411,7 +411,7 @@ const Attendance = () => {
                   </div>
                   {focusedAbsence &&
                     selectedAbsences.find((x) => x.Id == focusedAbsence) && (
-                      <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
+                      <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-box">
                         <div className="flex flex-row gap-2 items-center">
                           <span
                             className={`text-4xl font-semibold ${
@@ -424,7 +424,7 @@ const Attendance = () => {
                               ).Short == "nb"
                                 ? "bg-error"
                                 : "bg-warning"
-                            } w-20 h-20 flex items-center justify-center text-primary-content rounded-md`}
+                            } w-20 h-20 flex items-center justify-center text-primary-content rounded-btn`}
                           >
                             {
                               attendanceTypesData.find(

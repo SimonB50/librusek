@@ -74,7 +74,7 @@ const Developer = () => {
           </button>
         </div>
       </form>
-      <div className="mockup-code w-full rounded-md mt-4">
+      <div className="mockup-code w-full rounded-box mt-4">
         {response ? (
           response.split("\n").map((line, i) => (
             <pre
