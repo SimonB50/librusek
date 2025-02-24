@@ -41,63 +41,63 @@ const Settings = () => {
 
   return (
     <Layout>
-      <dialog id="cacheClear" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
-          <h3 class="text-lg font-bold">Success!</h3>
+      <dialog id="cacheClear" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="text-lg font-bold">Success!</h3>
           <span>
             The application request cache has been cleared successfully.
           </span>
-          <div class="modal-action">
+          <div className="modal-action">
             <form method="dialog">
-              <button class="btn">Close</button>
+              <button className="btn">Close</button>
             </form>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
-      <dialog id="themesBrowser" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
+      <dialog id="themesBrowser" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
-              <h3 class="text-lg font-bold">Themes browser</h3>
+              <h3 className="text-lg font-bold">Themes browser</h3>
               <span>Explore custom themes and choose the one you like!</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {themes.map((x) => (
                 <div
                   key={x}
-                  class="border-base-content/20 hover:border-base-content/40 overflow-hidden rounded-lg border outline outline-2 outline-offset-2 outline-transparent"
+                  className="border-base-content/20 hover:border-base-content/40 overflow-hidden rounded-lg border outline outline-2 outline-offset-2 outline-transparent"
                   onClick={() => setTheme(x)}
                 >
                   <div
                     data-theme={x}
-                    class="bg-base-100 text-base-content w-full cursor-pointer font-sans"
+                    className="bg-base-100 text-base-content w-full cursor-pointer font-sans"
                   >
-                    <div class="grid grid-cols-12 grid-rows-3">
-                      <div class="bg-base-200 col-start-1 row-span-2 row-start-1"></div>
-                      <div class="bg-base-300 col-start-1 row-start-3"></div>
-                      <div class="bg-base-100 col-span-10 col-start-2 row-span-3 row-start-1 flex flex-col gap-1 p-2">
-                        <div class="font-bold">{x}</div>
-                        <div class="flex flex-wrap gap-1">
-                          <div class="bg-primary flex aspect-square w-5 items-center justify-center rounded lg:w-6">
-                            <div class="text-primary-content text-sm font-bold">
+                    <div className="grid grid-cols-12 grid-rows-3">
+                      <div className="bg-base-200 col-start-1 row-span-2 row-start-1"></div>
+                      <div className="bg-base-300 col-start-1 row-start-3"></div>
+                      <div className="bg-base-100 col-span-10 col-start-2 row-span-3 row-start-1 flex flex-col gap-1 p-2">
+                        <div className="font-bold">{x}</div>
+                        <div className="flex flex-wrap gap-1">
+                          <div className="bg-primary flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                            <div className="text-primary-content text-sm font-bold">
                               A
                             </div>
                           </div>
-                          <div class="bg-secondary flex aspect-square w-5 items-center justify-center rounded lg:w-6">
-                            <div class="text-secondary-content text-sm font-bold">
+                          <div className="bg-secondary flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                            <div className="text-secondary-content text-sm font-bold">
                               A
                             </div>
                           </div>
-                          <div class="bg-accent flex aspect-square w-5 items-center justify-center rounded lg:w-6">
-                            <div class="text-accent-content text-sm font-bold">
+                          <div className="bg-accent flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                            <div className="text-accent-content text-sm font-bold">
                               A
                             </div>
                           </div>
-                          <div class="bg-neutral flex aspect-square w-5 items-center justify-center rounded lg:w-6">
-                            <div class="text-neutral-content text-sm font-bold">
+                          <div className="bg-neutral flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                            <div className="text-neutral-content text-sm font-bold">
                               A
                             </div>
                           </div>
@@ -109,13 +109,13 @@ const Settings = () => {
               ))}
             </div>
           </div>
-          <div class="modal-action">
+          <div className="modal-action">
             <form method="dialog">
-              <button class="btn">Close</button>
+              <button className="btn">Close</button>
             </form>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>

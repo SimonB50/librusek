@@ -136,7 +136,7 @@ const Home = () => {
         )}
       </div>
       <span className="text-3xl font-bold">Announcements</span>
-      <dialog id="annoucement_modal" class="modal modal-bottom sm:modal-middle">
+      <dialog id="annoucement_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 id="annoucement_title" className="font-bold text-lg">
             Announcement title
@@ -158,7 +158,7 @@ const Home = () => {
             </form>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button
             onClick={() => {
               setFocusedAnnouncement(null);

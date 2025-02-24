@@ -54,9 +54,9 @@ const Attendance = () => {
 
   return (
     <Layout>
-      <dialog id="attendanceDetails" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
-          <h3 class="text-2xl font-bold">
+      <dialog id="attendanceDetails" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="text-2xl font-bold">
             {focusedSubject &&
               upperFirst(subjectsData.find((x) => x.Id == focusedSubject).Name)}
           </h3>
@@ -284,7 +284,7 @@ const Attendance = () => {
             </div>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>

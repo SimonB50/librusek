@@ -18,7 +18,6 @@ const Developer = () => {
         <select id="baseUrl" className="select select-bordered w-full md:w-fit">
           <option
             value={"https://synergia.librus.pl/gateway/api/2.0/"}
-            selected
           >
             https://synergia.librus.pl/gateway/api/2.0/
           </option>

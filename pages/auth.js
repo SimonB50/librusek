@@ -43,7 +43,10 @@ const Auth = () => {
 
   return (
     <>
-      <dialog id="accounts_modal" class="modal modal-bottom sm:modal-middle">
+      <dialog
+        id="accounts_modal"
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
           <h3 className="font-bold text-lg">Saved Accounts</h3>
           <p className="py-4">
@@ -82,11 +85,11 @@ const Auth = () => {
             )) || <p>No accounts saved.</p>}
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
-      <dialog id="save_account" class="modal modal-bottom sm:modal-middle">
+      <dialog id="save_account" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Save your account</h3>
           <p className="py-4">
@@ -120,7 +123,7 @@ const Auth = () => {
             </form>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button
             onClick={() => {
               document.getElementById("save_account_checkbox").checked = false;
@@ -136,40 +139,44 @@ const Auth = () => {
           <h1 className="text-3xl font-bold self-center text-center">
             Login to Synergia
           </h1>
-          <label className="form-control">
-            <div className="label">
-              <span className="label-text">Login</span>
-            </div>
-            <input
-              className="input input-bordered"
-              {...register("login", { required: true })}
-            />
-          </label>
-          <label className="form-control">
-            <div className="label">
-              <span className="label-text">Password</span>
-            </div>
-            <input
-              type="password"
-              className="input input-bordered"
-              {...register("password", { required: true })}
-            />
-          </label>
-          <div className="form-control">
-            <label className="cursor-pointer label self-start gap-2">
+          <form>
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Login</span>
+              </div>
               <input
-                id="save_account_checkbox"
-                type="checkbox"
-                className="checkbox"
-                onClick={(e) => {
-                  if (e.target.checked)
-                    document.getElementById("save_account").showModal();
-                  else resetField("nickname");
-                }}
+                className="input input-bordered"
+                autoComplete="username"
+                {...register("login", { required: true })}
               />
-              <span className="label-text">Save this account</span>
             </label>
-          </div>
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Password</span>
+              </div>
+              <input
+                type="password"
+                className="input input-bordered"
+                autoComplete="current-password"
+                {...register("password", { required: true })}
+              />
+            </label>
+            <div className="form-control">
+              <label className="cursor-pointer label self-start gap-2">
+                <input
+                  id="save_account_checkbox"
+                  type="checkbox"
+                  className="checkbox"
+                  onClick={(e) => {
+                    if (e.target.checked)
+                      document.getElementById("save_account").showModal();
+                    else resetField("nickname");
+                  }}
+                />
+                <span className="label-text">Save this account</span>
+              </label>
+            </div>
+          </form>
           {error && (
             <div className="rounded-box border border-error text-error p-4">
               {error.error === "invalidUser" &&
@@ -195,7 +202,7 @@ const Auth = () => {
               </>
             )}
           </button>
-          <div class="divider my-1">OR</div>
+          <div className="divider my-1">OR</div>
           <button
             className="btn btn-primary"
             onClick={() =>
