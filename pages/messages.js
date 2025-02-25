@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Paperclip } from 'react-bootstrap-icons';
 import { useMessages, getMessageDetail } from '@/lib/messages';
-import { decodeAndCleanHtml, decodeBase64, formatDate, removeCDATA } from '@/lib/utils';
+import { decodeAndCleanHtml, decodeBase64, removeCDATA, formatDate } from '@/lib/utils';
 import Layout from '@/components/layout';
 
 // Main page component for displaying messages
@@ -23,11 +23,19 @@ const MessagesPage = () => {
       if (error) throw new Error(error);
       setFocusedMessage(messageDetail);
       const modal = document.getElementById('message_modal');
-      modal?.classList.remove('hidden');
+      modal.showModal();
     } catch (error) {
       console.error('Failed to fetch message details:', error);
     }
   };
+
+  // Use useEffect to open the modal after focusedMessage is set
+  useEffect(() => {
+    if (focusedMessage) {
+      const modal = document.getElementById('message_modal');
+      modal.showModal();
+    }
+  }, [focusedMessage]);
 
   // Navigation handlers
   const handleNextPage = () => {
@@ -48,19 +56,11 @@ const MessagesPage = () => {
 
     const closeModal = () => {
       setFocusedMessage(null);
-      document.getElementById('message_modal')?.classList.add('hidden');
     };
 
     return (
-      <div
-        id="message_modal"
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-        onClick={closeModal}
-      >
-        <div
-          className="relative w-11/12 max-w-4xl bg-base-100 rounded-lg shadow-lg p-6 max-h-[90vh] overflow-y-auto"
-          onClick={(e) => e.stopPropagation()}
-        >
+      <dialog id="message_modal" className="modal" onClose={() => setFocusedMessage(null)}>
+        <div className="modal-box w-11/12 max-w-4xl">
           <h3 className="font-bold text-2xl text-base-content mb-2">
             {focusedMessage.topic}
           </h3>
@@ -83,7 +83,10 @@ const MessagesPage = () => {
             </div>
           )}
         </div>
-      </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     );
   };
 
@@ -93,7 +96,6 @@ const MessagesPage = () => {
       <div key={index} className="skeleton h-24 w-full" />
     ));
 
-  // Render individual message item
   // Render individual message item
   const renderMessageItem = (message) => (
     <div
