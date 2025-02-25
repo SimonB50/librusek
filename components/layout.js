@@ -11,6 +11,7 @@ import {
   Calendar2Week,
   PersonExclamation,
   ClipboardCheck,
+  ChatLeftDots,
 } from "react-bootstrap-icons";
 
 import { getUser } from "@/lib/user";
@@ -31,13 +32,22 @@ const Layout = ({ children, setAuthData }) => {
     };
     if (!userData) fetchData();
 
-    // Setup refresh
+    // Setup session refresh
     const intervalId = setInterval(async () => {
       console.log("Refreshing session...");
       await refreshSession();
     }, 1000 * 60 * 2); // 2 minutes
+
+    // Cleanup
     return () => clearInterval(intervalId);
   }, [router, setUserData, setAuthData, userData]);
+
+  if (!userData)
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
+    );
 
   return (
     <div className="drawer lg:drawer-open">
@@ -62,8 +72,7 @@ const Layout = ({ children, setAuthData }) => {
                 >
                   <Person className="text-3xl" />
                   <span>
-                    {userData.Account.FirstName}{" "}
-                    {userData.Account.LastName}
+                    {userData.Account.FirstName} {userData.Account.LastName}
                   </span>
                 </div>
               ) : (
@@ -154,6 +163,15 @@ const Layout = ({ children, setAuthData }) => {
             >
               <ClipboardCheck />
               Attendance
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/messages"
+              className="flex flex-row items-center text-xl"
+            >
+              <ChatLeftDots />
+              Messages
             </Link>
           </li>
           {localStorage.getItem("developer") && (

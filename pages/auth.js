@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { authenticate } from "@/lib/auth";
 import { useState } from "react";
-import { Person } from "react-bootstrap-icons";
+import { Key, Person } from "react-bootstrap-icons";
 import { Trash } from "react-bootstrap-icons";
 
 const Auth = () => {
@@ -43,7 +43,10 @@ const Auth = () => {
 
   return (
     <>
-      <dialog id="accounts_modal" className="modal">
+      <dialog
+        id="accounts_modal"
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
           <h3 className="font-bold text-lg">Saved Accounts</h3>
           <p className="py-4">
@@ -71,7 +74,9 @@ const Auth = () => {
                 <button
                   className="btn btn-error items-center justify-center flex-shrink-0"
                   onClick={() => {
-                    setSavedAccounts((prev) => prev.filter((acc) => acc !== account));
+                    setSavedAccounts((prev) =>
+                      prev.filter((acc) => acc !== account)
+                    );
                   }}
                 >
                   <Trash className="text-error-content text-md" />
@@ -79,14 +84,12 @@ const Auth = () => {
               </div>
             )) || <p>No accounts saved.</p>}
           </div>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
-      <dialog id="save_account" className="modal">
+      <dialog id="save_account" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Save your account</h3>
           <p className="py-4">
@@ -120,52 +123,60 @@ const Auth = () => {
             </form>
           </div>
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button
+            onClick={() => {
+              document.getElementById("save_account_checkbox").checked = false;
+              resetField("nickname");
+            }}
+          >
+            close
+          </button>
+        </form>
       </dialog>
-      <div className="flex flex-col items-center justify-center w-full min-h-screen relative">
-        <button
-          className="btn btn-primary absolute top-3 right-3 p-2 rounded-md z-10 h-fit"
-          onClick={() => document.getElementById("accounts_modal").showModal()}
-        >
-          <Person className="text-4xl text-primary-content" />
-        </button>
-        <div className="flex flex-col gap-4 rounded-box bg-base-200 p-6 w-full max-w-md">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen bg-base-200 relative">
+        <div className="flex flex-col gap-4 rounded-box p-6 w-full max-w-md">
           <h1 className="text-3xl font-bold self-center text-center">
             Login to Synergia
           </h1>
-          <label className="form-control">
-            <div className="label">
-              <span className="label-text">Login</span>
-            </div>
-            <input
-              className="input input-bordered"
-              {...register("login", { required: true })}
-            />
-          </label>
-          <label className="form-control">
-            <div className="label">
-              <span className="label-text">Password</span>
-            </div>
-            <input
-              type="password"
-              className="input input-bordered"
-              {...register("password", { required: true })}
-            />
-          </label>
-          <div className="form-control">
-            <label className="cursor-pointer label self-start gap-2">
+          <form>
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Login</span>
+              </div>
               <input
-                id="save_account_checkbox"
-                type="checkbox"
-                className="checkbox"
-                onClick={(e) => {
-                  if (e.target.checked)
-                    document.getElementById("save_account").showModal();
-                  else resetField("nickname");
-                }}
+                className="input input-bordered"
+                autoComplete="username"
+                {...register("login", { required: true })}
               />
-              <span className="label-text">Save this account</span>
             </label>
-          </div>
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Password</span>
+              </div>
+              <input
+                type="password"
+                className="input input-bordered"
+                autoComplete="current-password"
+                {...register("password", { required: true })}
+              />
+            </label>
+            <div className="form-control">
+              <label className="cursor-pointer label self-start gap-2">
+                <input
+                  id="save_account_checkbox"
+                  type="checkbox"
+                  className="checkbox"
+                  onClick={(e) => {
+                    if (e.target.checked)
+                      document.getElementById("save_account").showModal();
+                    else resetField("nickname");
+                  }}
+                />
+                <span className="label-text">Save this account</span>
+              </label>
+            </div>
+          </form>
           {error && (
             <div className="rounded-box border border-error text-error p-4">
               {error.error === "invalidUser" &&
@@ -183,7 +194,22 @@ const Auth = () => {
             onClick={handleSubmit(onSubmit, onError)}
             disabled={authLoading}
           >
-            {authLoading ? "Loading..." : "Login"}
+            {authLoading ? (
+              <>Loading...</>
+            ) : (
+              <>
+                <Key className="text-2xl text-primary-content" /> Login
+              </>
+            )}
+          </button>
+          <div className="divider my-1">OR</div>
+          <button
+            className="btn btn-primary"
+            onClick={() =>
+              document.getElementById("accounts_modal").showModal()
+            }
+          >
+            <Person className="text-2xl text-primary-content" /> Saved accounts
           </button>
         </div>
       </div>

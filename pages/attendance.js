@@ -54,9 +54,9 @@ const Attendance = () => {
 
   return (
     <Layout>
-      <dialog id="attendanceDetails" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
-          <h3 class="text-2xl font-bold">
+      <dialog id="attendanceDetails" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="text-2xl font-bold">
             {focusedSubject &&
               upperFirst(subjectsData.find((x) => x.Id == focusedSubject).Name)}
           </h3>
@@ -284,7 +284,7 @@ const Attendance = () => {
             </div>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
@@ -384,7 +384,7 @@ const Attendance = () => {
                           ).Short == "nb"
                             ? "bg-error"
                             : "bg-warning"
-                        } rounded-md`}
+                        } rounded-btn`}
                         onClick={() =>
                           focusedAbsence == absence.Id
                             ? setFocusedAbsence(null)
@@ -411,7 +411,7 @@ const Attendance = () => {
                   </div>
                   {focusedAbsence &&
                     selectedAbsences.find((x) => x.Id == focusedAbsence) && (
-                      <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-md">
+                      <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-box">
                         <div className="flex flex-row gap-2 items-center">
                           <span
                             className={`text-4xl font-semibold ${
@@ -424,7 +424,7 @@ const Attendance = () => {
                               ).Short == "nb"
                                 ? "bg-error"
                                 : "bg-warning"
-                            } w-20 h-20 flex items-center justify-center text-primary-content rounded-md`}
+                            } w-20 h-20 flex items-center justify-center text-primary-content rounded-btn`}
                           >
                             {
                               attendanceTypesData.find(
