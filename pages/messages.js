@@ -59,8 +59,8 @@ const MessagesPage = () => {
     };
 
     return (
-      <dialog id="message_modal" className="modal" onClose={() => setFocusedMessage(null)}>
-        <div className="modal-box w-11/12 max-w-4xl">
+      <dialog id="message_modal" className="modal modal-bottom sm:modal-middle" onClose={() => setFocusedMessage(null)}>
+        <div className="modal-box">
           <h3 className="font-bold text-2xl text-base-content mb-2">
             {focusedMessage.topic}
           </h3>
