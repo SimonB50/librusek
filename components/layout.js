@@ -11,7 +11,7 @@ import {
   Calendar2Week,
   PersonExclamation,
   ClipboardCheck,
-  ChatLeftDots
+  ChatLeftDots,
 } from "react-bootstrap-icons";
 
 import { getUser } from "@/lib/user";
@@ -171,7 +171,7 @@ const Layout = ({ children, setAuthData }) => {
               className="flex flex-row items-center text-xl"
             >
               <ChatLeftDots />
-              Messages List
+              Messages
             </Link>
           </li>
           {localStorage.getItem("developer") && (
