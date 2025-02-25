@@ -1,6 +1,7 @@
 import Layout from "@/components/layout";
 import { upperFirst } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { useState } from 'react';
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();
@@ -38,6 +39,19 @@ const Settings = () => {
     "nord",
     "sunset",
   ];
+
+
+
+  const [messagePageLimit, setMessagesPageLimit] = useState(
+    localStorage.getItem('messagesPageLimit') || 5
+  );
+
+  const handleMessagesPageLimitChange = value => {
+    setMessagesPageLimit(value);
+    localStorage.setItem('messagesPageLimit', value);
+    // window.location.reload();
+  }
+
 
   return (
     <Layout>
@@ -163,6 +177,25 @@ const Settings = () => {
               >
                 Explore
               </button>
+            </div>
+            <div className="flex flex-col sm:flex-row items-start justify-between gap-2">
+              <div>
+                <p className="text-lg font-semibold">Maximum Messages on Message Page</p>
+                <p className="text-sm">
+                  Set the maximum number of messages that can be displayed on the messages page.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                {["2", "5", "10", "15"].map((limit) => (
+                  <button
+                    key={limit}
+                    className={`btn ${limit === messagePageLimit ? "btn-primary" : ""}`}
+                    onClick={() => handleMessagesPageLimitChange(limit)}
+                  >
+                    {limit}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
