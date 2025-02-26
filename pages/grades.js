@@ -340,7 +340,7 @@ const Grades = () => {
         <div className="flex flex-row gap-2 flex-wrap w-full sm:w-fit">
           {filter == "all" ? (
             <button
-              className="btn btn-primary flex-grow"
+              className="btn btn-primary grow"
               onClick={() => {
                 setFocusedGrade(null);
                 setFocusedSubject(null);
@@ -351,7 +351,7 @@ const Grades = () => {
             </button>
           ) : (
             <button
-              className="btn flex-grow"
+              className="btn grow"
               onClick={() => {
                 setFocusedGrade(null);
                 setFocusedSubject(null);
@@ -363,7 +363,7 @@ const Grades = () => {
           )}
           {!editMode ? (
             <button
-              className="btn flex-grow"
+              className="btn grow"
               onClick={() => {
                 if (!gradesLoading && !gradesError) setTmpGrades(gradesData);
                 if (!pointsLoading && !pointsError) setTmpPoints(pointsData);
@@ -374,7 +374,7 @@ const Grades = () => {
             </button>
           ) : (
             <button
-              className="btn btn-primary flex-grow"
+              className="btn btn-primary grow"
               onClick={() => {
                 setTmpGrades(null);
                 setTmpPoints(null);
@@ -763,7 +763,7 @@ const Grades = () => {
                     {editMode && (
                       <div className="flex flex-row gap-2">
                         <button
-                          className="btn btn-primary flex-grow sm:flex-grow-0"
+                          className="btn btn-primary grow sm:grow-0"
                           onClick={() => {
                             setEditedGrade(
                               (!editMode ? pointsData : tmpPoints).find(
@@ -797,7 +797,7 @@ const Grades = () => {
                           <Pencil className="text-lg" /> Edit
                         </button>
                         <button
-                          className="btn btn-error flex-grow sm:flex-grow-0"
+                          className="btn btn-error grow sm:grow-0"
                           onClick={() => {
                             setTmpPoints((current) =>
                               current.filter(
@@ -907,7 +907,7 @@ const Grades = () => {
                     {editMode && (
                       <div className="flex flex-row gap-2">
                         <button
-                          className="btn btn-primary flex-grow sm:flex-grow-0"
+                          className="btn btn-primary grow sm:grow-0"
                           onClick={() => {
                             setEditedGrade(
                               (!editMode ? gradesData : tmpGrades).find(
@@ -937,7 +937,7 @@ const Grades = () => {
                           <Pencil className="text-lg" /> Edit
                         </button>
                         <button
-                          className="btn btn-error flex-grow sm:flex-grow-0"
+                          className="btn btn-error grow sm:grow-0"
                           onClick={() => {
                             setTmpGrades((current) =>
                               current.filter(

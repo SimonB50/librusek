@@ -87,7 +87,7 @@ const Layout = ({ children, setAuthData }) => {
               )}
               <ul
                 tabIndex="0"
-                className="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow-sm"
               >
                 <li>
                   <Link href="/profile">Profile</Link>

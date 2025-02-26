@@ -59,7 +59,7 @@ const Auth = () => {
                 className="flex flex-row items-center justify-between gap-2"
               >
                 <button
-                  className="btn btn-primary flex-grow flex-shrink flex-wrap"
+                  className="btn btn-primary grow shrink flex-wrap"
                   onClick={() => {
                     document.getElementById(
                       "save_account_checkbox"
@@ -72,7 +72,7 @@ const Auth = () => {
                   {account.nickname || account.login}
                 </button>
                 <button
-                  className="btn btn-error items-center justify-center flex-shrink-0"
+                  className="btn btn-error items-center justify-center shrink-0"
                   onClick={() => {
                     setSavedAccounts((prev) =>
                       prev.filter((acc) => acc !== account)
