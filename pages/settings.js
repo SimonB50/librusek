@@ -43,13 +43,13 @@ const Settings = () => {
 
 
   const [messagePageLimit, setMessagesPageLimit] = useState(
-    localStorage.getItem('messagesPageLimit') || 5
+    localStorage.getItem('messagesPageLimit') || '5'
   );
 
   const handleMessagesPageLimitChange = value => {
     setMessagesPageLimit(value);
     localStorage.setItem('messagesPageLimit', value);
-    // window.location.reload();
+    window.location.reload();
   }
 
 

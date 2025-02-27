@@ -9,7 +9,7 @@ const MessagesPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [focusedMessage, setFocusedMessage] = useState(null);
 
-  const messagesPerPage = parseInt(localStorage.getItem('messagesPageLimit'), 10) || 5;
+  const messagesPerPage = localStorage.getItem('messagesPageLimit') || '5';
   const { data: messagesData, loading, error } = useMessages(messagesPerPage, pageNumber);
 
   // Derived state for pagination
@@ -58,8 +58,27 @@ const MessagesPage = () => {
       setFocusedMessage(null);
     };
 
+    useEffect(() => {
+      // Event handler for the back button press
+      const handlePopState = () => {
+        closeModal();
+      };
+
+      // Adding event listener for 'popstate' event to handle back button press
+      window.addEventListener("popstate", handlePopState);
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }, []);
+
     return (
-      <dialog id="message_modal" className="modal modal-bottom sm:modal-middle" onClose={() => setFocusedMessage(null)}>
+      <dialog
+        id="message_modal"
+        className="modal modal-bottom sm:modal-middle"
+        onClose={closeModal}
+      >
         <div className="modal-box">
           <h3 className="font-bold text-2xl text-base-content mb-2">
             {focusedMessage.topic}
@@ -84,7 +103,7 @@ const MessagesPage = () => {
           )}
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button>close</button>
+          <button type="button" onClick={closeModal}>Close</button>
         </form>
       </dialog>
     );
