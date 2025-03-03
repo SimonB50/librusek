@@ -81,7 +81,7 @@ const Settings = () => {
               {themes.map((x) => (
                 <div
                   key={x}
-                  className="border-base-content/20 hover:border-base-content/40 overflow-hidden rounded-lg border outline outline-2 outline-offset-2 outline-transparent"
+                  className="border-base-content/20 hover:border-base-content/40 overflow-hidden rounded-lg border outline-2 outline-offset-2 outline-transparent"
                   onClick={() => setTheme(x)}
                 >
                   <div
