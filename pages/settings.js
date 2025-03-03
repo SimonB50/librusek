@@ -1,9 +1,14 @@
+import { Preferences } from "@capacitor/preferences";
+
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
 import Layout from "@/components/layout";
 import { upperFirst } from "@/lib/utils";
-import { useTheme } from "next-themes";
-import { useState } from 'react';
 
 const Settings = () => {
+  const [devmode, setDevmode] = useState("false");
+
   const { theme, setTheme } = useTheme();
   const themes = [
     "light",
@@ -38,20 +43,14 @@ const Settings = () => {
     "dim",
     "nord",
     "sunset",
+    "caramellatte",
+    "abyss",
+    "silk",
   ];
 
-
-
-  const [messagePageLimit, setMessagesPageLimit] = useState(
-    localStorage.getItem('messagesPageLimit') || 5
-  );
-
-  const handleMessagesPageLimitChange = value => {
-    setMessagesPageLimit(value);
-    localStorage.setItem('messagesPageLimit', value);
-    // window.location.reload();
-  }
-
+  useEffect(() => {
+    Preferences.get({ key: "devmode" }).then((res) => setDevmode(res.value));
+  }, []);
 
   return (
     <Layout>
@@ -169,32 +168,19 @@ const Settings = () => {
                   Choose between different more custom themes.
                 </span>
               </div>
-              <button
-                className={`btn btn-primary`}
-                onClick={() =>
-                  document.getElementById("themesBrowser").showModal()
-                }
-              >
-                Explore
-              </button>
-            </div>
-            <div className="flex flex-col sm:flex-row items-start justify-between gap-2">
-              <div>
-                <p className="text-lg font-semibold">Maximum Messages on Message Page</p>
-                <p className="text-sm">
-                  Set the maximum number of messages that can be displayed on the messages page.
-                </p>
-              </div>
-              <div className="flex gap-2">
-                {["2", "5", "10", "15"].map((limit) => (
-                  <button
-                    key={limit}
-                    className={`btn ${limit === messagePageLimit ? "btn-primary" : ""}`}
-                    onClick={() => handleMessagesPageLimitChange(limit)}
-                  >
-                    {limit}
-                  </button>
-                ))}
+              <div className="flex flex-row gap-2">
+                <button
+                  className={`btn btn-primary`}
+                  onClick={() =>
+                    document.getElementById("themesBrowser").showModal()
+                  }
+                >
+                  Explore
+                </button>
+                <span className="text-base">
+                  <span className="font-bold">Currently selected:</span>{" "}
+                  {upperFirst(theme)}
+                </span>
               </div>
             </div>
           </div>
@@ -220,12 +206,14 @@ const Settings = () => {
                 <input
                   type="checkbox"
                   className="toggle toggle-primary"
-                  defaultChecked={localStorage.getItem("developer") === "true"}
-                  onClick={(e) => {
+                  defaultChecked={devmode == "true"}
+                  onClick={async (e) => {
                     if (e.target.checked) {
-                      localStorage.setItem("developer", "true");
+                      setDevmode("true");
+                      await Preferences.set({ key: "devmode", value: "true" });
                     } else {
-                      localStorage.removeItem("developer");
+                      setDevmode("false");
+                      await Preferences.set({ key: "devmode", value: "false" });
                     }
                     window.location.reload();
                   }}

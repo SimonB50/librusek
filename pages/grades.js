@@ -335,6 +335,287 @@ const Grades = () => {
           </div>
         </div>
       </dialog>
+      <dialog id="grade_details" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <h3 className="font-bold text-2xl text-base-content mb-2">
+            Grade Details
+          </h3>
+          {gradesData && pointsData ? (
+            focusedGrade?.startsWith("p-") &&
+            (!editMode ? pointsData : tmpPoints).find(
+              (x) => x.Id == focusedGrade.slice(2)
+            ) ? (
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-2 items-center">
+                  <span className="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-field">
+                    {Math.round(
+                      parseFloat(
+                        (!editMode ? pointsData : tmpPoints).find(
+                          (x) => x.Id == focusedGrade.slice(2)
+                        ).Grade
+                      )
+                    )}
+                  </span>
+                  <div className="flex flex-col h-max items-start justify-center">
+                    <span className="text-xl font-semibold">
+                      {upperFirst(
+                        [...pointsCategoriesData, ...tempCategories].find(
+                          (x) =>
+                            x.Id ==
+                            (!editMode ? pointsData : tmpPoints).find(
+                              (x) => x.Id == focusedGrade.slice(2)
+                            )?.Category?.Id
+                        ).Name
+                      )}
+                    </span>
+                    <span className="text-lg">
+                      {
+                        (!editMode ? pointsData : tmpPoints).find(
+                          (x) => x.Id == focusedGrade.slice(2)
+                        ).AddDate
+                      }
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-lg">
+                    <span className="font-semibold">Weight:</span>{" "}
+                    {[...pointsCategoriesData, ...tempCategories].find(
+                      (x) =>
+                        x.Id ==
+                        (!editMode ? pointsData : tmpPoints).find(
+                          (x) => x.Id == focusedGrade.slice(2)
+                        )?.Category?.Id
+                    ).Weight || "None"}
+                  </span>
+                  {!teachersLoading && !teachersError && (
+                    <span className="text-lg">
+                      <span className="font-semibold">Teacher:</span>{" "}
+                      {teachersData.find(
+                        (x) =>
+                          x.Id ==
+                          (!editMode ? pointsData : tmpPoints).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )?.AddedBy?.Id
+                      )?.FirstName || "Gallus"}{" "}
+                      {teachersData.find(
+                        (x) =>
+                          x.Id ==
+                          (!editMode ? pointsData : tmpPoints).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )?.AddedBy?.Id
+                      )?.LastName || "Anonymus"}
+                    </span>
+                  )}
+                  {!pointCommentsLoading && !pointCommentsError && (
+                    <span className="text-lg">
+                      <span className=" font-semibold">Description:</span>{" "}
+                      {pointCommentsData.find(
+                        (x) =>
+                          x.Id ==
+                          (!editMode ? pointsData : tmpPoints).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )?.Comments?.[0]?.Id
+                      )?.Text || "None"}
+                    </span>
+                  )}
+                </div>
+                {editMode && (
+                  <div className="flex flex-row gap-2">
+                    <button
+                      className="btn btn-primary grow sm:grow-0"
+                      onClick={() => {
+                        setEditedGrade(
+                          (!editMode ? pointsData : tmpPoints).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )
+                        );
+                        setValue("gradeType", "points");
+                        setValue(
+                          "gradeValue",
+                          Math.round(
+                            parseFloat(
+                              (!editMode ? pointsData : tmpPoints).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              ).GradeValue
+                            )
+                          )
+                        );
+                        setValue(
+                          "gradeWeight",
+                          [...pointsCategoriesData, ...tempCategories].find(
+                            (x) =>
+                              x.Id ==
+                              (!editMode ? pointsData : tmpPoints).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )?.Category?.Id
+                          ).Weight
+                        );
+                        document.getElementById("edit_modal").showModal();
+                      }}
+                    >
+                      <Pencil className="text-lg" /> Edit
+                    </button>
+                    <button
+                      className="btn btn-error grow sm:grow-0"
+                      onClick={() => {
+                        setTmpPoints((current) =>
+                          current.filter((x) => x.Id != focusedGrade.slice(2))
+                        );
+                        setFocusedGrade(null);
+                      }}
+                    >
+                      <Trash className="text-lg" /> Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : focusedGrade?.startsWith("g-") &&
+              (!editMode ? gradesData : tmpGrades).find(
+                (x) => x.Id == focusedGrade.slice(2)
+              ) ? (
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-2 items-center">
+                  <span
+                    className={`text-4xl font-semibold ${
+                      (!editMode ? gradesData : tmpGrades).find(
+                        (x) => x.Id == focusedGrade.slice(2)
+                      ).IsConstituent
+                        ? "bg-primary"
+                        : "bg-secondary"
+                    } w-20 h-20 flex items-center justify-center text-primary-content rounded-field`}
+                  >
+                    {
+                      (!editMode ? gradesData : tmpGrades).find(
+                        (x) => x.Id == focusedGrade.slice(2)
+                      ).Grade
+                    }
+                  </span>
+                  <div className="flex flex-col h-max items-start justify-center">
+                    <span className="text-xl font-semibold">
+                      {upperFirst(
+                        [...gradesCategoriesData, ...tempCategories].find(
+                          (x) =>
+                            x.Id ==
+                            (!editMode ? gradesData : tmpGrades).find(
+                              (x) => x.Id == focusedGrade.slice(2)
+                            )?.Category?.Id
+                        ).Name
+                      )}
+                    </span>
+                    <span className="text-lg">
+                      {
+                        (!editMode ? gradesData : tmpGrades).find(
+                          (x) => x.Id == focusedGrade.slice(2)
+                        ).AddDate
+                      }
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  {(!editMode ? gradesData : tmpGrades).find(
+                    (x) => x.Id == focusedGrade.slice(2)
+                  ).IsConstituent && (
+                    <span className="text-lg">
+                      <span className="font-semibold">Weight:</span>{" "}
+                      {[...gradesCategoriesData, ...tempCategories].find(
+                        (x) =>
+                          x.Id ==
+                          (!editMode ? gradesData : tmpGrades).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )?.Category?.Id
+                      ).Weight || "None"}
+                    </span>
+                  )}
+                  {!teachersLoading && !teachersError && (
+                    <span className="text-lg">
+                      <span className="font-semibold">Teacher:</span>{" "}
+                      {teachersData.find(
+                        (x) =>
+                          x.Id ==
+                          (!editMode ? gradesData : tmpGrades).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )?.AddedBy?.Id
+                      )?.FirstName || "Gallus"}{" "}
+                      {teachersData.find(
+                        (x) =>
+                          x.Id ==
+                          (!editMode ? gradesData : tmpGrades).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )?.AddedBy?.Id
+                      )?.LastName || "Anonymus"}
+                    </span>
+                  )}
+                  {!gradeCommentsLoading && !gradeCommentsError && (
+                    <span className="text-lg">
+                      <span className=" font-semibold">Description:</span>{" "}
+                      {gradeCommentsData.find(
+                        (x) =>
+                          x.Id ==
+                          (!editMode ? gradesData : tmpGrades).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )?.Comments?.[0]?.Id
+                      )?.Text || "None"}
+                    </span>
+                  )}
+                </div>
+                {editMode && (
+                  <div className="flex flex-row gap-2">
+                    <button
+                      className="btn btn-primary grow sm:grow-0"
+                      onClick={() => {
+                        setEditedGrade(
+                          (!editMode ? gradesData : tmpGrades).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          )
+                        );
+                        setValue("gradeType", "grade");
+                        setValue(
+                          "gradeValue",
+                          (!editMode ? gradesData : tmpGrades).find(
+                            (x) => x.Id == focusedGrade.slice(2)
+                          ).Grade
+                        );
+                        setValue(
+                          "gradeWeight",
+                          [...gradesCategoriesData, ...tempCategories].find(
+                            (x) =>
+                              x.Id ==
+                              (!editMode ? gradesData : tmpGrades).find(
+                                (x) => x.Id == focusedGrade.slice(2)
+                              )?.Category?.Id
+                          ).Weight
+                        );
+                        document.getElementById("edit_modal").showModal();
+                      }}
+                    >
+                      <Pencil className="text-lg" /> Edit
+                    </button>
+                    <button
+                      className="btn btn-error grow sm:grow-0"
+                      onClick={() => {
+                        setTmpGrades((current) =>
+                          current.filter((x) => x.Id != focusedGrade.slice(2))
+                        );
+                        setFocusedGrade(null);
+                      }}
+                    >
+                      <Trash className="text-lg" /> Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <span className="text-lg">Invalid grade selected.</span>
+            )
+          ) : (
+            <div className="skeleton h-24"></div>
+          )}
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <span className="text-3xl font-semibold">Grades</span>
         <div className="flex flex-row gap-2 flex-wrap w-full sm:w-fit">
@@ -391,7 +672,7 @@ const Grades = () => {
           subjectsData.map((subject) => (
             <div
               key={subject.Id}
-              className="flex flex-col p-4 bg-base-200 rounded-box cursor-pointer"
+              className="flex flex-col p-4 bg-base-200 border border-base-300 rounded-box cursor-pointer"
               onClick={() => {
                 if (focusedSubject === subject.Id) return;
                 setFocusedSubject(subject.Id);
@@ -476,8 +757,11 @@ const Grades = () => {
                     .map((point) => (
                       <button
                         key={point.Id}
-                        className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
-                        onClick={() => setFocusedGrade(`p-${point.Id}`)}
+                        className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square"
+                        onClick={() => {
+                          setFocusedGrade(`p-${point.Id}`);
+                          document.getElementById("grade_details").showModal();
+                        }}
                       >
                         {Math.round(parseFloat(point.Grade))}
                       </button>
@@ -503,9 +787,10 @@ const Grades = () => {
                         key={grade.Id}
                         className={`${
                           grade.IsConstituent ? "bg-primary" : "bg-secondary"
-                        } text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square`}
+                        } text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square`}
                         onClick={() => {
                           setFocusedGrade(`g-${grade.Id.toString()}`);
+                          document.getElementById("grade_details").showModal();
                         }}
                       >
                         {grade.Grade}
@@ -513,7 +798,7 @@ const Grades = () => {
                     ))}
                 {editMode && (
                   <button
-                    className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
+                    className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-field text-center aspect-square"
                     onClick={() => {
                       setEditedGrade({
                         Id:
@@ -587,8 +872,13 @@ const Grades = () => {
                         .map((point) => (
                           <button
                             key={point.Id}
-                            className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
-                            onClick={() => setFocusedGrade(`p-${point.Id}`)}
+                            className="bg-primary text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square"
+                            onClick={() => {
+                              setFocusedGrade(`p-${point.Id}`);
+                              document
+                                .getElementById("grade_details")
+                                .showModal();
+                            }}
                           >
                             {Math.round(parseFloat(point.Grade))}
                           </button>
@@ -606,9 +896,12 @@ const Grades = () => {
                               grade.IsConstituent
                                 ? "bg-primary"
                                 : "bg-secondary"
-                            } text-primary-content w-fit p-2 font-semibold rounded-btn text-center aspect-square`}
+                            } text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square`}
                             onClick={() => {
                               setFocusedGrade(`g-${grade.Id.toString()}`);
+                              document
+                                .getElementById("grade_details")
+                                .showModal();
                             }}
                           >
                             {grade.Grade}
@@ -616,7 +909,7 @@ const Grades = () => {
                         ))}
                     {editMode && semester == 2 && (
                       <button
-                        className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-btn text-center aspect-square"
+                        className="flex items-center justify-center bg-neutral text-neutral-content w-fit p-2 font-semibold rounded-field text-center aspect-square"
                         onClick={() => {
                           setEditedGrade({
                             Id:
@@ -679,280 +972,6 @@ const Grades = () => {
                   </span>
                 </div>
               )}
-              {focusedSubject === subject.Id &&
-                focusedGrade?.startsWith("p-") &&
-                (!editMode ? pointsData : tmpPoints).find(
-                  (x) =>
-                    x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
-                ) && (
-                  <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-box">
-                    <div className="flex flex-row gap-2 items-center">
-                      <span className="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-btn">
-                        {Math.round(
-                          parseFloat(
-                            (!editMode ? pointsData : tmpPoints).find(
-                              (x) => x.Id == focusedGrade.slice(2)
-                            ).Grade
-                          )
-                        )}
-                      </span>
-                      <div className="flex flex-col h-max items-start justify-center">
-                        <span className="text-xl font-semibold">
-                          {upperFirst(
-                            [...pointsCategoriesData, ...tempCategories].find(
-                              (x) =>
-                                x.Id ==
-                                (!editMode ? pointsData : tmpPoints).find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.Category?.Id
-                            ).Name
-                          )}
-                        </span>
-                        <span className="text-lg">
-                          {
-                            (!editMode ? pointsData : tmpPoints).find(
-                              (x) => x.Id == focusedGrade.slice(2)
-                            ).AddDate
-                          }
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-lg">
-                        <span className="font-semibold">Weight:</span>{" "}
-                        {[...pointsCategoriesData, ...tempCategories].find(
-                          (x) =>
-                            x.Id ==
-                            (!editMode ? pointsData : tmpPoints).find(
-                              (x) => x.Id == focusedGrade.slice(2)
-                            )?.Category?.Id
-                        ).Weight || "None"}
-                      </span>
-                      {!teachersLoading && !teachersError && (
-                        <span className="text-lg">
-                          <span className="font-semibold">Teacher:</span>{" "}
-                          {teachersData.find(
-                            (x) =>
-                              x.Id ==
-                              (!editMode ? pointsData : tmpPoints).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.AddedBy?.Id
-                          )?.FirstName || "Gallus"}{" "}
-                          {teachersData.find(
-                            (x) =>
-                              x.Id ==
-                              (!editMode ? pointsData : tmpPoints).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.AddedBy?.Id
-                          )?.LastName || "Anonymus"}
-                        </span>
-                      )}
-                      {!pointCommentsLoading && !pointCommentsError && (
-                        <span className="text-lg">
-                          <span className=" font-semibold">Description:</span>{" "}
-                          {pointCommentsData.find(
-                            (x) =>
-                              x.Id ==
-                              (!editMode ? pointsData : tmpPoints).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.Comments?.[0]?.Id
-                          )?.Text || "None"}
-                        </span>
-                      )}
-                    </div>
-                    {editMode && (
-                      <div className="flex flex-row gap-2">
-                        <button
-                          className="btn btn-primary grow sm:grow-0"
-                          onClick={() => {
-                            setEditedGrade(
-                              (!editMode ? pointsData : tmpPoints).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )
-                            );
-                            setValue("gradeType", "points");
-                            setValue(
-                              "gradeValue",
-                              Math.round(
-                                parseFloat(
-                                  (!editMode ? pointsData : tmpPoints).find(
-                                    (x) => x.Id == focusedGrade.slice(2)
-                                  ).GradeValue
-                                )
-                              )
-                            );
-                            setValue(
-                              "gradeWeight",
-                              [...pointsCategoriesData, ...tempCategories].find(
-                                (x) =>
-                                  x.Id ==
-                                  (!editMode ? pointsData : tmpPoints).find(
-                                    (x) => x.Id == focusedGrade.slice(2)
-                                  )?.Category?.Id
-                              ).Weight
-                            );
-                            document.getElementById("edit_modal").showModal();
-                          }}
-                        >
-                          <Pencil className="text-lg" /> Edit
-                        </button>
-                        <button
-                          className="btn btn-error grow sm:grow-0"
-                          onClick={() => {
-                            setTmpPoints((current) =>
-                              current.filter(
-                                (x) => x.Id != focusedGrade.slice(2)
-                              )
-                            );
-                            setFocusedGrade(null);
-                          }}
-                        >
-                          <Trash className="text-lg" /> Delete
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              {focusedSubject === subject.Id &&
-                focusedGrade?.startsWith("g-") &&
-                (!editMode ? gradesData : tmpGrades).find(
-                  (x) =>
-                    x.Id == focusedGrade.slice(2) && x.Subject.Id == subject.Id
-                ) && (
-                  <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-box">
-                    <div className="flex flex-row gap-2 items-center">
-                      <span
-                        className={`text-4xl font-semibold ${
-                          (!editMode ? gradesData : tmpGrades).find(
-                            (x) => x.Id == focusedGrade.slice(2)
-                          ).IsConstituent
-                            ? "bg-primary"
-                            : "bg-secondary"
-                        } w-20 h-20 flex items-center justify-center text-primary-content rounded-btn`}
-                      >
-                        {
-                          (!editMode ? gradesData : tmpGrades).find(
-                            (x) => x.Id == focusedGrade.slice(2)
-                          ).Grade
-                        }
-                      </span>
-                      <div className="flex flex-col h-max items-start justify-center">
-                        <span className="text-xl font-semibold">
-                          {upperFirst(
-                            [...gradesCategoriesData, ...tempCategories].find(
-                              (x) =>
-                                x.Id ==
-                                (!editMode ? gradesData : tmpGrades).find(
-                                  (x) => x.Id == focusedGrade.slice(2)
-                                )?.Category?.Id
-                            ).Name
-                          )}
-                        </span>
-                        <span className="text-lg">
-                          {
-                            (!editMode ? gradesData : tmpGrades).find(
-                              (x) => x.Id == focusedGrade.slice(2)
-                            ).AddDate
-                          }
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      {(!editMode ? gradesData : tmpGrades).find(
-                        (x) => x.Id == focusedGrade.slice(2)
-                      ).IsConstituent && (
-                        <span className="text-lg">
-                          <span className="font-semibold">Weight:</span>{" "}
-                          {[...gradesCategoriesData, ...tempCategories].find(
-                            (x) =>
-                              x.Id ==
-                              (!editMode ? gradesData : tmpGrades).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.Category?.Id
-                          ).Weight || "None"}
-                        </span>
-                      )}
-                      {!teachersLoading && !teachersError && (
-                        <span className="text-lg">
-                          <span className="font-semibold">Teacher:</span>{" "}
-                          {teachersData.find(
-                            (x) =>
-                              x.Id ==
-                              (!editMode ? gradesData : tmpGrades).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.AddedBy?.Id
-                          )?.FirstName || "Gallus"}{" "}
-                          {teachersData.find(
-                            (x) =>
-                              x.Id ==
-                              (!editMode ? gradesData : tmpGrades).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.AddedBy?.Id
-                          )?.LastName || "Anonymus"}
-                        </span>
-                      )}
-                      {!gradeCommentsLoading && !gradeCommentsError && (
-                        <span className="text-lg">
-                          <span className=" font-semibold">Description:</span>{" "}
-                          {gradeCommentsData.find(
-                            (x) =>
-                              x.Id ==
-                              (!editMode ? gradesData : tmpGrades).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )?.Comments?.[0]?.Id
-                          )?.Text || "None"}
-                        </span>
-                      )}
-                    </div>
-                    {editMode && (
-                      <div className="flex flex-row gap-2">
-                        <button
-                          className="btn btn-primary grow sm:grow-0"
-                          onClick={() => {
-                            setEditedGrade(
-                              (!editMode ? gradesData : tmpGrades).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              )
-                            );
-                            setValue("gradeType", "grade");
-                            setValue(
-                              "gradeValue",
-                              (!editMode ? gradesData : tmpGrades).find(
-                                (x) => x.Id == focusedGrade.slice(2)
-                              ).Grade
-                            );
-                            setValue(
-                              "gradeWeight",
-                              [...gradesCategoriesData, ...tempCategories].find(
-                                (x) =>
-                                  x.Id ==
-                                  (!editMode ? gradesData : tmpGrades).find(
-                                    (x) => x.Id == focusedGrade.slice(2)
-                                  )?.Category?.Id
-                              ).Weight
-                            );
-                            document.getElementById("edit_modal").showModal();
-                          }}
-                        >
-                          <Pencil className="text-lg" /> Edit
-                        </button>
-                        <button
-                          className="btn btn-error grow sm:grow-0"
-                          onClick={() => {
-                            setTmpGrades((current) =>
-                              current.filter(
-                                (x) => x.Id != focusedGrade.slice(2)
-                              )
-                            );
-                            setFocusedGrade(null);
-                          }}
-                        >
-                          <Trash className="text-lg" /> Delete
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
             </div>
           ))
         ) : (
@@ -967,7 +986,7 @@ const Grades = () => {
               textGradesData.map((textGrade) => (
                 <div
                   key={textGrade.Id}
-                  className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
+                  className="flex flex-col gap-1 rounded-box p-4 bg-base-200 border border-base-300 justify-between"
                 >
                   <div className="flex flex-col">
                     <span className="text-xl font-semibold">

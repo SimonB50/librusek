@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "932117718277",
+    "project_id": "librusek-3401c",
+    "storage_bucket": "librusek-3401c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932117718277:android:a149de1656026a4850036c",
+        "android_client_info": {
+          "package_name": "com.librusek.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgkYwrS722KCvAClUXjV6ySCnf2b6egqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

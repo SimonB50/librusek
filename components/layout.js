@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import { Preferences } from "@capacitor/preferences";
+
 import { useState, useEffect } from "react";
 import {
   Person,
@@ -12,42 +14,44 @@ import {
   PersonExclamation,
   ClipboardCheck,
   ChatLeftDots,
+  CodeSlash,
 } from "react-bootstrap-icons";
 
 import { getUser } from "@/lib/user";
 import { logout, refreshSession } from "@/lib/auth";
-import { CodeSlash } from "react-bootstrap-icons";
 
 const Layout = ({ children, setAuthData }) => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
+  const [devmode, setDevmode] = useState(false);
 
   useEffect(() => {
     // Fetch user data
     const fetchData = async () => {
       const data = await getUser();
-      if (!data) return window.location.replace("/auth");
+      if (!data) return router.push("/auth");
       setUserData(data); // Local
       if (setAuthData) setAuthData(data); // Global
     };
     if (!userData) fetchData();
 
     // Setup session refresh
-    const intervalId = setInterval(async () => {
-      console.log("Refreshing session...");
-      await refreshSession();
-    }, 1000 * 60 * 2); // 2 minutes
+    const intervalId = setInterval(
+      async () => {
+        console.log("Refreshing session...");
+        await refreshSession();
+      },
+      1000 * 60 * 2
+    ); // 2 minutes
+
+    // Check if devmode is enabled
+    Preferences.get({ key: "devmode" }).then((res) => {
+      if (res.value === "true") setDevmode(true);
+    });
 
     // Cleanup
     return () => clearInterval(intervalId);
   }, [router, setUserData, setAuthData, userData]);
-
-  if (!userData)
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <span class="loading loading-spinner loading-lg"></span>
-      </div>
-    );
 
   return (
     <div className="drawer lg:drawer-open">
@@ -87,7 +91,7 @@ const Layout = ({ children, setAuthData }) => {
               )}
               <ul
                 tabIndex="0"
-                className="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow-sm"
+                className="menu menu-sm dropdown-content bg-base-300 border border-base-200 rounded-box z-1 mt-3 w-52 p-2 shadow-sm"
               >
                 <li>
                   <Link href="/profile">Profile</Link>
@@ -174,7 +178,7 @@ const Layout = ({ children, setAuthData }) => {
               Messages
             </Link>
           </li>
-          {localStorage.getItem("developer") && (
+          {devmode && (
             <li>
               <Link
                 href="/developer"

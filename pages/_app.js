@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import NoSSR from "@/components/no-srr";
-import { ThemeProvider } from 'next-themes'
+import { ThemeProvider } from "next-themes";
 
 const App = ({ Component, pageProps }) => {
   return (

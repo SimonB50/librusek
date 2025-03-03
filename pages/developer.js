@@ -1,6 +1,6 @@
+import { CapacitorCookies } from "@capacitor/core";
 import Layout from "@/components/layout";
 import { useState } from "react";
-import { fetch } from "@tauri-apps/plugin-http";
 
 const Developer = () => {
   const [msgAuth, setMsgAuth] = useState(false);
@@ -19,9 +19,14 @@ const Developer = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           setResponse(null);
-          if (!msgAuth) {
+          if (
+            document.querySelector("#baseUrl").value ==
+              "https://wiadomosci.librus.pl/api/" &&
+            !msgAuth
+          ) {
             const response = await fetch(
-              "https://synergia.librus.pl/wiadomosci3"
+              "https://synergia.librus.pl/wiadomosci2",
+              { method: "GET", credentials: "include" }
             );
             if (!response.ok)
               return setResponse(
@@ -57,6 +62,9 @@ const Developer = () => {
         <select id="baseUrl" className="select select-bordered w-full md:w-fit">
           <option value={"https://synergia.librus.pl/gateway/api/2.0/"}>
             https://synergia.librus.pl/gateway/api/2.0/
+          </option>
+          <option value={"https://synergia.librus.pl/wiadomosci2"}>
+            https://synergia.librus.pl/wiadomosci2
           </option>
           <option value={"https://wiadomosci.librus.pl/api/"}>
             https://wiadomosci.librus.pl/api/

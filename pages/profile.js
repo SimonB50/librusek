@@ -49,7 +49,7 @@ const Profile = () => {
         <span className="text-lg">Your profile information.</span>
       </div>
       {userData ? (
-        <div className="flex flex-row gap-2 items-center bg-base-200 rounded-box p-4 mt-4">
+        <div className="flex flex-row gap-2 items-center bg-base-200 border border-base-300 rounded-box p-4 mt-4">
           <div className="flex items-center justify-center bg-base-100 rounded-box h-24 w-24">
             <Person className="text-5xl text-primary" />
           </div>
@@ -76,7 +76,7 @@ const Profile = () => {
                 .map((grade) => (
                   <div
                     key={grade.Id}
-                    className="flex flex-col gap-1 rounded-box p-4 bg-base-200 justify-between"
+                    className="flex flex-col gap-1 rounded-box p-4 bg-base-200 border border-base-300 justify-between"
                   >
                     <div className="flex flex-col">
                       <span className="text-2xl font-semibold">
@@ -94,7 +94,7 @@ const Profile = () => {
                   </div>
                 ))}
               {behaviourGradesData.length % 2 == 1 && (
-                <div className="flex rounded-box p-4 bg-base-200 justify-center items-center">
+                <div className="flex rounded-box p-4 bg-base-200 border border-base-300 justify-center items-center">
                   <span className="text-lg text-primary text-center">
                     Awaiting final grade
                   </span>
