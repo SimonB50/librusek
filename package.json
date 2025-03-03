@@ -1,6 +1,6 @@
 {
   "name": "librusek",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "base:dev": "next dev -H 0.0.0.0",
