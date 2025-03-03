@@ -1,41 +1,78 @@
-import { useState, useEffect } from 'react';
-import { Paperclip } from 'react-bootstrap-icons';
-import { useMessages, getMessageDetail } from '@/lib/messages';
-import { decodeAndCleanHtml, decodeBase64, removeCDATA, formatDate } from '@/lib/utils';
-import Layout from '@/components/layout';
+import React, { useState } from "react"; // Import React and useState
+import { Paperclip, Envelope, EnvelopeOpen } from "react-bootstrap-icons";
+import { useMessages, getMessageDetail } from "@/lib/messages";
+import {
+  decodeAndCleanHtml,
+  decodeBase64,
+  removeCDATA,
+  formatDate,
+} from "@/lib/utils";
+import Layout from "@/components/layout";
 
 // Main page component for displaying messages
 const MessagesPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [focusedMessage, setFocusedMessage] = useState(null);
+  const [isInbox, setIsInbox] = useState(true);
 
-  const messagesPerPage = localStorage.getItem('messagesPageLimit') || '5';
-  const { data: messagesData, loading, error } = useMessages(messagesPerPage, pageNumber);
+  // Simple Tags displaying component
+  const TagsComponent = ({ tags }) => (
+    <div className="flex gap-2 mt-2">
+      {tags && tags.length > 0
+        ? tags.map((tag, index) => (
+            <span key={index} className="badge badge-neutral">
+              {tag}
+            </span>
+          ))
+        : null}
+    </div>
+  );
+
+  const messagesPerPage =
+    parseInt(localStorage.getItem("messagesPageLimit"), 10) || 5; // Ensure it's a number
+
+  const {
+    data: messagesData,
+    loading,
+    error,
+  } = useMessages({
+    maxMessagesPerPage: messagesPerPage,
+    page: pageNumber,
+    isInbox: isInbox,
+  });
 
   // Derived state for pagination
   const totalMessages = messagesData?.total || 0;
   const totalPages = Math.ceil(totalMessages / messagesPerPage);
 
-  // Fetch detailed message data for modal
-  const handleReadMore = async (message) => {
+  const handleReadMore = async (message, event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     try {
-      const { messageDetail, error } = await getMessageDetail(message.messageId);
-      if (error) throw new Error(error);
+      const { messageDetail, error: detailError } = await getMessageDetail(
+        message.messageId,
+        isInbox
+      );
+
+      if (detailError) {
+        throw new Error(detailError);
+      }
+
+      if (!messageDetail) {
+        throw new Error("No message details returned");
+      }
+
       setFocusedMessage(messageDetail);
-      const modal = document.getElementById('message_modal');
-      modal.showModal();
-    } catch (error) {
-      console.error('Failed to fetch message details:', error);
+    } catch (err) {
+      console.error("Failed to fetch message details:", err.message);
     }
   };
 
-  // Use useEffect to open the modal after focusedMessage is set
-  useEffect(() => {
-    if (focusedMessage) {
-      const modal = document.getElementById('message_modal');
-      modal.showModal();
-    }
-  }, [focusedMessage]);
+  const handleIsInbox = () => {
+    setIsInbox((prevState) => !prevState);
+    setPageNumber(1); // Resetuj stronę na 1 przy przełączaniu
+  };
 
   // Navigation handlers
   const handleNextPage = () => {
@@ -50,143 +87,185 @@ const MessagesPage = () => {
     }
   };
 
-  // Modal component for displaying message details
-  const MessageModal = () => {
-    if (!focusedMessage) return null;
-
-    const closeModal = () => {
-      setFocusedMessage(null);
-    };
-
-    useEffect(() => {
-      // Event handler for the back button press
-      const handlePopState = () => {
-        closeModal();
-      };
-
-      // Adding event listener for 'popstate' event to handle back button press
-      window.addEventListener("popstate", handlePopState);
-
-      // Clean up the event listener when the component unmounts
-      return () => {
-        window.removeEventListener("popstate", handlePopState);
-      };
-    }, []);
-
-    return (
-      <dialog
-        id="message_modal"
-        className="modal modal-bottom sm:modal-middle"
-        onClose={closeModal}
-      >
-        <div className="modal-box">
-          <h3 className="font-bold text-2xl text-base-content mb-2">
-            {focusedMessage.topic}
-          </h3>
-          <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
-            <span>{focusedMessage.senderName}</span>
-            <span>-</span>
-            <span>{formatDate(focusedMessage.sendDate)}</span>
-          </div>
-          <p className="py-4 text-base-content/80 min-h-[100px]">
-            <MessageComponent message={focusedMessage.Message} />
-          </p>
-          {focusedMessage.isAnyFileAttached && (
-            <div className="mt-2 flex items-center gap-2">
-              <span className="text-lg text-base-content/60">
-                <Paperclip />
-              </span>
-              <span className="text-sm font-medium text-warning">
-                This message has an attachment. This app does not support attachments.
-              </span>
-            </div>
-          )}
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button type="button" onClick={closeModal}>Close</button>
-        </form>
-      </dialog>
-    );
-  };
-
   // Render loading skeletons
-  const renderLoadingSkeletons = () =>
-    Array.from({ length: 3 }, (_, index) => (
+  const renderLoadingSkeletons = (length) =>
+    Array.from({ length: length }, (_, index) => (
       <div key={index} className="skeleton h-24 w-full" />
     ));
 
-  // Render individual message item
-  const renderMessageItem = (message) => (
-    <div
-      key={message.messageId || 'unknown-id'} // Placeholder for messageId
-      className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 rounded-box gap-2 p-4 cursor-pointer hover:bg-base-300 transition-colors duration-200"
-      onClick={() => handleReadMore(message)}
-    >
-      <div className="flex flex-col gap-1 w-full">
-        <span className="text-lg font-bold text-base-content">
-          {message.topic || 'No topic available'}
-        </span>
-        <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
-          <span>{message.senderName || 'Unknown sender'}</span>
-          <span>-</span>
-          <span>
-            {message.sendDate ? formatDate(message.sendDate) : 'Date unavailable'}
+  // Render detailed message item
+  const RenderDetailedMessageItem = ({ message }) => {
+    return (
+      <div className="container mx-auto p-4">
+        {/* Sender */}
+        <div className="text-base-content">
+          {message.senderName || "Unknown sender"}
+        </div>
+
+        {/* Topic */}
+        <h3 className="font-bold text-2xl text-base-content my-2">
+          {message.topic || "No topic"}
+        </h3>
+        <div className="flex flex-col items-start gap-2 text-sm text-base-content/70">
+          {/* Send Date */}
+          <span className={`badge badge-outline badge-info`}>
+            {message.sendDate
+              ? `Sent ${formatDate(message.sendDate)}`
+              : "Send date unavailable"}
+          </span>
+
+          {/* Read Status */}
+          <span
+            className={`badge badge-outline ${
+              message.readDate ? "badge-success" : "badge-error"
+            }`}
+          >
+            {message.readDate
+              ? `Read ${formatDate(message.readDate)}`
+              : "Unread"}
           </span>
         </div>
-        <span className="text-base-content/80">
-          {removeCDATA(decodeBase64(message.content)) || 'No content available'}
-          {/* If using MessageComponent: */}
-          {/* <MessageComponent message={message.content || 'No content available'} /> */}
-        </span>
+
+        {/* Tags */}
+        <TagsComponent tags={message.tags} />
+
+        {/* Message content */}
+        <p className="py-4 text-base-content/80">
+          {<MessageComponent message={message.Message} /> || "No content"}
+        </p>
+
+        {/* Back button */}
+        <button
+          type="button"
+          onClick={() => setFocusedMessage(null)}
+          className="btn btn-secondary mt-4"
+        >
+          Go Back
+        </button>
+      </div>
+    );
+  };
+
+  // Render individual message item
+  const renderMessageItem = (message) => (
+    <div className="container mx-auto p-4">
+      <div
+        key={message.messageId || "unknown-id"}
+        className="flex flex-col gap-2 p-4 bg-base-200 rounded-lg cursor-pointer hover:bg-base-300"
+        onClick={(event) => handleReadMore(message, event)}
+      >
+        {/* Sender */}
+        <div className="text-sm font-medium text-base-content">
+          {message.senderName || "Unknown sender"}
+        </div>
+
+        {/* Topic */}
+        <h4 className="font-bold text-lg text-base-content">
+          {message.topic || "No topic"}
+        </h4>
+
+        {/* Component showing send and read dates with envelope icons */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-base-content/70">
+          <span className="badge badge-outline badge-info">
+            {message.sendDate
+              ? `Sent ${formatDate(message.sendDate)}`
+              : "Send date unavailable"}
+          </span>
+          {isInbox &&
+            (message.readDate ? (
+              <div
+                className="flex items-center gap-1 tooltip"
+                data-tip={formatDate(message.readDate)}
+              >
+                <EnvelopeOpen className="w-5 h-5 text-success" />
+              </div>
+            ) : (
+              <div className="tooltip" data-tip="Unread">
+                <Envelope className="w-5 h-5 text-error" />
+              </div>
+            ))}
+        </div>
+
+        {/* Content */}
+        <div className="text-sm text-base-content/80">
+          {removeCDATA(decodeBase64(message.content)) ||
+            "No content available."}
+        </div>
+
+        {/* Attachment */}
         {message.isAnyFileAttached && (
-          <div className="mt-1 flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-2">
             <span className="text-lg text-base-content/60">
               <Paperclip />
             </span>
-            <span className="text-sm font-medium text-warning">
-              This message has an attachment. This app does not support attachments.
+            <span className="text-sm text-warning">
+              This message has an attachment. Unsupported.
             </span>
           </div>
         )}
+
+        {/* Tags */}
+        <div className="mt-2">
+          <TagsComponent tags={message.tags} />
+        </div>
       </div>
     </div>
   );
 
-
   return (
     <Layout>
-      <MessageModal />
       <div className="space-y-4">
-        <span className="text-3xl font-semibold">Messages</span>
-        <div className="flex flex-col gap-2">
-          {loading
-            ? renderLoadingSkeletons()
-            : error
-              ? <div className="text-red-500 text-center">{error}</div>
-              : messagesData?.data?.length
-                ? messagesData.data.map(renderMessageItem)//<div>{JSON.stringify(messagesData.data, null, 2)}</div>
-                : <div className="text-center text-gray-500">No messages found</div>}
-        </div>
-        <div className="join flex justify-center gap-2">
-          <button
-            onClick={handlePreviousPage}
-            className="join-item btn btn-outline"
-            disabled={pageNumber === 1}
-          >
-            Previous
-          </button>
-          <button
-            onClick={handleNextPage}
-            className="join-item btn btn-outline"
-            disabled={pageNumber >= totalPages}
-          >
-            Next
-          </button>
-        </div>
-        {localStorage.getItem('developer') === 'true' && (
-          <div className="text-center text-sm font-semibold">
-            Total Messages: {totalMessages} | Page {pageNumber} of {totalPages}
-          </div>
+        {focusedMessage ? (
+          <RenderDetailedMessageItem message={focusedMessage} />
+        ) : (
+          <>
+            <div className="flex flex-col gap-2 text-sm text-base-content/70">
+              <span className="text-3xl font-semibold">Messages</span>
+              <span className="text-xl">{isInbox ? "Inbox" : "Outbox"}</span>
+              <button
+                onClick={handleIsInbox}
+                className="btn btn-neutral-soft mt-4 self-start"
+              >
+                {isInbox ? "Switch to Outbox" : "Switch to Inbox"}
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              {loading ? (
+                renderLoadingSkeletons(messagesPerPage)
+              ) : error ? (
+                <div className="text-red-500 text-center">{error}</div>
+              ) : messagesData?.data?.length ? (
+                messagesData.data.map((message) => renderMessageItem(message)) // Call renderMessageItem
+              ) : (
+                <div className="text-center secondary-content">
+                  No messages found
+                </div>
+              )}
+            </div>
+            <div className="join flex justify-center gap-2">
+              <button
+                onClick={handlePreviousPage}
+                className="join-item btn btn-outline"
+                disabled={pageNumber === 1}
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNextPage}
+                className="join-item btn btn-outline"
+                disabled={pageNumber >= totalPages}
+              >
+                Next
+              </button>
+            </div>
+            {localStorage.getItem("developer") === "true" && (
+              <div className="text-center text-sm font-semibold">
+                Total Messages: {totalMessages} | Page {pageNumber} of{" "}
+                {totalPages}
+              </div>
+            )}
+          </>
         )}
       </div>
     </Layout>
@@ -194,10 +273,11 @@ const MessagesPage = () => {
 };
 
 // Component for rendering message content
-const MessageComponent = ({ message, withBreaks = true }) => (
-  <p
-    dangerouslySetInnerHTML={{ __html: decodeAndCleanHtml(message, withBreaks) }}
-  />
-);
+const MessageComponent = ({ message, withBreaks = true }) => {
+  const decodedMessage = message
+    ? decodeAndCleanHtml(message, withBreaks)
+    : "No content available";
+  return <p dangerouslySetInnerHTML={{ __html: decodedMessage }} />;
+};
 
 export default MessagesPage;
