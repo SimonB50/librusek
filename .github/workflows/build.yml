@@ -37,7 +37,7 @@ jobs:
         run: yarn base:build
 
       - name: Build app bundle
-        run: cd android && ./gradlew build
+        run: cd android && chmod +x ./gradlew && ./gradlew build
 
       - name: Setup Android signing
         run: |
