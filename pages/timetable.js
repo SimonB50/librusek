@@ -72,7 +72,7 @@ const Timetable = () => {
                 </span>
                 <div className="flex flex-col gap-2">
                   {dayData.every((x) => x.length == 0) && (
-                    <div className="flex flex-row justify-center items-center bg-base-200 rounded-box p-3">
+                    <div className="flex flex-row justify-center items-center bg-base-200 border border-base-300 rounded-box p-3">
                       <span className="text-lg">No classes</span>
                     </div>
                   )}
@@ -81,7 +81,7 @@ const Timetable = () => {
                     .map((entry, index) => {
                       return (
                         <div
-                          className={`relative flex flex-row bg-base-200 rounded-box p-3 justify-between items-center ${
+                          className={`relative flex flex-row bg-base-200 border border-base-300 rounded-box p-3 justify-between items-center ${
                             entry[0].IsSubstitutionClass &&
                             "border border-primary"
                           }`}

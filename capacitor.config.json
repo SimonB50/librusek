@@ -1,0 +1,17 @@
+{
+  "appId": "com.librusek.dev",
+  "appName": "Librusek",
+  "webDir": "out",
+  "loggingBehavior": "none",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    },
+    "CapacitorCookies": {
+      "enabled": true
+    },
+    "FirebaseMessaging": {
+      "presentationOptions": ["alert", "badge", "sound"]
+    }
+  }
+}
