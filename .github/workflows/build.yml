@@ -49,13 +49,13 @@ jobs:
 
       - name: Extract Android signing key from env
         run: |
-          echo "${{ secrets.SIGNING_KEY }}" > android/release.jks.base64
-          base64 -d android/release.jks.base64 > android/release.decrypted.jks
+          echo "${{ secrets.SIGNING_KEY }}" > ./android/release.jks.base64
+          base64 -d ./android/release.jks.base64 > ./android/release.decrypted.jks
 
       - name: Build app bundle
         run: |
           chmod +x ./android/gradlew
-          yarn cap build android --keystorepath android/release.decrypted.jks --keystorepass "${{ secrets.KEY_STORE_PASSWORD }}" --keystorealias "${{ secrets.ALIAS }}" --keystorealiaspass "${{ secrets.KEY_PASSWORD }}" --androidreleasetype APK --signing-type=apksigner
+          yarn cap build android --keystorepath release.decrypted.jks --keystorepass "${{ secrets.KEY_STORE_PASSWORD }}" --keystorealias "${{ secrets.ALIAS }}" --keystorealiaspass "${{ secrets.KEY_PASSWORD }}" --androidreleasetype APK --signing-type=apksigner
 
       - name: Get Node project version
         id: package-version
