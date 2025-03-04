@@ -34,7 +34,7 @@ jobs:
 
       - name: Add build-tools to PATH
         run: |
-          echo "export PATH=\$ANDROID_HOME/build-tools/34.0.0:\$PATH" >> $GITHUB_ENV
+          echo "PATH=$ANDROID_SDK_ROOT/build-tools/34.0.0:$PATH" >> $GITHUB_ENV
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -54,6 +54,7 @@ jobs:
 
       - name: Build app bundle
         run: |
+          chmod +x ./android/gradlew
           yarn cap build android --keystorepath android/release.decrypted.jks --keystorepass "${{ secrets.KEY_STORE_PASSWORD }}" --keystorealias "${{ secrets.ALIAS }}" --keystorealiaspass "${{ secrets.KEY_PASSWORD }}" --androidreleasetype APK --signing-type=apksigner
 
       - name: Get Node project version
