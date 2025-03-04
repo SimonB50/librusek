@@ -27,8 +27,10 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: 'tools platform-tools build-tools'
+
+      - name: Install Android Build-Tools (includes zipalign)
+        run: |
+          sdkmanager "build-tools;34.0.0"
 
       - name: Setup node
         uses: actions/setup-node@v4
