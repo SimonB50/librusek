@@ -32,6 +32,10 @@ jobs:
         run: |
           sdkmanager "build-tools;34.0.0"
 
+      - name: Add build-tools to PATH
+        run: |
+          echo "export PATH=\$ANDROID_HOME/build-tools/34.0.0:\$PATH" >> $GITHUB_ENV
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -43,19 +47,14 @@ jobs:
       - name: Build app
         run: yarn base:build
 
-      - name: Build app bundle
-        run: cd android && chmod +x ./gradlew && ./gradlew assembleRelease
+      - name: Extract Android signing key from env
+        run: |
+          echo "${{ secrets.SIGNING_KEY }}" > android/release.jks.base64
+          base64 -d android/release.jks.base64 > android/release.decrypted.jks
 
-      - uses: kevin-david/zipalign-sign-android-release@v2
-        name: Sign app APK
-        id: sign_app
-        with:
-          releaseDirectory: ./android/app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          zipAlign: true
+      - name: Build app bundle
+        run: |
+          yarn cap build android --keystorepath android/release.decrypted.jks --keystorepass "${{ secrets.KEY_STORE_PASSWORD }}" --keystorealias "${{ secrets.ALIAS }}" --keystorealiaspass "${{ secrets.KEY_PASSWORD }}" --androidreleasetype APK --signing-type=apksigner
 
       - name: Get Node project version
         id: package-version
@@ -63,7 +62,7 @@ jobs:
 
       - name: Rename APK file
         run: |
-          mv ${{steps.sign_app.outputs.signedReleaseFile}} ./android/app/build/outputs/apk/release/librusek-${{ steps.package-version.outputs.current-version }}.apk
+          mv ./android/app/build/outputs/apk/release/app-release-signed.apk ./android/app/build/outputs/apk/release/librusek-${{ steps.package-version.outputs.current-version }}.apk
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4
