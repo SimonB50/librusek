@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: 'tools platform-tools build-tools'
 
       - name: Setup node
         uses: actions/setup-node@v4
