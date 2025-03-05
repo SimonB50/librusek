@@ -55,7 +55,10 @@ const Home = () => {
 
   // Check for updates
   useEffect(() => {
-    if (versionData?.updateAvailable) {
+    if (
+      versionData?.updateAvailable &&
+      !sessionStorage.getItem("update_ignored")
+    ) {
       document.getElementById("update_modal").showModal();
     }
   }, [versionData]);
@@ -98,6 +101,7 @@ const Home = () => {
               <button
                 className="btn btn-neutral w-full"
                 onClick={() => {
+                  sessionStorage.setItem("update_ignored", true);
                   document.getElementById("update_modal").close();
                 }}
               >
