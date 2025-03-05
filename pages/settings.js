@@ -49,7 +49,15 @@ const Settings = () => {
   ];
 
   useEffect(() => {
-    Preferences.get({ key: "devmode" }).then((res) => setDevmode(res.value));
+    const fetchSettings = async () => {
+      const response = await Preferences.get({ key: "devmode" });
+      if (response.value) {
+        setDevmode(response.value);
+      }
+      document.querySelector("input#devmode").checked =
+        response.value == "true";
+    };
+    fetchSettings();
   }, []);
 
   return (
@@ -204,6 +212,7 @@ const Settings = () => {
               </div>
               <div className="flex flex-row gap-2">
                 <input
+                  id="devmode"
                   type="checkbox"
                   className="toggle toggle-primary"
                   defaultChecked={devmode == "true"}
