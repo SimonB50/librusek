@@ -55,7 +55,10 @@ const Home = () => {
 
   // Check for updates
   useEffect(() => {
-    if (versionData?.updateAvailable) {
+    if (
+      versionData?.updateAvailable &&
+      !sessionStorage.getItem("update_ignored")
+    ) {
       document.getElementById("update_modal").showModal();
     }
   }, [versionData]);
@@ -98,6 +101,7 @@ const Home = () => {
               <button
                 className="btn btn-neutral w-full"
                 onClick={() => {
+                  sessionStorage.setItem("update_ignored", true);
                   document.getElementById("update_modal").close();
                 }}
               >
@@ -119,6 +123,10 @@ const Home = () => {
       <dialog
         id="annoucement_modal"
         className="modal modal-bottom sm:modal-middle"
+        onClose={() => {
+          setFocusedAnnouncement(null);
+          document.getElementById("annoucement_modal").scrollTop = 0;
+        }}
       >
         <div className="modal-box">
           {announcementsData && focusedAnnouncement ? (
@@ -135,34 +143,18 @@ const Home = () => {
                     .Content
                 }
               </p>
-              <div className="modal-action">
+              <div class="modal-action">
                 <form method="dialog">
-                  <button
-                    className="btn"
-                    onClick={() => {
-                      setFocusedAnnouncement(null);
-                      document.getElementById("annoucement_modal").scrollTop =
-                        0;
-                    }}
-                  >
-                    Close
-                  </button>
+                  <button class="btn">Close</button>
                 </form>
               </div>
             </div>
           ) : (
-            <div className="skeleton h-24"></div>
+            <span className="text-lg">Loading announcement...</span>
           )}
         </div>
-        <form method="dialog" className="modal-backdrop">
-          <button
-            onClick={() => {
-              setFocusedAnnouncement(null);
-              document.getElementById("annoucement_modal").scrollTop = 0;
-            }}
-          >
-            close
-          </button>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
         </form>
       </dialog>
       <span className="text-3xl font-bold">

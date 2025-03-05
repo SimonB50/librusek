@@ -49,7 +49,15 @@ const Settings = () => {
   ];
 
   useEffect(() => {
-    Preferences.get({ key: "devmode" }).then((res) => setDevmode(res.value));
+    const fetchSettings = async () => {
+      const response = await Preferences.get({ key: "devmode" });
+      if (response.value) {
+        setDevmode(response.value);
+      }
+      document.querySelector("input#devmode").checked =
+        response.value == "true";
+    };
+    fetchSettings();
   }, []);
 
   return (
@@ -168,7 +176,7 @@ const Settings = () => {
                   Choose between different more custom themes.
                 </span>
               </div>
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-4 items-center">
                 <button
                   className={`btn btn-primary`}
                   onClick={() =>
@@ -178,7 +186,7 @@ const Settings = () => {
                   Explore
                 </button>
                 <span className="text-base">
-                  <span className="font-bold">Currently selected:</span>{" "}
+                  <span className="font-bold">Current:</span>{" "}
                   {upperFirst(theme)}
                 </span>
               </div>
@@ -204,6 +212,7 @@ const Settings = () => {
               </div>
               <div className="flex flex-row gap-2">
                 <input
+                  id="devmode"
                   type="checkbox"
                   className="toggle toggle-primary"
                   defaultChecked={devmode == "true"}
