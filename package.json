@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@capacitor-firebase/analytics": "^7.0.0",
-    "@capacitor-firebase/app": "^7.0.0",
+    "@capacitor-firebase/app": "^7.1.0",
     "@capacitor-firebase/crashlytics": "^7.0.0",
     "@capacitor-firebase/messaging": "^7.1.0",
     "@capacitor/android": "^7.0.1",
