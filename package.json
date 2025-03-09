@@ -40,7 +40,7 @@
     "eslint": "^9.22.0",
     "eslint-config-next": "15.2.0",
     "postcss": "^8.4.47",
-    "tailwindcss": "^4.0.9"
+    "tailwindcss": "^4.0.12"
   },
   "packageManager": "yarn@4.6.0"
 }
