@@ -30,16 +30,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor-firebase/analytics@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@capacitor-firebase/analytics@npm:7.0.0"
+"@capacitor-firebase/analytics@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@capacitor-firebase/analytics@npm:7.1.0"
   peerDependencies:
     "@capacitor/core": ">=7.0.0"
     firebase: ^11.2.0
   peerDependenciesMeta:
     firebase:
       optional: true
-  checksum: 10c0/89756f8e5ae2b12be1eb4d329e923c1fae3d86de4e9bf217c788b7c61015732c528a4d2366e0124bf7a3a318be6462705682bb4489190f3dbf109f818560c4b2
+  checksum: 10c0/079488f9177035a63c5a6d3b541da6a2befd49b7c416c086c5fe3472528c3adb6609927c61876d53fd08d4babe17d9f25ad58442893c023882d763d173178f73
   languageName: node
   linkType: hard
 
@@ -5301,7 +5301,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "librusek@workspace:."
   dependencies:
-    "@capacitor-firebase/analytics": "npm:^7.0.0"
+    "@capacitor-firebase/analytics": "npm:^7.1.0"
     "@capacitor-firebase/app": "npm:^7.1.0"
     "@capacitor-firebase/crashlytics": "npm:^7.0.0"
     "@capacitor-firebase/messaging": "npm:^7.1.0"
