@@ -118,6 +118,7 @@ const MessageItem = ({ message, onClick }) => (
  */
 const MessagesPage = () => {
   const [focusedMessage, setFocusedMessage] = useState(null);
+  const [isInbox, setIsInbox] = useState(true);
 
   // Retrieve list of messages.
   const {
@@ -125,14 +126,15 @@ const MessagesPage = () => {
     loading: messagesLoading,
     error: messagesError,
     loadMore: loadMoreMessages,
-  } = useMessages();
+    resetBox: changeInbox,
+  } = useMessages(isInbox, isInbox); // Modified to accept isInbox parameter
 
   // Retrieve details for the focused message.
   const {
     data: messageDetailsData,
     loading: messageDetailsLoading,
     error: messageDetailsError,
-  } = useMessageDetails(focusedMessage);
+  } = useMessageDetails(focusedMessage, isInbox);
 
   // Handler to close the message modal.
   const handleDialogClose = () => {
@@ -145,6 +147,12 @@ const MessagesPage = () => {
     document.getElementById("message_modal").showModal();
   };
 
+  // Handler to toggle between inbox and outbox
+  const handleToggleMessages = () => {
+    setIsInbox(!isInbox);
+    changeInbox();
+  };
+
   return (
     <Layout>
       {/* Render modal dialog for message details */}
@@ -155,7 +163,16 @@ const MessagesPage = () => {
         onClose={handleDialogClose}
       />
       <div className="space-y-4">
-        <span className="text-3xl font-semibold">Messages</span>
+        <div className="flex items-center gap-4">
+          <span className="text-3xl font-semibold mb-2">Messages</span>
+          <span className="text-xl font-semibold">
+            {" "}
+            {isInbox ? "(Inbox)" : "(Outbox)"}
+          </span>
+          <button className="btn btn-primary" onClick={handleToggleMessages}>
+            {isInbox ? "Switch to Outbox" : "Switch to Inbox"}
+          </button>
+        </div>
         {messagesData ? (
           <InfiniteScroll
             pageStart={0}
