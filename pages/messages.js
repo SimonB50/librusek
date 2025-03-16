@@ -98,15 +98,6 @@ const MessagesPage = () => {
                   <span className="text-lg font-bold text-base-content">
                     {message.topic || "No topic available"}
                   </span>
-                  <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
-                    <span>{message.senderName || "Unknown sender"}</span>
-                    <span>-</span>
-                    <span>
-                      {message.sendDate
-                        ? formatDate(message.sendDate)
-                        : "Date unavailable"}
-                    </span>
-                  </div>
                   <span className="text-base-content/80">
                     {removeCDATA(decodeBase64(message.content)) ||
                       "No content available"}
@@ -122,6 +113,15 @@ const MessagesPage = () => {
                       </span>
                     </div>
                   )}
+                  <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
+                    <span>{message.senderName || "Unknown sender"}</span>
+                    <span>-</span>
+                    <span>
+                      {message.sendDate
+                        ? formatDate(message.sendDate)
+                        : "Date unavailable"}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
