@@ -1,4 +1,5 @@
-import Layout from "@/components/layout";
+"use client";
+
 import { useTimetable } from "@/lib/timetable";
 import { upperFirst } from "@/lib/utils";
 
@@ -29,7 +30,7 @@ const Timetable = () => {
   ];
 
   return (
-    <Layout>
+    <div className="flex flex-col">
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
           <span className="text-3xl font-semibold">Timetable</span>
@@ -129,7 +130,7 @@ const Timetable = () => {
           ))
         )}
       </div>
-    </Layout>
+    </div>
   );
 };
 export default Timetable;

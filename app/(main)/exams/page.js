@@ -1,5 +1,6 @@
+"use client";
+
 import { useHomeworks, useHomeworksCategories } from "@/lib/timetable";
-import Layout from "../components/layout";
 import { upperFirst, sortTasks } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
 import dayjs from "dayjs";
@@ -34,7 +35,7 @@ const Exams = () => {
   );
 
   return (
-    <Layout>
+    <div className="flex flex-col">
       <span className="text-3xl font-semibold mb-4">Exams</span>
       <div className="grid grid-cols-6 gap-2 mt-4">
         {!homeworkLoading && !homeworkError
@@ -96,7 +97,7 @@ const Exams = () => {
               ></div>
             ))}
       </div>
-    </Layout>
+    </div>
   );
 };
 export default Exams;

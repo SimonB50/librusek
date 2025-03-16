@@ -1,4 +1,5 @@
-import Layout from "@/components/layout";
+"use client";
+
 import { useAttendance, useAttendancesTypes, useLessons } from "@/lib/lessons";
 import { useSubjects, useTeachers } from "@/lib/school";
 import { upperFirst, groupAbsences } from "@/lib/utils";
@@ -53,7 +54,7 @@ const Attendance = () => {
   );
 
   return (
-    <Layout>
+    <div className="flex flex-col">
       <dialog
         id="attendanceDetails"
         className="modal modal-bottom sm:modal-middle"
@@ -537,7 +538,7 @@ const Attendance = () => {
           )}
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 export default Attendance;

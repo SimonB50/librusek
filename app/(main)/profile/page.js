@@ -1,16 +1,13 @@
-import Layout from "@/components/layout";
+"use client";
+
 import { Person } from "react-bootstrap-icons";
-import { useState } from "react";
-import { useNotes } from "@/lib/user";
+import { useNotes, useUser } from "@/lib/user";
 import { upperFirst } from "@/lib/utils";
 import { useTeachers } from "@/lib/school";
 import { useBehaviourGrades, useBehaviourGradesTypes } from "@/lib/grades";
 
 const Profile = () => {
-  // User info
-  const [userData, setUserData] = useState(null);
-
-  // Behaviour
+  const { data: userData, loading: userLoading, error: userError } = useUser();
   const {
     data: behaviourGradesData,
     loading: behaviourGradesLoading,
@@ -43,12 +40,12 @@ const Profile = () => {
   );
 
   return (
-    <Layout setAuthData={setUserData}>
+    <div className="flex flex-col">
       <div className="flex flex-col">
         <span className="text-3xl font-semibold">Profile</span>
         <span className="text-lg">Your profile information.</span>
       </div>
-      {userData ? (
+      {!userLoading && !userError ? (
         <div className="flex flex-row gap-2 items-center bg-base-200 border border-base-300 rounded-box p-4 mt-4">
           <div className="flex items-center justify-center bg-base-100 rounded-box h-24 w-24">
             <Person className="text-5xl text-primary" />
@@ -145,7 +142,7 @@ const Profile = () => {
           <div className="skeleton h-24 w-full"></div>
         )}
       </div>
-    </Layout>
+    </div>
   );
 };
 export default Profile;

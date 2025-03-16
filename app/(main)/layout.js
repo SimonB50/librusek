@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { Preferences } from "@capacitor/preferences";
@@ -34,11 +36,6 @@ const Layout = ({ children }) => {
     };
     if (!userData) fetchData();
 
-    // Check if devmode is enabled
-    Preferences.get({ key: "devmode" }).then((res) => {
-      if (res.value === "true") setDevmode(true);
-    });
-
     // Setup session refresh
     const intervalId = setInterval(
       async () => {
@@ -47,6 +44,11 @@ const Layout = ({ children }) => {
       },
       1000 * 60 * 2
     ); // 2 minutes
+
+    // Check if devmode is enabled
+    Preferences.get({ key: "devmode" }).then((res) => {
+      if (res.value === "true") setDevmode(true);
+    });
 
     // Cleanup
     return () => clearInterval(intervalId);
@@ -120,7 +122,7 @@ const Layout = ({ children }) => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-1">
+        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-1" onClick={() => document.getElementById("navigation-drawer").checked = false}>
           <li className="text-2xl text-center font-semibold">Librusek</li>
           <div className="divider"></div>
           <li>

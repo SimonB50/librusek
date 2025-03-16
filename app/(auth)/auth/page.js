@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 
 import { SecureStoragePlugin } from "capacitor-secure-storage-plugin";
 
@@ -41,7 +43,7 @@ const Auth = () => {
       });
     }
     sessionStorage.clear();
-    await router.push("/");
+    router.push("/");
   };
   const onError = (errors, e) => console.error(errors, e);
 
