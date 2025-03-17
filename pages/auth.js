@@ -1,17 +1,18 @@
 import { useRouter } from "next/router";
+
+import { SecureStoragePlugin } from "capacitor-secure-storage-plugin";
+
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Key, Person, Trash } from "react-bootstrap-icons";
+
 import { authenticate } from "@/lib/auth";
-import { useState } from "react";
-import { Key, Person } from "react-bootstrap-icons";
-import { Trash } from "react-bootstrap-icons";
 
 const Auth = () => {
   const router = useRouter();
   const [authLoading, setAuthLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [savedAccounts, setSavedAccounts] = useState(
-    JSON.parse(localStorage.getItem("accounts")) || []
-  );
+  const [savedAccounts, setSavedAccounts] = useState([]);
   const { register, handleSubmit, watch, setValue, resetField } = useForm();
 
   const onSubmit = async (data) => {
@@ -34,12 +35,22 @@ const Auth = () => {
       );
       if (accountIndex >= 0) currentAccounts.splice(accountIndex, 1);
       currentAccounts.push(account);
-      localStorage.setItem("accounts", JSON.stringify(currentAccounts));
+      await SecureStoragePlugin.set({
+        key: "accounts",
+        value: JSON.stringify(currentAccounts),
+      });
     }
     sessionStorage.clear();
     await router.push("/");
   };
   const onError = (errors, e) => console.error(errors, e);
+
+  useEffect(() => {
+    SecureStoragePlugin.get({ key: "accounts" }).then((res) => {
+      if (res.value)
+        setSavedAccounts((old) => [...old, ...JSON.parse(res.value)]);
+    });
+  }, []);
 
   return (
     <>
@@ -59,11 +70,10 @@ const Auth = () => {
                 className="flex flex-row items-center justify-between gap-2"
               >
                 <button
-                  className="btn btn-primary flex-grow flex-shrink flex-wrap"
+                  className="btn btn-primary grow shrink flex-wrap"
                   onClick={() => {
-                    document.getElementById(
-                      "save_account_checkbox"
-                    ).checked = true;
+                    document.getElementById("save_account_checkbox").checked =
+                      true;
                     setValue("login", account.login);
                     setValue("password", atob(account.password));
                     document.getElementById("accounts_modal").close();
@@ -72,7 +82,7 @@ const Auth = () => {
                   {account.nickname || account.login}
                 </button>
                 <button
-                  className="btn btn-error items-center justify-center flex-shrink-0"
+                  className="btn btn-error items-center justify-center shrink-0"
                   onClick={() => {
                     setSavedAccounts((prev) =>
                       prev.filter((acc) => acc !== account)
@@ -95,12 +105,10 @@ const Auth = () => {
           <p className="py-4">
             Please provide a name for your account to save it for future use.
           </p>
-          <label className="form-control">
-            <div className="label">
-              <span className="label-text">Account name</span>
-            </div>
+          <label className="fieldset">
+            <legend className="fieldset-legend">Account nickname</legend>
             <input
-              className="input input-bordered"
+              className="input w-full validator"
               {...register("nickname", { required: false })}
             />
           </label>
@@ -109,9 +117,8 @@ const Auth = () => {
               <button
                 className="btn"
                 onClick={() => {
-                  document.getElementById(
-                    "save_account_checkbox"
-                  ).checked = false;
+                  document.getElementById("save_account_checkbox").checked =
+                    false;
                   resetField("nickname");
                 }}
               >
@@ -139,30 +146,28 @@ const Auth = () => {
           <h1 className="text-3xl font-bold self-center text-center">
             Login to Synergia
           </h1>
-          <form>
-            <label className="form-control">
-              <div className="label">
-                <span className="label-text">Login</span>
-              </div>
+          <form id="login_form" onSubmit={handleSubmit(onSubmit, onError)}>
+            <label className="fieldset">
+              <legend className="fieldset-legend">Login</legend>
               <input
-                className="input input-bordered"
+                className="input w-full validator"
                 autoComplete="username"
+                required
                 {...register("login", { required: true })}
               />
             </label>
-            <label className="form-control">
-              <div className="label">
-                <span className="label-text">Password</span>
-              </div>
+            <label className="fieldset">
+              <legend className="fieldset-legend">Password</legend>
               <input
                 type="password"
-                className="input input-bordered"
+                className="input w-full validator"
                 autoComplete="current-password"
+                required
                 {...register("password", { required: true })}
               />
             </label>
-            <div className="form-control">
-              <label className="cursor-pointer label self-start gap-2">
+            <div className="fieldset">
+              <label className="fieldset-label cursor-pointer self-start gap-2">
                 <input
                   id="save_account_checkbox"
                   type="checkbox"
@@ -173,7 +178,7 @@ const Auth = () => {
                     else resetField("nickname");
                   }}
                 />
-                <span className="label-text">Save this account</span>
+                Save this account
               </label>
             </div>
           </form>
@@ -190,8 +195,9 @@ const Auth = () => {
             </div>
           )}
           <button
+            type="submit"
+            form="login_form"
             className="btn btn-primary"
-            onClick={handleSubmit(onSubmit, onError)}
             disabled={authLoading}
           >
             {authLoading ? (

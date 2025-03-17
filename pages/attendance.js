@@ -54,7 +54,10 @@ const Attendance = () => {
 
   return (
     <Layout>
-      <dialog id="attendanceDetails" className="modal modal-bottom sm:modal-middle">
+      <dialog
+        id="attendanceDetails"
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
           <h3 className="text-2xl font-bold">
             {focusedSubject &&
@@ -288,6 +291,110 @@ const Attendance = () => {
           <button>close</button>
         </form>
       </dialog>
+      <dialog
+        id="abscenseDetails"
+        className="modal modal-bottom sm:modal-middle"
+        onClose={() => setFocusedAbsence(null)}
+      >
+        <div className="modal-box">
+          {focusedAbsence && attendanceData && attendanceTypesData && (
+            <div className="flex flex-col gap-2">
+              <h3 className="font-bold text-2xl text-base-content mb-2">
+                Abscense Details
+              </h3>
+              <div className="flex flex-row gap-2 items-center">
+                <span
+                  className={`text-4xl font-semibold ${
+                    attendanceTypesData.find(
+                      (x) =>
+                        x.Id ==
+                        attendanceData.find((x) => x.Id == focusedAbsence).Type
+                          .Id
+                    ).Short == "nb"
+                      ? "bg-error text-error-content"
+                      : "bg-warning text-warning-content"
+                  } w-20 h-20 flex items-center justify-center rounded-field`}
+                >
+                  {
+                    attendanceTypesData.find(
+                      (x) =>
+                        x.Id ==
+                        attendanceData.find((x) => x.Id == focusedAbsence).Type
+                          .Id
+                    ).Short
+                  }
+                </span>
+                <div className="flex flex-col h-max items-start justify-center">
+                  <span className="text-xl font-semibold">
+                    {upperFirst(
+                      attendanceTypesData.find(
+                        (x) =>
+                          x.Id ==
+                          attendanceData.find((x) => x.Id == focusedAbsence)
+                            .Type.Id
+                      ).Name
+                    )}
+                  </span>
+                  <span className="text-lg">
+                    {attendanceData.find((x) => x.Id == focusedAbsence).Date}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg">
+                  <span className="font-semibold">Lesson:</span>{" "}
+                  {!subjectsLoading &&
+                    !subjectsError &&
+                    !lessonsLoading &&
+                    !lessonsError &&
+                    upperFirst(
+                      `${
+                        subjectsData.find(
+                          (x) =>
+                            x.Id ==
+                            lessonsData.find(
+                              (x) =>
+                                x.Id ==
+                                attendanceData.find(
+                                  (x) => x.Id == focusedAbsence
+                                ).Lesson.Id
+                            ).Subject.Id
+                        ).Name
+                      } (No. ${
+                        attendanceData.find((x) => x.Id == focusedAbsence)
+                          .LessonNo
+                      })`
+                    )}
+                </span>
+                {!teachersLoading && !teachersError && (
+                  <span className="text-lg">
+                    <span className="font-semibold">Teacher:</span>{" "}
+                    {
+                      teachersData.find(
+                        (x) =>
+                          x.Id ==
+                          attendanceData.find((x) => x.Id == focusedAbsence)
+                            ?.AddedBy?.Id
+                      ).FirstName
+                    }{" "}
+                    {
+                      teachersData.find(
+                        (x) =>
+                          x.Id ==
+                          attendanceData.find((x) => x.Id == focusedAbsence)
+                            ?.AddedBy?.Id
+                      ).LastName
+                    }
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
       <span className="text-3xl font-semibold mb-4">Attendance</span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {!subjectsLoading && !subjectsError ? (
@@ -312,7 +419,7 @@ const Attendance = () => {
               return (
                 <div
                   key={subject.Id}
-                  className="relative overflow-hidden flex flex-col gap-4 p-4 bg-base-200 rounded-box shadow-md cursor-pointer"
+                  className="relative overflow-hidden flex flex-col gap-4 p-4 bg-base-200 border border-base-300 rounded-box shadow-md cursor-pointer"
                   onClick={() => {
                     setFocusedSubject(subject.Id);
                     document.getElementById("attendanceDetails").showModal();
@@ -351,10 +458,7 @@ const Attendance = () => {
       <div className="flex flex-col mt-4">
         <span className="text-3xl font-semibold mb-4">Your absences</span>
         <div className="flex flex-col gap-2">
-          {!attendanceLoading &&
-          !attendanceError &&
-          !attendanceTypesLoading &&
-          !attendanceTypesError ? (
+          {attendanceData && attendanceTypesData ? (
             groupAbsences(
               attendanceData.filter(
                 (x) =>
@@ -371,145 +475,42 @@ const Attendance = () => {
               return (
                 <div
                   key={absenceGroup}
-                  className="flex flex-col gap-2 bg-base-200 p-4 rounded-box"
+                  className="flex flex-col gap-2 bg-base-200 border border-base-300 p-4 rounded-box"
                 >
                   <span className="text-lg font-semibold">{absenceGroup}</span>
                   <div className="flex flex-row gap-2">
-                    {selectedAbsences.map((absence) => (
-                      <button
-                        key={absence.Id}
-                        className={`flex items-center justify-center w-10 h-10 p-2 ${
-                          attendanceTypesData.find(
-                            (x) => x.Id == absence.Type.Id
-                          ).Short == "nb"
-                            ? "bg-error"
-                            : "bg-warning"
-                        } rounded-btn`}
-                        onClick={() =>
-                          focusedAbsence == absence.Id
-                            ? setFocusedAbsence(null)
-                            : setFocusedAbsence(absence.Id)
-                        }
-                      >
-                        <span
-                          className={
-                            attendanceTypesData.find(
-                              (x) => x.Id == absence.Type.Id
-                            ).Short == "nb"
-                              ? "text-error-content"
-                              : "text-warning-content"
-                          }
+                    {selectedAbsences.map((absence) => {
+                      const absenceType = attendanceTypesData.find(
+                        (x) => x.Id == absence?.Type?.Id
+                      );
+                      return (
+                        <button
+                          key={absence.Id}
+                          className={`flex items-center justify-center w-10 h-10 p-2 ${
+                            absenceType.Short == "nb"
+                              ? "bg-error"
+                              : "bg-warning"
+                          } rounded-field`}
+                          onClick={() => {
+                            setFocusedAbsence(absence.Id);
+                            document
+                              .getElementById("abscenseDetails")
+                              .showModal();
+                          }}
                         >
-                          {
-                            attendanceTypesData.find(
-                              (x) => x.Id == absence.Type.Id
-                            ).Short
-                          }
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                  {focusedAbsence &&
-                    selectedAbsences.find((x) => x.Id == focusedAbsence) && (
-                      <div className="flex flex-col gap-2 mt-2 bg-base-100 p-3 rounded-box">
-                        <div className="flex flex-row gap-2 items-center">
                           <span
-                            className={`text-4xl font-semibold ${
-                              attendanceTypesData.find(
-                                (x) =>
-                                  x.Id ==
-                                  attendanceData.find(
-                                    (x) => x.Id == focusedAbsence
-                                  ).Type.Id
-                              ).Short == "nb"
-                                ? "bg-error"
-                                : "bg-warning"
-                            } w-20 h-20 flex items-center justify-center text-primary-content rounded-btn`}
-                          >
-                            {
-                              attendanceTypesData.find(
-                                (x) =>
-                                  x.Id ==
-                                  attendanceData.find(
-                                    (x) => x.Id == focusedAbsence
-                                  ).Type.Id
-                              ).Short
+                            className={
+                              absenceType.Short == "nb"
+                                ? "text-error-content"
+                                : "text-warning-content"
                             }
+                          >
+                            {absenceType.Short}
                           </span>
-                          <div className="flex flex-col h-max items-start justify-center">
-                            <span className="text-xl font-semibold">
-                              {upperFirst(
-                                attendanceTypesData.find(
-                                  (x) =>
-                                    x.Id ==
-                                    attendanceData.find(
-                                      (x) => x.Id == focusedAbsence
-                                    ).Type.Id
-                                ).Name
-                              )}
-                            </span>
-                            <span className="text-lg">
-                              {
-                                attendanceData.find(
-                                  (x) => x.Id == focusedAbsence
-                                ).Date
-                              }
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-lg">
-                            <span className="font-semibold">Lesson:</span>{" "}
-                            {!subjectsLoading &&
-                              !subjectsError &&
-                              !lessonsLoading &&
-                              !lessonsError &&
-                              upperFirst(
-                                `${
-                                  subjectsData.find(
-                                    (x) =>
-                                      x.Id ==
-                                      lessonsData.find(
-                                        (x) =>
-                                          x.Id ==
-                                          attendanceData.find(
-                                            (x) => x.Id == focusedAbsence
-                                          ).Lesson.Id
-                                      ).Subject.Id
-                                  ).Name
-                                } (No. ${
-                                  attendanceData.find(
-                                    (x) => x.Id == focusedAbsence
-                                  ).LessonNo
-                                })`
-                              )}
-                          </span>
-                          {!teachersLoading && !teachersError && (
-                            <span className="text-lg">
-                              <span className="font-semibold">Teacher:</span>{" "}
-                              {
-                                teachersData.find(
-                                  (x) =>
-                                    x.Id ==
-                                    attendanceData.find(
-                                      (x) => x.Id == focusedAbsence
-                                    )?.AddedBy?.Id
-                                ).FirstName
-                              }{" "}
-                              {
-                                teachersData.find(
-                                  (x) =>
-                                    x.Id ==
-                                    attendanceData.find(
-                                      (x) => x.Id == focusedAbsence
-                                    )?.AddedBy?.Id
-                                ).LastName
-                              }
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               );
             })
