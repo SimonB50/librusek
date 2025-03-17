@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import InfiniteScroll from "@rorygudka/react-infinite-scroller";
 import {
-  Paperclip,
   EnvelopeOpenFill,
   EnvelopeFill,
   ExclamationTriangleFill,
@@ -16,7 +15,7 @@ import {
   formatDate,
 } from "@/lib/utils";
 
-// Constants
+// Message views constants
 const UNKNOWN_SENDER = "Unknown sender";
 const UNKNOWN_RECEIVER = "Unknown receiver";
 const NO_TOPIC = "No topic";
@@ -28,10 +27,8 @@ const AttachmentWarning = ({ hasAttachment }) => {
   if (!hasAttachment) return null;
 
   return (
-    <div className="flex badge badge-soft badge-warning gap-2 mt-2 p-2 whitespace-normal border rounded-md min-h-fit h-auto">
-      <span className="flex text-lg text-base-content text-opacity-60">
-        <ExclamationTriangleFill aria-hidden="true" />
-      </span>
+    <div className="flex badge badge-soft badge-warning gap-2 mt-2 p-2 border rounded-md">
+      <ExclamationTriangleFill className="text-lg text-base-content/60" />
       This message has an attachment. Unsupported!
     </div>
   );
@@ -109,15 +106,11 @@ const DetailedMessageView = ({ message, onBack }) => (
             }}
           />
         ) : (
-          message
+          NO_CONTENT
         )}
       </p>
       <div className="flex justify-between mt-4">
-        <button
-          type="button"
-          onClick={() => onBack(null)}
-          className="btn btn-secondary"
-        >
+        <button type="button" onClick={onBack} className="btn btn-secondary">
           Go Back
         </button>
         <button type="button" className="btn btn-primary" onClick={() => {}}>
@@ -130,9 +123,7 @@ const DetailedMessageView = ({ message, onBack }) => (
 
 const MessageItem = ({ message, onClick, isInbox }) => {
   const handleKeyPress = (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      onClick();
-    }
+    if (event.key === "Enter" || event.key === " ") onClick();
   };
 
   return (
@@ -179,60 +170,8 @@ const MessageItem = ({ message, onClick, isInbox }) => {
   );
 };
 
-const MessageDialog = ({
-  messageDetailsData,
-  messageDetailsLoading,
-  messageDetailsError,
-  onClose,
-}) => (
-  <dialog
-    id="message_modal"
-    className="modal modal-bottom sm:modal-middle"
-    onClose={onClose}
-  >
-    <div className="modal-box">
-      {!messageDetailsLoading && !messageDetailsError ? (
-        <>
-          <h3 className="font-bold text-2xl text-base-content mb-2">
-            {messageDetailsData.topic}
-          </h3>
-          <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
-            <span>{messageDetailsData.senderName}</span>
-            <span>-</span>
-            <span>{formatDate(messageDetailsData.sendDate)}</span>
-          </div>
-          <p className="py-4 text-base-content/80 min-h-[100px]">
-            <span
-              dangerouslySetInnerHTML={{
-                __html: decodeAndCleanHtml(messageDetailsData.Message),
-              }}
-            />
-          </p>
-          {messageDetailsData.isAnyFileAttached && (
-            <div className="mt-2 flex items-center gap-2">
-              <span className="text-lg text-base-content/60">
-                <Paperclip />
-              </span>
-              <span className="text-sm font-medium text-warning">
-                This message has an attachment. This app does not support
-                attachments.
-              </span>
-            </div>
-          )}
-        </>
-      ) : (
-        <span className="text-lg">Loading message...</span>
-      )}
-    </div>
-    <form method="dialog" className="modal-backdrop">
-      <button type="button">close</button>
-    </form>
-  </dialog>
-);
-
 // Main Component
 const MessagesPage = () => {
-  const [focusedMessage, setFocusedMessage] = useState(null);
   const [readMoreMessage, setReadMoreMessage] = useState(null);
   const [isInbox, setIsInbox] = useState(true);
 
@@ -250,11 +189,6 @@ const MessagesPage = () => {
     error: messageDetailsError,
   } = useMessageDetails(readMoreMessage, isInbox);
 
-  const handleDialogClose = () => setFocusedMessage(null);
-  const handleItemClick = (messageId) => {
-    setFocusedMessage(messageId);
-    document.getElementById("message_modal").showModal();
-  };
   const handleReadMore = (messageId) => setReadMoreMessage(messageId);
   const handleReadMoreClose = () => setReadMoreMessage(null);
   const toggleMessages = () => {
@@ -264,12 +198,6 @@ const MessagesPage = () => {
 
   return (
     <Layout>
-      <MessageDialog
-        messageDetailsData={messageDetailsData}
-        messageDetailsLoading={messageDetailsLoading}
-        messageDetailsError={messageDetailsError}
-        onClose={handleDialogClose}
-      />
       {readMoreMessage && messageDetailsData ? (
         <DetailedMessageView
           message={messageDetailsData}
@@ -323,5 +251,4 @@ const MessagesPage = () => {
   );
 };
 
-export { MessageItem, DetailedMessageView };
 export default MessagesPage;
