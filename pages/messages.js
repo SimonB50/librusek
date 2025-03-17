@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Paperclip } from "react-bootstrap-icons";
 import InfiniteScroll from "@rorygudka/react-infinite-scroller";
@@ -11,6 +9,7 @@ import {
   removeCDATA,
   formatDate,
 } from "@/lib/utils";
+import Layout from "@/components/layout";
 
 const MessagesPage = () => {
   const [focusedMessage, setFocusedMessage] = useState(null);
@@ -28,7 +27,7 @@ const MessagesPage = () => {
   } = useMessageDetails(focusedMessage);
 
   return (
-    <div className="flex flex-col">
+    <Layout>
       <dialog
         id="message_modal"
         className="modal modal-bottom sm:modal-middle"
@@ -135,7 +134,7 @@ const MessagesPage = () => {
           </div>
         )}
       </div>
-    </div>
+    </Layout>
   );
 };
 

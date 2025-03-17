@@ -1,10 +1,9 @@
-"use client";
-
 import { Preferences } from "@capacitor/preferences";
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
+import Layout from "@/components/layout";
 import { upperFirst } from "@/lib/utils";
 
 const Settings = () => {
@@ -62,7 +61,7 @@ const Settings = () => {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <Layout>
       <dialog id="cacheClear" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="text-lg font-bold">Success!</h3>
@@ -250,7 +249,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 export default Settings;

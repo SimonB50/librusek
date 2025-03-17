@@ -1,5 +1,5 @@
-"use client";
-
+import { CapacitorCookies } from "@capacitor/core";
+import Layout from "@/components/layout";
 import { useState } from "react";
 
 const Developer = () => {
@@ -7,7 +7,7 @@ const Developer = () => {
   const [response, setResponse] = useState(null);
 
   return (
-    <div className="flex flex-col">
+    <Layout>
       <div className="flex flex-col">
         <span className="text-3xl font-semibold">Developer tools</span>
         <span className="text-lg">
@@ -101,7 +101,7 @@ const Developer = () => {
           </pre>
         )}
       </div>
-    </div>
+    </Layout>
   );
 };
 export default Developer;

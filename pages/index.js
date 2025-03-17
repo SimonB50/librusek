@@ -1,10 +1,9 @@
-"use client";
+import Layout from "@/components/layout";
 
 import { useAnnouncements, useSchool, useTeachers } from "@/lib/school";
 import { useClass } from "@/lib/class";
 import { useLuckyNumber } from "@/lib/lessons";
 import { apiUrl } from "@/lib/core";
-import { useUser } from "@/lib/user";
 import { useVersion, updateApp } from "@/lib/updater";
 
 import { useEffect, useState } from "react";
@@ -13,10 +12,10 @@ import dayjs from "dayjs";
 import sanitize from "sanitize-html";
 
 const Home = () => {
+  const [userData, setUserData] = useState(null);
   const [downloadProgress, setDownloadProgress] = useState(null);
 
   // Landing page data
-  const { data: userData, loading: userLoading, error: userError } = useUser();
   const {
     data: schoolData,
     loading: schoolLoading,
@@ -66,7 +65,7 @@ const Home = () => {
   }, [versionData]);
 
   return (
-    <div className="flex flex-col">
+    <Layout setAuthData={setUserData}>
       <dialog id="update_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="text-lg font-bold">Update available!</h3>
@@ -182,7 +181,7 @@ const Home = () => {
         Welcome to <span className="text-primary">Synergia</span>!
       </span>
       <div className="grid grid-cols-6 gap-2 my-4">
-        {!userLoading && !userError ? (
+        {userData ? (
           <div className="col-span-6 md:col-span-3 flex flex-row items-center p-4 bg-base-200 border border-base-300 rounded-box">
             <Person className="hidden sm:block text-5xl text-primary" />
             <div className="flex flex-col ml-4">
@@ -309,7 +308,7 @@ const Home = () => {
           <div className="skeleton h-24"></div>
         )}
       </div>
-    </div>
+    </Layout>
   );
 };
 export default Home;

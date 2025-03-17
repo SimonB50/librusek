@@ -20,7 +20,7 @@ import {
 import { getUser } from "@/lib/user";
 import { logout, refreshSession } from "@/lib/auth";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, setAuthData }) => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
   const [devmode, setDevmode] = useState(false);
@@ -31,13 +31,9 @@ const Layout = ({ children }) => {
       const data = await getUser();
       if (!data) return router.push("/auth");
       setUserData(data); // Local
+      if (setAuthData) setAuthData(data); // Global
     };
     if (!userData) fetchData();
-
-    // Check if devmode is enabled
-    Preferences.get({ key: "devmode" }).then((res) => {
-      if (res.value === "true") setDevmode(true);
-    });
 
     // Setup session refresh
     const intervalId = setInterval(
@@ -48,9 +44,14 @@ const Layout = ({ children }) => {
       1000 * 60 * 2
     ); // 2 minutes
 
+    // Check if devmode is enabled
+    Preferences.get({ key: "devmode" }).then((res) => {
+      if (res.value === "true") setDevmode(true);
+    });
+
     // Cleanup
     return () => clearInterval(intervalId);
-  }, [router, setUserData, userData]);
+  }, [router, setUserData, setAuthData, userData]);
 
   return (
     <div className="drawer lg:drawer-open">

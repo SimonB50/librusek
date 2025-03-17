@@ -1,5 +1,4 @@
-"use client";
-
+import Layout from "@/components/layout";
 import { useTeachers } from "@/lib/school";
 import { useTeacherAbsences } from "@/lib/timetable";
 import { sortTeacherAbsences } from "@/lib/utils";
@@ -23,7 +22,7 @@ const TeacherAbsences = () => {
   );
 
   return (
-    <div className="flex flex-col">
+    <Layout>
       <span className="text-3xl font-semibold mb-4">Teacher absences</span>
       <div className="grid grid-cols-6 gap-2 mt-4">
         {!teacherAbsencesError &&
@@ -96,7 +95,7 @@ const TeacherAbsences = () => {
               ></div>
             ))}
       </div>
-    </div>
+    </Layout>
   );
 };
 export default TeacherAbsences;

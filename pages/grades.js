@@ -1,4 +1,4 @@
-"use client";
+import Layout from "@/components/layout";
 
 import {
   useGradeComments,
@@ -218,7 +218,7 @@ const Grades = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <Layout>
       <dialog id="edit_modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Grades simulation</h3>
@@ -1021,7 +1021,7 @@ const Grades = () => {
           )}
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 export default Grades;
