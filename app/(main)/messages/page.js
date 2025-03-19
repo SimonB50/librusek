@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import { useState } from "react";
 import InfiniteScroll from "@rorygudka/react-infinite-scroller";
 import {
   EnvelopeOpenFill,
@@ -6,7 +8,6 @@ import {
   ExclamationTriangleFill,
 } from "react-bootstrap-icons";
 
-import Layout from "@/components/layout";
 import { useMessages, useMessageDetails } from "@/lib/messages";
 import {
   decodeAndCleanHtml,
@@ -197,7 +198,7 @@ const MessagesPage = () => {
   };
 
   return (
-    <Layout>
+    <div>
       {readMoreMessage && messageDetailsData ? (
         <DetailedMessageView
           message={messageDetailsData}
@@ -247,7 +248,7 @@ const MessagesPage = () => {
           )}
         </div>
       )}
-    </Layout>
+    </div>
   );
 };
 
