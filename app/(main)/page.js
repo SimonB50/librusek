@@ -1,20 +1,22 @@
-import Layout from "@/components/layout";
+"use client";
 
 import { useAnnouncements, useSchool, useTeachers } from "@/lib/school";
 import { useClass } from "@/lib/class";
 import { useLuckyNumber } from "@/lib/lessons";
 import { apiUrl } from "@/lib/core";
+import { useUser } from "@/lib/user";
 import { useVersion, updateApp } from "@/lib/updater";
 
 import { useEffect, useState } from "react";
 import { Buildings, People, Star, Person, Git } from "react-bootstrap-icons";
 import dayjs from "dayjs";
+import sanitize from "sanitize-html";
 
 const Home = () => {
-  const [userData, setUserData] = useState(null);
   const [downloadProgress, setDownloadProgress] = useState(null);
 
   // Landing page data
+  const { data: userData, loading: userLoading, error: userError } = useUser();
   const {
     data: schoolData,
     loading: schoolLoading,
@@ -64,7 +66,7 @@ const Home = () => {
   }, [versionData]);
 
   return (
-    <Layout setAuthData={setUserData}>
+    <div className="flex flex-col">
       <dialog id="update_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="text-lg font-bold">Update available!</h3>
@@ -131,23 +133,42 @@ const Home = () => {
         <div className="modal-box">
           {announcementsData && focusedAnnouncement ? (
             <div className="flex flex-col gap-2">
-              <h3 id="annoucement_title" className="font-bold text-lg">
+              <h3
+                id="annoucement_title"
+                className="font-bold text-2xl text-base-content"
+              >
                 {
                   announcementsData.find((a) => a.Id === focusedAnnouncement)
                     .Subject
                 }
               </h3>
-              <p id="annoucement_content" className="py-4">
-                {
-                  announcementsData.find((a) => a.Id === focusedAnnouncement)
-                    .Content
-                }
+              <p
+                id="annoucement_content"
+                className="py-2 text-base-content/80 min-h-[100px]"
+              >
+                <p
+                  className="whitespace-pre-wrap"
+                  dangerouslySetInnerHTML={{
+                    __html: sanitize(
+                      announcementsData.find(
+                        (a) => a.Id === focusedAnnouncement
+                      ).Content,
+                      {
+                        allowedTags: [
+                          "p",
+                          "a",
+                          "b",
+                          "i",
+                          "u",
+                          "strong",
+                          "em",
+                          "br",
+                        ],
+                      }
+                    ),
+                  }}
+                />
               </p>
-              <div class="modal-action">
-                <form method="dialog">
-                  <button class="btn">Close</button>
-                </form>
-              </div>
             </div>
           ) : (
             <span className="text-lg">Loading announcement...</span>
@@ -161,7 +182,7 @@ const Home = () => {
         Welcome to <span className="text-primary">Synergia</span>!
       </span>
       <div className="grid grid-cols-6 gap-2 my-4">
-        {userData ? (
+        {!userLoading && !userError ? (
           <div className="col-span-6 md:col-span-3 flex flex-row items-center p-4 bg-base-200 border border-base-300 rounded-box">
             <Person className="hidden sm:block text-5xl text-primary" />
             <div className="flex flex-col ml-4">
@@ -255,10 +276,18 @@ const Home = () => {
                 className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 border border-base-300 rounded-box gap-2 p-4 ${
                   !a.WasRead && "border border-primary"
                 }`}
+                onClick={async () => {
+                  setFocusedAnnouncement(a.Id);
+                  await fetch(`${apiUrl}/SchoolNotices/MarkAsRead/${a.Id}`, {
+                    method: "POST",
+                  });
+                  document.getElementById("annoucement_modal").showModal();
+                  document.getElementsByClassName("modal-box")[0].scrollTop = 0;
+                }}
               >
                 <div className="flex flex-col">
                   <span className="text-lg font-bold">{a.Subject}</span>
-                  <div className="flex flex-row items-center gap-x-2 gap-y-1 flex-wrap">
+                  <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
                     <span>
                       {!teachersLoading && teachersData
                         ? `${
@@ -274,27 +303,13 @@ const Home = () => {
                     <span>{a.CreationDate}</span>
                   </div>
                 </div>
-                <button
-                  className="btn btn-primary self-end"
-                  onClick={async () => {
-                    setFocusedAnnouncement(a.Id);
-                    await fetch(`${apiUrl}/SchoolNotices/MarkAsRead/${a.Id}`, {
-                      method: "POST",
-                    });
-                    document.getElementById("annoucement_modal").showModal();
-                    document.getElementsByClassName("modal-box")[0].scrollTop =
-                      0;
-                  }}
-                >
-                  Read more
-                </button>
               </div>
             ))
         ) : (
           <div className="skeleton h-24"></div>
         )}
       </div>
-    </Layout>
+    </div>
   );
 };
 export default Home;
