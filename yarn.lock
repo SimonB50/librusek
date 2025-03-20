@@ -5424,7 +5424,7 @@ __metadata:
     react-i18next: "npm:^15.4.1"
     sanitize-html: "npm:^2.14.0"
     semver: "npm:^7.7.1"
-    tailwindcss: "npm:^4.0.12"
+    tailwindcss: "npm:^4.0.14"
   languageName: unknown
   linkType: soft
 
@@ -7895,10 +7895,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:4.0.12, tailwindcss@npm:^4.0.12":
+"tailwindcss@npm:4.0.12":
   version: 4.0.12
   resolution: "tailwindcss@npm:4.0.12"
   checksum: 10c0/186e94e49b97e974daf999c350bfc50e727039f22c44baf9144b987b6c9b754bc983e8c9ef5b99a3ca2d399115eb7811967f66cf9e88edc08ac729746d80dc56
+  languageName: node
+  linkType: hard
+
+"tailwindcss@npm:^4.0.14":
+  version: 4.0.14
+  resolution: "tailwindcss@npm:4.0.14"
+  checksum: 10c0/6c04d1f68dc8382e974bb8704c4140dbff12cf1623e826b37a35726629402448c311ae6f5d70a3b490526ac427068430d5ddec48368f49e01799c4aa9c4159f9
   languageName: node
   linkType: hard
 
