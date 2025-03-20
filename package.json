@@ -13,7 +13,7 @@
     "@capacitor-firebase/app": "^7.1.0",
     "@capacitor-firebase/crashlytics": "^7.1.0",
     "@capacitor-firebase/messaging": "^7.1.0",
-    "@capacitor/android": "^7.0.1",
+    "@capacitor/android": "^7.1.0",
     "@capacitor/app": "^7.0.0",
     "@capacitor/core": "^7.1.0",
     "@capacitor/device": "^7.0.0",

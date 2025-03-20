@@ -90,12 +90,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/android@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@capacitor/android@npm:7.0.1"
+"@capacitor/android@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@capacitor/android@npm:7.1.0"
   peerDependencies:
-    "@capacitor/core": ^7.0.0
-  checksum: 10c0/84f0322521d50d03db314e4183b285ddc369b66d319bc34244efc77077241c83fbe431d9fef35e0afdf50f2f18bfad7b98848eac531f49a257bf036e98f5729b
+    "@capacitor/core": ^7.1.0
+  checksum: 10c0/5588a930f3c2bcaf44059195775aa5015bf942f3ff5efc672a5b6ae6cff6ac30e816cad3d53d8069134306a2dd9f7a8a49adededf91fc6750896160330cca0e4
   languageName: node
   linkType: hard
 
@@ -5386,7 +5386,7 @@ __metadata:
     "@capacitor-firebase/app": "npm:^7.1.0"
     "@capacitor-firebase/crashlytics": "npm:^7.1.0"
     "@capacitor-firebase/messaging": "npm:^7.1.0"
-    "@capacitor/android": "npm:^7.0.1"
+    "@capacitor/android": "npm:^7.1.0"
     "@capacitor/app": "npm:^7.0.0"
     "@capacitor/assets": "npm:^3.0.5"
     "@capacitor/cli": "npm:^7.0.1"
