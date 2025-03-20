@@ -39,7 +39,7 @@
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^7.0.1",
-    "@tailwindcss/postcss": "^4.0.12",
+    "@tailwindcss/postcss": "^4.0.14",
     "daisyui": "^5.0.0",
     "eslint": "^9.22.0",
     "eslint-config-next": "15.2.1",
