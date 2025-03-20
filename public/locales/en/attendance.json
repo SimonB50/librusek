@@ -1,0 +1,23 @@
+{
+  "title": "Attendance",
+  "hint": "You can click on a subject to see more details.",
+  "subject_details": {
+    "presence": "Presence",
+    "absences": "Absences",
+    "total": "Total",
+    "percentage": "Attendance percentage"
+  },
+  "empty": "No attendance data available.",
+  "absences": {
+    "title": "Your absences",
+    "empty": "No absences available.",
+    "entry": {
+      "title": "Abscense Details",
+      "lesson": {
+        "title": "Lesson",
+        "value": "{{subject}} (No. {{lesson}})"
+      },
+      "teacher": "Teacher"
+    }
+  }
+}

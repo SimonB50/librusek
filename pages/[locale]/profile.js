@@ -5,8 +5,16 @@ import { useNotes } from "@/lib/user";
 import { upperFirst } from "@/lib/utils";
 import { useTeachers } from "@/lib/school";
 import { useBehaviourGrades, useBehaviourGradesTypes } from "@/lib/grades";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+import { updateApp } from "@/lib/updater";
+
+const getStaticProps = makeStaticProps(["profile", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const Profile = () => {
+  const { t } = useTranslation(["profile", "common"]);
+
   // User info
   const [userData, setUserData] = useState(null);
 
@@ -45,8 +53,8 @@ const Profile = () => {
   return (
     <Layout setAuthData={setUserData}>
       <div className="flex flex-col">
-        <span className="text-3xl font-semibold">Profile</span>
-        <span className="text-lg">Your profile information.</span>
+        <span className="text-3xl font-semibold">{t("title")}</span>
+        <span className="text-lg">{t("subtitle")}</span>
       </div>
       {userData ? (
         <div className="flex flex-row gap-2 items-center bg-base-200 border border-base-300 rounded-box p-4 mt-4">
@@ -68,7 +76,7 @@ const Profile = () => {
       !behaviourGradesTypesLoading &&
       !behaviourGradesTypesError ? (
         <div className="flex flex-col mt-4">
-          <span className="text-3xl font-semibold">Behaviour</span>
+          <span className="text-3xl font-semibold">{t("behaviour.title")}</span>
           {behaviourGradesData && behaviourGradesData.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
               {behaviourGradesData
@@ -87,8 +95,14 @@ const Profile = () => {
                         )}
                       </span>
                       <span className="text-md">
-                        Semester {"I".repeat(parseInt(grade.Semester))} -{" "}
-                        {grade.IsProposal == "1" ? "Proposal" : "Final"}
+                        {t("common.school.semester", {
+                          ns: "common",
+                          semester: "I".repeat(parseInt(grade.Semester)),
+                        })}{" "}
+                        -{" "}
+                        {grade.IsProposal == "1"
+                          ? t("behaviour.proposal")
+                          : t("behaviour.final")}
                       </span>
                     </div>
                   </div>
@@ -96,20 +110,20 @@ const Profile = () => {
               {behaviourGradesData.length % 2 == 1 && (
                 <div className="flex rounded-box p-4 bg-base-200 border border-base-300 justify-center items-center">
                   <span className="text-lg text-primary text-center">
-                    Awaiting final grade
+                    {t("behaviour.awaiting_final")}
                   </span>
                 </div>
               )}
             </div>
           ) : (
-            <span className="text-lg">No behaviour grades available.</span>
+            <span className="text-lg">{t("behaviour.empty")}</span>
           )}
         </div>
       ) : (
         <></>
       )}
       <div className="flex flex-col gap-2 mt-4">
-        <span className="text-3xl font-semibold">Notes</span>
+        <span className="text-3xl font-semibold">{t("notes.title")}</span>
         {!notesLoading && !notesError ? (
           notesData && notesData.length ? (
             notesData.map((note) => (
@@ -127,19 +141,19 @@ const Profile = () => {
                 </div>
                 {!teachersLoading && !teachersError && (
                   <span className="text-sm text-primary">
-                    Added by{" "}
-                    {
-                      teachersData.find((x) => x.Id == note.Teacher.Id)
-                        .FirstName
-                    }{" "}
-                    {teachersData.find((x) => x.Id == note.Teacher.Id).LastName}{" "}
-                    at {note.Date}
+                    {t("notes.added_by", {
+                      teacher: `${upperFirst(
+                        teachersData.find((x) => x.Id == note.Teacher.Id)
+                          .FirstName
+                      )} ${updateApp(teachersData.find((x) => x.Id == note.Teacher.Id).LastName)}`,
+                      date: note.Date,
+                    })}
                   </span>
                 )}
               </div>
             ))
           ) : (
-            <span className="text-lg">No notes available.</span>
+            <span className="text-lg">{t("notes.empty")}</span>
           )
         ) : (
           <div className="skeleton h-24 w-full"></div>

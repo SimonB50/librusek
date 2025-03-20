@@ -10,8 +10,15 @@ import {
   formatDate,
 } from "@/lib/utils";
 import Layout from "@/components/layout";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["messages", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const MessagesPage = () => {
+  const { t } = useTranslation(["messages"]);
+
   const [focusedMessage, setFocusedMessage] = useState(null);
 
   const {
@@ -57,14 +64,13 @@ const MessagesPage = () => {
                     <Paperclip />
                   </span>
                   <span className="text-sm font-medium text-warning">
-                    This message has an attachment. This app does not support
-                    attachments.
+                    {t("file_unsupported")}
                   </span>
                 </div>
               )}
             </>
           ) : (
-            <span className="text-lg">Loading message...</span>
+            <span className="text-lg">{t("loading")}</span>
           )}
         </div>
         <form method="dialog" className="modal-backdrop">
@@ -72,7 +78,7 @@ const MessagesPage = () => {
         </form>
       </dialog>
       <div className="space-y-4">
-        <span className="text-3xl font-semibold">Messages</span>
+        <span className="text-3xl font-semibold">{t("title")}</span>
         {messagesData ? (
           <InfiniteScroll
             pageStart={0}
@@ -80,7 +86,7 @@ const MessagesPage = () => {
             hasMore={!messagesLoading && !messagesError}
             loader={
               <div key={0} className="skeleton h-24 w-full">
-                Loading...
+                {t("loading")}
               </div>
             }
             className="flex flex-col gap-2"
@@ -96,11 +102,11 @@ const MessagesPage = () => {
               >
                 <div className="flex flex-col gap-1 w-full">
                   <span className="text-lg font-bold text-base-content">
-                    {message.topic || "No topic available"}
+                    {message.topic || t("missing.topic")}
                   </span>
                   <span className="text-base-content/80">
                     {removeCDATA(decodeBase64(message.content)) ||
-                      "No content available"}
+                      t("missing.content")}
                   </span>
                   {message.isAnyFileAttached && (
                     <div className="mt-1 flex items-center gap-2">
@@ -108,18 +114,17 @@ const MessagesPage = () => {
                         <Paperclip />
                       </span>
                       <span className="text-sm font-medium text-warning">
-                        This message has an attachment. This app does not
-                        support attachments.
+                        {t("file_unsupported")}
                       </span>
                     </div>
                   )}
                   <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
-                    <span>{message.senderName || "Unknown sender"}</span>
+                    <span>{message.senderName || t("missing.sender")}</span>
                     <span>-</span>
                     <span>
                       {message.sendDate
                         ? formatDate(message.sendDate)
-                        : "Date unavailable"}
+                        : t("missing.date")}
                     </span>
                   </div>
                 </div>

@@ -22,8 +22,15 @@ import {
 } from "react-bootstrap-icons";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["grades", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const Grades = () => {
+  const { t } = useTranslation(["grades", "common"]);
+
   // Page cache
   const [focusedSubject, setFocusedSubject] = useState(null);
   const [focusedGrade, setFocusedGrade] = useState(null);
@@ -221,11 +228,13 @@ const Grades = () => {
     <Layout>
       <dialog id="edit_modal" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Grades simulation</h3>
+          <h3 className="font-bold text-lg">{t("simulator.editor.title")}</h3>
           <div className="flex flex-col gap-2 py-4">
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Type</span>
+                <span className="label-text">
+                  {t("simulator.editor.type.name")}
+                </span>
               </label>
               <select
                 className="select select-bordered w-full"
@@ -240,16 +249,22 @@ const Grades = () => {
                 defaultValue={"select"}
               >
                 <option value="select" disabled>
-                  Select type
+                  {t("simulator.editor.type.values.select")}
                 </option>
-                <option value="grade">Grade</option>
-                <option value="points">Points</option>
+                <option value="grade">
+                  {t("simulator.editor.type.values.grade")}
+                </option>
+                <option value="points">
+                  {t("simulator.editor.type.values.points")}
+                </option>
               </select>
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">
-                  {watch("gradeType") == "grade" ? "Grade" : "Points"}
+                  {watch("gradeType") == "points"
+                    ? t("simulator.editor.type.values.points")
+                    : t("simulator.editor.type.values.grade")}
                 </span>
               </label>
               <input
@@ -260,26 +275,31 @@ const Grades = () => {
                 {...register("gradeValue", {
                   required: {
                     value: true,
-                    message: `Please enter valid ${watch("gradeType")} value`,
+                    message: t("simulator.editor.type.errors.required", {
+                      type: watch("gradeType"),
+                    }),
                   },
                   min: {
                     value: 0,
-                    message: `${upperFirst(
-                      watch("gradeType")
-                    )} cannot be negative`,
+                    message: t("simulator.editor.type.errors.min", {
+                      type: upperFirst(watch("gradeType")),
+                    }),
                   },
                   max: {
                     value: watch("gradeType") == "grade" ? 6 : 100,
-                    message: `Grade value must be at most ${
-                      watch("gradeType") == "grade" ? 6 : 100
-                    }`,
+                    message: t("simulator.editor.type.errors.max", {
+                      type: upperFirst(watch("gradeType")),
+                      max: watch("gradeType") == "grade" ? 6 : 100,
+                    }),
                   },
                 })}
               />
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Weight</span>
+                <span className="label-text">
+                  {t("simulator.editor.weight.name")}
+                </span>
               </label>
               <input
                 type="number"
@@ -289,19 +309,21 @@ const Grades = () => {
                 {...register("gradeWeight", {
                   required: {
                     value: true,
-                    message: `Please enter valid ${watch("gradeType")} weight`,
+                    message: t("simulator.editor.weight.errors.required", {
+                      type: watch("gradeType"),
+                    }),
                   },
                   min: {
                     value: 1,
-                    message: `${upperFirst(
-                      watch("gradeType")
-                    )} weight must be at least 1`,
+                    message: t("simulator.editor.weight.errors.min", {
+                      type: upperFirst(watch("gradeType")),
+                    }),
                   },
                   max: {
                     value: 6,
-                    message: `${upperFirst(
-                      watch("gradeType")
-                    )} weight must be at most 6`,
+                    message: t("simulator.editor.weight.errors.max", {
+                      type: upperFirst(watch("gradeType")),
+                    }),
                   },
                 })}
               />
@@ -323,14 +345,14 @@ const Grades = () => {
                 document.getElementById("edit_modal").close();
               }}
             >
-              Cancel
+              {t("simulator.editor.actions.cancel")}
             </button>
             <button
               type="submit"
               className="btn btn-primary"
               onClick={handleSubmit(onSubmit)}
             >
-              Save
+              {t("simulator.editor.actions.save")}
             </button>
           </div>
         </div>
@@ -338,7 +360,7 @@ const Grades = () => {
       <dialog id="grade_details" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
           <h3 className="font-bold text-2xl text-base-content mb-2">
-            Grade Details
+            {t("details.title")}
           </h3>
           {gradesData && pointsData ? (
             focusedGrade?.startsWith("p-") &&
@@ -379,7 +401,9 @@ const Grades = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-lg">
-                    <span className="font-semibold">Weight:</span>{" "}
+                    <span className="font-semibold">
+                      {t("details.weight")}:
+                    </span>{" "}
                     {[...pointsCategoriesData, ...tempCategories].find(
                       (x) =>
                         x.Id ==
@@ -390,7 +414,9 @@ const Grades = () => {
                   </span>
                   {!teachersLoading && !teachersError && (
                     <span className="text-lg">
-                      <span className="font-semibold">Teacher:</span>{" "}
+                      <span className="font-semibold">
+                        {t("details.teacher")}:
+                      </span>{" "}
                       {teachersData.find(
                         (x) =>
                           x.Id ==
@@ -409,7 +435,9 @@ const Grades = () => {
                   )}
                   {!pointCommentsLoading && !pointCommentsError && (
                     <span className="text-lg">
-                      <span className=" font-semibold">Description:</span>{" "}
+                      <span className=" font-semibold">
+                        {t("details.comment")}:
+                      </span>{" "}
                       {pointCommentsData.find(
                         (x) =>
                           x.Id ==
@@ -454,7 +482,8 @@ const Grades = () => {
                         document.getElementById("edit_modal").showModal();
                       }}
                     >
-                      <Pencil className="text-lg" /> Edit
+                      <Pencil className="text-lg" />{" "}
+                      {t("details.edit_actions.edit")}
                     </button>
                     <button
                       className="btn btn-error grow sm:grow-0"
@@ -465,7 +494,8 @@ const Grades = () => {
                         setFocusedGrade(null);
                       }}
                     >
-                      <Trash className="text-lg" /> Delete
+                      <Trash className="text-lg" />{" "}
+                      {t("details.edit_actions.delete")}
                     </button>
                   </div>
                 )}
@@ -517,7 +547,9 @@ const Grades = () => {
                     (x) => x.Id == focusedGrade.slice(2)
                   ).IsConstituent && (
                     <span className="text-lg">
-                      <span className="font-semibold">Weight:</span>{" "}
+                      <span className="font-semibold">
+                        {t("details.weight")}:
+                      </span>{" "}
                       {[...gradesCategoriesData, ...tempCategories].find(
                         (x) =>
                           x.Id ==
@@ -529,7 +561,9 @@ const Grades = () => {
                   )}
                   {!teachersLoading && !teachersError && (
                     <span className="text-lg">
-                      <span className="font-semibold">Teacher:</span>{" "}
+                      <span className="font-semibold">
+                        {t("details.teacher")}:
+                      </span>{" "}
                       {teachersData.find(
                         (x) =>
                           x.Id ==
@@ -548,7 +582,9 @@ const Grades = () => {
                   )}
                   {!gradeCommentsLoading && !gradeCommentsError && (
                     <span className="text-lg">
-                      <span className=" font-semibold">Description:</span>{" "}
+                      <span className=" font-semibold">
+                        {t("details.comment")}:
+                      </span>{" "}
                       {gradeCommentsData.find(
                         (x) =>
                           x.Id ==
@@ -589,7 +625,8 @@ const Grades = () => {
                         document.getElementById("edit_modal").showModal();
                       }}
                     >
-                      <Pencil className="text-lg" /> Edit
+                      <Pencil className="text-lg" />{" "}
+                      {t("details.edit_actions.edit")}
                     </button>
                     <button
                       className="btn btn-error grow sm:grow-0"
@@ -600,13 +637,14 @@ const Grades = () => {
                         setFocusedGrade(null);
                       }}
                     >
-                      <Trash className="text-lg" /> Delete
+                      <Trash className="text-lg" />{" "}
+                      {t("details.edit_actions.delete")}
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              <span className="text-lg">Invalid grade selected.</span>
+              <span className="text-lg">{t("details.invalid")}</span>
             )
           ) : (
             <div className="skeleton h-24"></div>
@@ -617,7 +655,7 @@ const Grades = () => {
         </form>
       </dialog>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-        <span className="text-3xl font-semibold">Grades</span>
+        <span className="text-3xl font-semibold">{t("title")}</span>
         <div className="flex flex-row gap-2 flex-wrap w-full sm:w-fit">
           {filter == "all" ? (
             <button
@@ -628,7 +666,7 @@ const Grades = () => {
                 setFilter("latest");
               }}
             >
-              <Bookmark className="text-lg" /> Latest grades
+              <Bookmark className="text-lg" /> {t("filter.latest")}
             </button>
           ) : (
             <button
@@ -639,7 +677,7 @@ const Grades = () => {
                 setFilter("all");
               }}
             >
-              <Bookmark className="text-lg" /> All grades
+              <Bookmark className="text-lg" /> {t("filter.all")}
             </button>
           )}
           {!editMode ? (
@@ -651,7 +689,7 @@ const Grades = () => {
                 setEditMode(true);
               }}
             >
-              <Pencil className="text-lg" /> Edit
+              <Pencil className="text-lg" /> {t("simulator.enable")}
             </button>
           ) : (
             <button
@@ -662,7 +700,7 @@ const Grades = () => {
                 setEditMode(false);
               }}
             >
-              <Pencil className="text-lg" /> Cancel
+              <Pencil className="text-lg" /> {t("simulator.disable")}
             </button>
           )}
         </div>
@@ -695,9 +733,14 @@ const Grades = () => {
               </div>
               {focusedSubject === subject.Id && (
                 <div className="flex flex-col mt-2">
-                  <span className="text-lg font-bold">Semester I</span>
+                  <span className="text-lg font-bold">
+                    {t("common.school.semester", {
+                      ns: "common",
+                      semester: "I",
+                    })}
+                  </span>
                   <span className="text-base">
-                    Average:{" "}
+                    {t("average")}:{" "}
                     {calculateAvarage(
                       [
                         ...(gradesData && gradesCategoriesData
@@ -821,9 +864,14 @@ const Grades = () => {
                 <>
                   <div className="flex flex-col mt-2">
                     <div className="flex flex-col my-2">
-                      <span className="text-lg font-bold">Semester II</span>
+                      <span className="text-lg font-bold">
+                        {t("common.school.semester", {
+                          ns: "common",
+                          semester: "II",
+                        })}
+                      </span>
                       <span className="text-base">
-                        Average:{" "}
+                        {t("average")}:{" "}
                         {calculateAvarage(
                           [
                             ...(gradesData && gradesCategoriesData
@@ -932,9 +980,11 @@ const Grades = () => {
               )}
               {focusedSubject === subject.Id && (
                 <div className="flex flex-col my-2">
-                  <span className="text-lg font-bold">Summary</span>
+                  <span className="text-lg font-bold">
+                    {t("common.summary", { ns: "common" })}
+                  </span>
                   <span className="text-base">
-                    Average:{" "}
+                    {t("average")}:{" "}
                     {calculateAvarage(
                       [
                         ...(gradesData && gradesCategoriesData
@@ -979,7 +1029,7 @@ const Grades = () => {
         )}
       </div>
       <div className="flex flex-col gap-4 mt-4">
-        <span className="text-3xl font-semibold">Text Grades</span>
+        <span className="text-3xl font-semibold">{t("text_grades.title")}</span>
         <div className="flex flex-col gap-2">
           {!textGradesLoading && !textGradesError ? (
             textGradesData && textGradesData.length ? (
@@ -1003,18 +1053,22 @@ const Grades = () => {
                   </div>
                   {!teachersLoading && !teachersError && (
                     <span className="text-sm text-primary">
-                      Added by{" "}
-                      {teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
-                        ?.FirstName || "Gallus"}{" "}
-                      {teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
-                        ?.LastName || "Anonymus"}{" "}
-                      at {textGrade.Date}
+                      {t("text_grades.added_by", {
+                        teacher: `${upperFirst(
+                          teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
+                            ?.FirstName || "Gallus"
+                        )} ${upperFirst(
+                          teachersData.find((x) => x.Id == textGrade.AddedBy.Id)
+                            ?.LastName || "Anonymus"
+                        )}`,
+                        date: textGrade.Date,
+                      })}
                     </span>
                   )}
                 </div>
               ))
             ) : (
-              <span className="text-lg">No text grades available.</span>
+              <span className="text-lg">{t("text_grades.empty")}</span>
             )
           ) : (
             <div className="skeleton h-24"></div>

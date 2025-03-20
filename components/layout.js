@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Link from "next/link";
+import Link from "@/components/i18n/link";
 
 import { Preferences } from "@capacitor/preferences";
 
@@ -19,8 +19,11 @@ import {
 
 import { getUser } from "@/lib/user";
 import { logout, refreshSession } from "@/lib/auth";
+import { useTranslation } from "react-i18next";
 
 const Layout = ({ children, setAuthData }) => {
+  const { t } = useTranslation(["common"]);
+
   const router = useRouter();
   const [userData, setUserData] = useState(null);
   const [devmode, setDevmode] = useState(false);
@@ -29,7 +32,7 @@ const Layout = ({ children, setAuthData }) => {
     // Fetch user data
     const fetchData = async () => {
       const data = await getUser();
-      if (!data) return router.push("/auth");
+      if (!data) return router.push("/" + router.query.locale + "/auth");
       setUserData(data); // Local
       if (setAuthData) setAuthData(data); // Global
     };
@@ -94,19 +97,21 @@ const Layout = ({ children, setAuthData }) => {
                 className="menu menu-sm dropdown-content bg-base-300 border border-base-200 rounded-box z-1 mt-3 w-52 p-2 shadow-sm"
               >
                 <li>
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/profile">{t("navigation.account.profile")}</Link>
                 </li>
                 <li>
-                  <Link href="/settings">Settings</Link>
+                  <Link href="/settings">
+                    {t("navigation.account.settings")}
+                  </Link>
                 </li>
                 <li>
                   <button
                     onClick={async () => {
                       await logout();
-                      router.push("/auth");
+                      await router.push("/" + router.query.locale + "/auth");
                     }}
                   >
-                    Logout
+                    {t("navigation.account.logout")}
                   </button>
                 </li>
               </ul>
@@ -127,19 +132,19 @@ const Layout = ({ children, setAuthData }) => {
           <li>
             <Link href="/" className="flex flex-row items-center text-xl">
               <House />
-              Home
+              {t("navigation.home")}
             </Link>
           </li>
           <li>
             <Link href="/grades" className="flex flex-row items-center text-xl">
               <ListOl />
-              Grades
+              {t("navigation.grades")}
             </Link>
           </li>
           <li>
             <Link href="/exams" className="flex flex-row items-center text-xl">
               <VectorPen />
-              Exams
+              {t("navigation.exams")}
             </Link>
           </li>
           <li>
@@ -148,7 +153,7 @@ const Layout = ({ children, setAuthData }) => {
               className="flex flex-row items-center text-xl"
             >
               <Calendar2Week />
-              Timetable
+              {t("navigation.timetable")}
             </Link>
           </li>
           <li>
@@ -157,7 +162,7 @@ const Layout = ({ children, setAuthData }) => {
               className="flex flex-row items-center text-xl"
             >
               <PersonExclamation />
-              Teacher absences
+              {t("navigation.teacherAbsences")}
             </Link>
           </li>
           <li>
@@ -166,7 +171,7 @@ const Layout = ({ children, setAuthData }) => {
               className="flex flex-row items-center text-xl"
             >
               <ClipboardCheck />
-              Attendance
+              {t("navigation.attendance")}
             </Link>
           </li>
           <li>
@@ -175,7 +180,7 @@ const Layout = ({ children, setAuthData }) => {
               className="flex flex-row items-center text-xl"
             >
               <ChatLeftDots />
-              Messages
+              {t("navigation.messages")}
             </Link>
           </li>
           {devmode && (
@@ -185,7 +190,7 @@ const Layout = ({ children, setAuthData }) => {
                 className="flex flex-row items-center text-xl"
               >
                 <CodeSlash />
-                Developer
+                {t("navigation.developer")}
               </Link>
             </li>
           )}

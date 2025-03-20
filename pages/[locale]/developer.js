@@ -1,18 +1,22 @@
-import { CapacitorCookies } from "@capacitor/core";
 import Layout from "@/components/layout";
 import { useState } from "react";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["developer", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const Developer = () => {
+  const { t } = useTranslation(["developer"]);
+
   const [msgAuth, setMsgAuth] = useState(false);
   const [response, setResponse] = useState(null);
 
   return (
     <Layout>
       <div className="flex flex-col">
-        <span className="text-3xl font-semibold">Developer tools</span>
-        <span className="text-lg">
-          Tools for developers to debug and test Librus API.
-        </span>
+        <span className="text-3xl font-semibold">{t("title")}</span>
+        <span className="text-lg">{t("description")}</span>
       </div>
       <form
         className="flex flex-col md:flex-row gap-2 mt-4"
@@ -97,7 +101,7 @@ const Developer = () => {
           ))
         ) : (
           <pre data-prefix="1">
-            <code>Awaiting response</code>
+            <code>{t("response.awaiting")}</code>
           </pre>
         )}
       </div>
