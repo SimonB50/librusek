@@ -186,12 +186,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/core@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@capacitor/core@npm:7.0.1"
+"@capacitor/core@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@capacitor/core@npm:7.1.0"
   dependencies:
     tslib: "npm:^2.1.0"
-  checksum: 10c0/bc0ff58548f8c5ed7f809d6958a9272e3d6dac16486858ac14079b8a0e8bcfe2ee478b0e873c94ba2eaf95fc32cb178296bc015758036cafa043a90d1167c093
+  checksum: 10c0/cfc664f5f33191777f177ba00786c8b077c458cf72f1f9423ccc512ae38368332005485767c9a30f2dfa521edaafcf660e3f37d5d63ad981f8371f68d7d22df0
   languageName: node
   linkType: hard
 
@@ -5399,7 +5399,7 @@ __metadata:
     "@capacitor/app": "npm:^7.0.0"
     "@capacitor/assets": "npm:^3.0.5"
     "@capacitor/cli": "npm:^7.0.1"
-    "@capacitor/core": "npm:^7.0.1"
+    "@capacitor/core": "npm:^7.1.0"
     "@capacitor/device": "npm:^7.0.0"
     "@capacitor/ios": "npm:^7.0.1"
     "@capacitor/preferences": "npm:^7.0.0"
