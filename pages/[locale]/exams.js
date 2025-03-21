@@ -1,0 +1,111 @@
+import { useHomeworks, useHomeworksCategories } from "@/lib/timetable";
+import Layout from "@/components/layout";
+import { upperFirst, sortTasks } from "@/lib/utils";
+import { useSubjects } from "@/lib/school";
+import dayjs from "dayjs";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["exams", "common"]);
+export { getStaticPaths, getStaticProps };
+
+const Exams = () => {
+  const { t } = useTranslation(["exams"]);
+
+  // Grades data
+  const {
+    data: homeworkData,
+    loading: homeworkLoading,
+    error: homeworkError,
+  } = useHomeworks();
+  const {
+    data: subjectsData,
+    loading: subjectsLoading,
+    error: subjectsError,
+  } = useSubjects(
+    homeworkData && homeworkData.length
+      ? homeworkData
+          .filter((x) => x.Subject)
+          .map((y) => y.Subject.Id)
+          .join(",")
+      : false
+  );
+  const {
+    data: homeworkCategoriesData,
+    loading: homeworkCategoriesLoading,
+    error: homeworkCategoriesError,
+  } = useHomeworksCategories(
+    homeworkData && homeworkData.length
+      ? homeworkData.map((x) => x.Category.Id).join(",")
+      : false
+  );
+
+  return (
+    <Layout>
+      <span className="text-3xl font-semibold mb-4">{t("title")}</span>
+      <div className="grid grid-cols-6 gap-2 mt-4">
+        {!homeworkLoading && !homeworkError
+          ? sortTasks(homeworkData).map((homework) => (
+              <div
+                key={homework.Id}
+                className={`col-span-6 sm:col-span-3 md:col-span-2 flex flex-col justify-between p-4 bg-base-200 border border-base-300 rounded-box ${
+                  dayjs(homework.Date).startOf("day").valueOf() -
+                    dayjs().startOf("day").valueOf() ==
+                  0
+                    ? `border border-primary`
+                    : ``
+                }`}
+              >
+                <div className="flex flex-col">
+                  <div className="flex flex-row gap-1 items-center justify-between">
+                    <span className="text-2xl font-bold">
+                      {!homeworkCategoriesLoading &&
+                        !homeworkCategoriesError &&
+                        homeworkCategoriesData.find(
+                          (x) => x.Id == homework.Category.Id
+                        )?.Name}
+                    </span>
+                    <span className="text-lg font-semibold">
+                      {!subjectsLoading &&
+                        !subjectsError &&
+                        homework?.Subject?.Id &&
+                        upperFirst(
+                          subjectsData.find(
+                            (x) => x.Id == homework?.Subject?.Id
+                          )?.Name
+                        )}
+                    </span>
+                  </div>
+                  <span>{homework.Content}</span>
+                </div>
+                <div className="flex flex-row justify-between items-center">
+                  <span>{homework.Date}</span>
+                  {dayjs(homework.Date).startOf("day").valueOf() -
+                    dayjs().startOf("day").valueOf() >=
+                    0 && (
+                    <div className="badge badge-primary">
+                      {dayjs(homework.Date).startOf("day").valueOf() -
+                        dayjs().startOf("day").valueOf() ==
+                      0
+                        ? t("due_in.today")
+                        : t("due_in.x_days", {
+                            days: Math.ceil(
+                              dayjs(homework.Date).diff(dayjs(), "day", true)
+                            ),
+                          })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+          : Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="col-span-6 sm:col-span-3 md:col-span-2 skeleton h-24"
+              ></div>
+            ))}
+      </div>
+    </Layout>
+  );
+};
+export default Exams;

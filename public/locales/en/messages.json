@@ -1,0 +1,11 @@
+{
+  "title": "Messages",
+  "loading": "Loading messages...",
+  "missing": {
+    "topic": "No topic available",
+    "content": "No content available",
+    "sender": "Unknown sender",
+    "date": "No date available"
+  },
+  "file_unsupported": "This message has an attachment, which is not supported by this application."
+}
