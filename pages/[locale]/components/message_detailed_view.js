@@ -60,4 +60,6 @@ const DetailedMessageView = ({ message, onBack }) => {
     </div>
   );
 };
+
+
 export default DetailedMessageView;

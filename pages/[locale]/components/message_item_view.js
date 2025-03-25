@@ -3,7 +3,7 @@ import { AttachmentWarning, TagsList } from "./message_common_component";
 import { removeCDATA, decodeBase64, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
-export const MessageItem = ({ message, onClick, isInbox }) => {
+ const MessageItem = ({ message, onClick, isInbox }) => {
   const { t } = useTranslation("messages"); // Namespace 'messages'
 
   return (
@@ -48,3 +48,5 @@ export const MessageItem = ({ message, onClick, isInbox }) => {
     </div>
   );
 };
+
+export default MessageItem;

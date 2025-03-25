@@ -1,14 +1,8 @@
 import { useState } from "react";
 import InfiniteScroll from "@rorygudka/react-infinite-scroller";
-import  DetailedMessageView  from "./components/message_detailed_view";
-import { MessageItem } from "./components/message_item_view";
+import DetailedMessageView from "./components/message_detailed_view";
+import MessageItem from "./components/message_item_view";
 import { useMessages, useMessageDetails } from "@/lib/messages";
-import {
-  decodeAndCleanHtml,
-  decodeBase64,
-  removeCDATA,
-  formatDate,
-} from "@/lib/utils";
 import Layout from "@/components/layout";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
@@ -70,8 +64,7 @@ const MessagesPage = () => {
               hasMore={!messagesLoading && !messagesError}
               loader={
                 <div className="skeleton h-24 w-full" key={0}>
-                  {t('loading'
-                  )}
+                  {t("loading")}
                 </div>
               }
               className="flex flex-col gap-2"

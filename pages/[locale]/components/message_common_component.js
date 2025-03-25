@@ -81,3 +81,4 @@ const TagsList = ({ tags }) => {
   );
 };
 export { TagsList, MessageReceivers, AttachmentWarning };
+export default AttachmentWarning;
