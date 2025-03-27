@@ -1,8 +1,8 @@
 import { useState } from "react";
 import InfiniteScroll from "@rorygudka/react-infinite-scroller";
-import DetailedMessageView from "./components/message_detailed_view";
-import MessageItem from "./components/message_item_view";
-import { useMessages, useMessageDetails } from "@/lib/messages";
+import DetailedMessageView from "@/components/messages/message_detailed_view";
+import MessageItem from "@/components/messages/message_item_view";
+import { useMessages, useMessageDetails, useMessageTags } from "@/lib/messages";
 import Layout from "@/components/layout";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,7 @@ const MessagesPage = () => {
   const { t } = useTranslation(["messages"]);
   const [readMoreMessage, setReadMoreMessage] = useState(null);
   const [isInbox, setIsInbox] = useState(true);
+  const { messageTags } = useMessageTags(); // Użyj hooka jezlei mam 
 
   const {
     data: messagesData,
@@ -42,6 +43,7 @@ const MessagesPage = () => {
         <DetailedMessageView
           message={messageDetailsData}
           onBack={handleReadMoreClose}
+          tagsLibrary={messageTags}
         />
       ) : (
         <div className="space-y-4">
@@ -75,6 +77,7 @@ const MessagesPage = () => {
                   message={message}
                   isInbox={isInbox}
                   onClick={() => handleReadMore(message.messageId)}
+                  tagsLibrary={messageTags}
                 />
               ))}
             </InfiniteScroll>

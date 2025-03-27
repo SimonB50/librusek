@@ -6,7 +6,7 @@ import {
 import { decodeAndCleanHtml, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
-const DetailedMessageView = ({ message, onBack }) => {
+const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
   const { t } = useTranslation("messages"); // Namespace 'messages'
 
   return (
@@ -38,7 +38,7 @@ const DetailedMessageView = ({ message, onBack }) => {
               : `${t("unread")}`}
           </span>
         </div>
-        <TagsList tags={message.tags} />
+        <TagsList tags={message.tags} tagsLibrary={tagsLibrary} />
         <AttachmentWarning hasAttachment={message.attachments?.length > 0} />
         <p className="py-4 text-base-content/80">
           {message.Message ? (

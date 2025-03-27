@@ -3,12 +3,12 @@ import { AttachmentWarning, TagsList } from "./message_common_component";
 import { removeCDATA, decodeBase64, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
- const MessageItem = ({ message, onClick, isInbox }) => {
+ const MessageItem = ({ message, onClick, isInbox, tagsLibrary }) => {
   const { t } = useTranslation("messages"); // Namespace 'messages'
 
   return (
     <div
-      className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 border border-base-300 rounded-box gap-2 p-4 cursor-pointer hover:bg-base-300 transition-colors duration-200"
+      className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-200 border border-base-300 rounded-box gap-2 p-4 cursor-pointer hover:bg-base-300 transition-colors duration-200"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -38,7 +38,7 @@ import { useTranslation } from "react-i18next";
                 <EnvelopeFill className="w-5 h-5 text-error" />
               </span>
             ))}
-          <TagsList tags={message.tags} />
+         <TagsList tags={message.tags} tagsLibrary={tagsLibrary} />
         </div>
         <div className="text-sm text-base-content/80">
           {removeCDATA(decodeBase64(message.content)) || t("missing.content")}

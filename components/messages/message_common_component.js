@@ -1,5 +1,6 @@
 import { ExclamationTriangleFill } from "react-bootstrap-icons";
 import { useTranslation } from "react-i18next";
+import { getTextColor } from "@/lib/utils";
 
 /**
  * AttachmentWarning Component
@@ -42,7 +43,7 @@ const MessageReceivers = ({ receivers }) => {
       </span>
     );
   }
-
+  // TODO: If the recipient is me (always), I should have a decoration "badge-outline", and other recipients should have the "badge-soft" outline. I should be at the beginning.
   // Map through receivers and display their names or a fallback
   return receivers.map((receiver, index) => {
     // Determine display name: use 'name', combine 'firstName' and 'lastName', or fallback to "missing receiver"
@@ -60,25 +61,50 @@ const MessageReceivers = ({ receivers }) => {
 
 /**
  * TagsList Component
- * Renders a list of tags as neutral badges if tags exist.
+ * Renders a list of tags as badges with colors from tag data.
+ *
  * @param {Object} props - Component props
- * @param {Array} props.tags - Array of tag strings to display
- * @returns {JSX.Element|null} List of tag badges or null if no tags
+ * @param {Array} props.tags - Array of tag objects with id (e.g., [{ id: 41421 }, { id: 41422 }])
+ * @param {Array} props.tagsLibrary - Array of tag details (e.g., [{ tagId: 41421, name: 'Tag Name', colorRGB: '80ff80' }, ...])
+ * @returns {JSX.Element|null} List of tag badges or null if validation fails
  */
-const TagsList = ({ tags }) => {
-  // If tags array is empty or undefined, render nothing
-  if (!tags?.length) return null;
+const TagsList = ({ tags, tagsLibrary }) => {
+
+
+  // Basic validation
+  if (!Array.isArray(tags) || tags.length === 0) {
+    return null; // Return null if no tags are available
+  }
+
+  if (!Array.isArray(tagsLibrary) || tagsLibrary.length === 0) {
+    console.warn("tags library is invalid");
+    return null; // Return null if the tags library is invalid
+  }
 
   return (
-    <span className="flex gap-2">
-      {tags.map((tag, index) => (
-        // Display each tag in a neutral badge
-        <span key={index} className="badge badge-neutral">
-          {tag}
-        </span>
-      ))}
-    </span>
+    <div className="flex gap-2">
+      {tags.map((tagObj) => {
+        // Find the corresponding tag in tagsLibrary
+        const tag = tagsLibrary.find((t) => t.tagId === tagObj.id);
+
+        // Default values if tag not found
+        const tagName = tag?.name || `Tag ${tagObj.id}`;
+        const tagColor = tag?.colorRGB ? `#${tag.colorRGB}` : "#gray";
+        const textColor = getTextColor(tagColor);
+
+        return (
+          <span
+            key={tagObj.id} // Use tagObj.id for the key
+            className="badge badge-neutral"
+            style={{ backgroundColor: tagColor, color: textColor }} // Use textColor for the text
+          >
+            {tagName}
+          </span>
+        );
+      })}
+    </div>
   );
 };
+
 export { TagsList, MessageReceivers, AttachmentWarning };
 export default AttachmentWarning;
