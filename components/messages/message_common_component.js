@@ -1,6 +1,5 @@
 import { ExclamationTriangleFill } from "react-bootstrap-icons";
 import { useTranslation } from "react-i18next";
-import { getTextColor } from "@/lib/utils";
 
 /**
  * AttachmentWarning Component
@@ -84,19 +83,15 @@ const TagsList = ({ tags, tagsLibrary }) => {
   return (
     <div className="flex gap-2">
       {tags.map((tagObj) => {
-        // Find the corresponding tag in tagsLibrary
         const tag = tagsLibrary.find((t) => t.tagId === tagObj.id);
 
         // Default values if tag not found
         const tagName = tag?.name || `Tag ${tagObj.id}`;
-        const tagColor = tag?.colorRGB ? `#${tag.colorRGB}` : "#gray";
-        const textColor = getTextColor(tagColor);
-
+ 
         return (
           <span
             key={tagObj.id} // Use tagObj.id for the key
             className="badge badge-neutral"
-            style={{ backgroundColor: tagColor, color: textColor }} // Use textColor for the text
           >
             {tagName}
           </span>

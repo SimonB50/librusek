@@ -4,7 +4,7 @@ import { removeCDATA, decodeBase64, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
  const MessageItem = ({ message, onClick, isInbox, tagsLibrary }) => {
-  const { t } = useTranslation("messages"); // Namespace 'messages'
+  const { t } = useTranslation("messages"); 
 
   return (
     <div

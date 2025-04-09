@@ -14,7 +14,7 @@ const MessagesPage = () => {
   const { t } = useTranslation(["messages"]);
   const [readMoreMessage, setReadMoreMessage] = useState(null);
   const [isInbox, setIsInbox] = useState(true);
-  const { messageTags } = useMessageTags(); // Użyj hooka jezlei mam 
+  const { messageTags } = useMessageTags();
 
   const {
     data: messagesData,
