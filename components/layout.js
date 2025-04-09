@@ -22,7 +22,7 @@ import { logout, refreshSession } from "@/lib/auth";
 import { useTranslation } from "react-i18next";
 
 const Layout = ({ children, setAuthData }) => {
-  const { t } = useTranslation(["common"]);
+  const { t, i18n } = useTranslation(["common"]);
 
   const router = useRouter();
   const [userData, setUserData] = useState(null);
@@ -32,7 +32,7 @@ const Layout = ({ children, setAuthData }) => {
     // Fetch user data
     const fetchData = async () => {
       const data = await getUser();
-      if (!data) return router.push("/" + router.query.locale + "/auth");
+      if (!data) return router.push("/auth");
       setUserData(data); // Local
       if (setAuthData) setAuthData(data); // Global
     };
@@ -54,7 +54,7 @@ const Layout = ({ children, setAuthData }) => {
 
     // Cleanup
     return () => clearInterval(intervalId);
-  }, [router, setUserData, setAuthData, userData]);
+  }, [router, setUserData, setAuthData, userData, i18n.language]);
 
   return (
     <div className="drawer lg:drawer-open">
@@ -108,7 +108,7 @@ const Layout = ({ children, setAuthData }) => {
                   <button
                     onClick={async () => {
                       await logout();
-                      await router.push("/" + router.query.locale + "/auth");
+                      await router.push("/auth");
                     }}
                   >
                     {t("navigation.account.logout")}

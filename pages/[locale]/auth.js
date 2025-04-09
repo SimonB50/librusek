@@ -14,7 +14,7 @@ const getStaticProps = makeStaticProps(["auth", "common"]);
 export { getStaticPaths, getStaticProps };
 
 const Auth = () => {
-  const { t } = useTranslation(["auth", "common"]);
+  const { t, i18n } = useTranslation(["auth", "common"]);
 
   const router = useRouter();
   const [authLoading, setAuthLoading] = useState(false);
@@ -48,7 +48,7 @@ const Auth = () => {
       });
     }
     sessionStorage.clear();
-    await router.push("/" + router.query.locale + "/");
+    await router.push("/");
   };
   const onError = (errors, e) => console.error(errors, e);
 
