@@ -83,9 +83,15 @@ const MessagesPage = () => {
             </InfiniteScroll>
           ) : (
             <div className="flex flex-col gap-2">
-              {Array.from({ length: 3 }, (_, index) => (
-                <div key={index} className="skeleton h-24 w-full" />
-              ))}
+              {!messagesLoading && !messagesData?.length && (
+                <div className="text-center text-xl font-semibold text-gray-500">
+                  {t("no_messages")}
+                </div>
+              )}
+              {messagesLoading &&
+                Array.from({ length: 3 }, (_, index) => (
+                  <div key={index} className="skeleton h-24 w-full" />
+                ))}
             </div>
           )}
         </div>

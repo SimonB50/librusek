@@ -9,16 +9,14 @@ import { useTranslation } from "react-i18next";
  * @returns {JSX.Element|null} Warning badge or null if no attachment
  */
 const AttachmentWarning = ({ hasAttachment }) => {
-  const { t } = useTranslation("messages"); // Hook to access translations from 'messages' namespace
+  const { t } = useTranslation("messages");
 
   // If there’s no attachment, render nothing
   if (!hasAttachment) return null;
 
   return (
-    <div className="flex badge badge-soft badge-warning gap-2 mt-2 p-2 border rounded-md">
-      {/* Warning icon with styling for visibility */}
-      <ExclamationTriangleFill className="text-lg text-base-content/60" />
-      {/* Translated warning message for unsupported file */}
+    <div className="flex flex-row text-warning gap-2 mt-2 p-1 flex-wrap">
+      <ExclamationTriangleFill className="text-lg" />
       {t("file_unsupported")}
     </div>
   );
@@ -43,19 +41,26 @@ const MessageReceivers = ({ receivers }) => {
     );
   }
   // TODO: If the recipient is me (always), I should have a decoration "badge-outline", and other recipients should have the "badge-soft" outline. I should be at the beginning.
-  // Map through receivers and display their names or a fallback
-  return receivers.map((receiver, index) => {
-    // Determine display name: use 'name', combine 'firstName' and 'lastName', or fallback to "missing receiver"
-    const name =
-      receiver.name ||
-      `${receiver.firstName || ""} ${receiver.lastName || ""}`.trim() ||
-      t("missing.receiver");
-    return (
-      <span key={index} className="badge badge-outline mr-2 mb-1">
-        {name}
-      </span>
-    );
-  });
+  return receivers
+    .filter((x) => receivers.indexOf(x) <= 4)
+    .map((receiver, index) => {
+      let name =
+        receiver.name ||
+        `${receiver.firstName || ""} ${receiver.lastName || ""}`.trim() ||
+        t("missing.receiver");
+      name = name.replace("liczba odbiorców: ", "");
+      if (index == 4)
+        return (
+          <span key={index} className="badge badge-outline mr-2 mb-1">
+            +{receivers.length - 5}
+          </span>
+        );
+      return (
+        <span key={index} className="badge badge-outline mr-2 mb-1">
+          {name}
+        </span>
+      );
+    });
 };
 
 /**
@@ -68,16 +73,13 @@ const MessageReceivers = ({ receivers }) => {
  * @returns {JSX.Element|null} List of tag badges or null if validation fails
  */
 const TagsList = ({ tags, tagsLibrary }) => {
-
-
-  // Basic validation
   if (!Array.isArray(tags) || tags.length === 0) {
     return null; // Return null if no tags are available
   }
 
   if (!Array.isArray(tagsLibrary) || tagsLibrary.length === 0) {
     console.warn("tags library is invalid");
-    return null; // Return null if the tags library is invalid
+    return null;
   }
 
   return (
@@ -87,12 +89,9 @@ const TagsList = ({ tags, tagsLibrary }) => {
 
         // Default values if tag not found
         const tagName = tag?.name || `Tag ${tagObj.id}`;
- 
+
         return (
-          <span
-            key={tagObj.id} // Use tagObj.id for the key
-            className="badge badge-neutral"
-          >
+          <span key={tagObj.id} className="badge badge-neutral">
             {tagName}
           </span>
         );

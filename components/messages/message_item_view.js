@@ -3,8 +3,8 @@ import { AttachmentWarning, TagsList } from "./message_common_component";
 import { removeCDATA, decodeBase64, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
- const MessageItem = ({ message, onClick, isInbox, tagsLibrary }) => {
-  const { t } = useTranslation("messages"); 
+const MessageItem = ({ message, onClick, isInbox, tagsLibrary }) => {
+  const { t } = useTranslation("messages");
 
   return (
     <div
@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
         <h4 className="font-bold text-lg text-base-content">
           {message.topic || t("missing.topic")}
         </h4>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-base-content/70">
+        <div className="flex flex-row items-center gap-2 text-sm text-base-content/70 flex-wrap">
           <span className="badge badge-outline badge-info">
             {message.sendDate
               ? `${t("send")} ${formatDate(message.sendDate)}`
@@ -38,7 +38,7 @@ import { useTranslation } from "react-i18next";
                 <EnvelopeFill className="w-5 h-5 text-error" />
               </span>
             ))}
-         <TagsList tags={message.tags} tagsLibrary={tagsLibrary} />
+          <TagsList tags={message.tags} tagsLibrary={tagsLibrary} />
         </div>
         <div className="text-sm text-base-content/80">
           {removeCDATA(decodeBase64(message.content)) || t("missing.content")}

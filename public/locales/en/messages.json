@@ -17,6 +17,7 @@
   "send": "Send",
   "read": "Read",
   "unread": "Unread",
-  "file_unsupported": "This message has an attachment, which is not supported by this application.",
-  "back_button" : "Back"
+  "file_unsupported": "This message has an attachment!",
+  "no_messages": "No messages available",
+  "back_button": "Back"
 }
