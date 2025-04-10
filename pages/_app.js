@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 
 import NoSSR from "@/components/no-srr";
 import { ThemeProvider } from "next-themes";
+import { appWithTranslation } from "next-i18next";
 
 const App = ({ Component, pageProps }) => {
   return (
@@ -12,4 +13,4 @@ const App = ({ Component, pageProps }) => {
     </NoSSR>
   );
 };
-export default App;
+export default appWithTranslation(App);

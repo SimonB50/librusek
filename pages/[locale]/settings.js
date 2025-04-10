@@ -5,8 +5,15 @@ import { useEffect, useState } from "react";
 
 import Layout from "@/components/layout";
 import { upperFirst } from "@/lib/utils";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["settings", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const Settings = () => {
+  const { t } = useTranslation(["settings", "common"]);
+
   const [devmode, setDevmode] = useState("false");
 
   const { theme, setTheme } = useTheme();
@@ -64,13 +71,15 @@ const Settings = () => {
     <Layout>
       <dialog id="cacheClear" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="text-lg font-bold">Success!</h3>
-          <span>
-            The application request cache has been cleared successfully.
-          </span>
+          <h3 className="text-lg font-bold">
+            {t("advanced.clear_cache.success.title")}
+          </h3>
+          <span>{t("advanced.clear_cache.success.description")}</span>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn">Close</button>
+              <button className="btn">
+                {t("advanced.clear_cache.success.button")}
+              </button>
             </form>
           </div>
         </div>
@@ -82,8 +91,10 @@ const Settings = () => {
         <div className="modal-box">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
-              <h3 className="text-lg font-bold">Themes browser</h3>
-              <span>Explore custom themes and choose the one you like!</span>
+              <h3 className="text-lg font-bold">
+                {t("appearance.themes.custom.explorer.title")}
+              </h3>
+              <span>{t("appearance.themes.custom.explorer.description")}</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {themes.map((x) => (
@@ -132,7 +143,9 @@ const Settings = () => {
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn">Close</button>
+              <button className="btn">
+                {t("appearance.themes.custom.explorer.close")}
+              </button>
             </form>
           </div>
         </div>
@@ -143,18 +156,20 @@ const Settings = () => {
       <div className="flex flex-col gap-8">
         <div className="flex flex-col">
           <div className="flex flex-col">
-            <span className="text-3xl font-semibold">Appearance</span>
-            <span className="text-lg">
-              Customize the appearance of the application to your liking.
+            <span className="text-3xl font-semibold">
+              {t("appearance.title")}
             </span>
+            <span className="text-lg">{t("appearance.description")}</span>
           </div>
           <div className="divider my-1"></div>
           <div className="flex flex-col gap-2">
             <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-2">
               <div className="flex flex-col">
-                <span className="text-lg font-semibold">Standard themes</span>
+                <span className="text-lg font-semibold">
+                  {t("appearance.themes.standard.title")}
+                </span>
                 <span className="text-sm">
-                  Choose between light and dark mode.
+                  {t("appearance.themes.standard.description")}
                 </span>
               </div>
               <div className="flex flex-row gap-2">
@@ -164,16 +179,18 @@ const Settings = () => {
                     className={`btn ${x == theme && "btn-primary"}`}
                     onClick={() => setTheme(x)}
                   >
-                    {upperFirst(x)}
+                    {t(`appearance.themes.standard.options.${x}`)}
                   </button>
                 ))}
               </div>
             </div>
             <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-2">
               <div className="flex flex-col">
-                <span className="text-lg font-semibold">Custom themes</span>
+                <span className="text-lg font-semibold">
+                  {t("appearance.themes.custom.title")}
+                </span>
                 <span className="text-sm">
-                  Choose between different more custom themes.
+                  {t("appearance.themes.custom.description")}
                 </span>
               </div>
               <div className="flex flex-row gap-4 items-center">
@@ -183,10 +200,12 @@ const Settings = () => {
                     document.getElementById("themesBrowser").showModal()
                   }
                 >
-                  Explore
+                  {t("appearance.themes.custom.explore")}
                 </button>
                 <span className="text-base">
-                  <span className="font-bold">Current:</span>{" "}
+                  <span className="font-bold">
+                    {t("appearance.themes.custom.current")}:
+                  </span>{" "}
                   {upperFirst(theme)}
                 </span>
               </div>
@@ -195,19 +214,20 @@ const Settings = () => {
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col">
-            <span className="text-3xl font-semibold">Advanced settings</span>
-            <span className="text-lg">
-              Advanced options for development and debugging.
+            <span className="text-3xl font-semibold">
+              {t("advanced.title")}
             </span>
+            <span className="text-lg">{t("advanced.description")}</span>
           </div>
           <div className="divider my-1"></div>
           <div className="flex flex-col gap-2">
             <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-2">
               <div className="flex flex-col">
-                <span className="text-lg font-semibold">Developer mode</span>
+                <span className="text-lg font-semibold">
+                  {t("advanced.devmode.title")}
+                </span>
                 <span className="text-sm">
-                  Enable &quot;Developer&quot; page with advanced features for
-                  debugging.
+                  {t("advanced.devmode.description")}
                 </span>
               </div>
               <div className="flex flex-row gap-2">
@@ -231,9 +251,11 @@ const Settings = () => {
             </div>
             <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-2">
               <div className="flex flex-col">
-                <span className="text-lg font-semibold">Clear cache</span>
+                <span className="text-lg font-semibold">
+                  {t("advanced.clear_cache.title")}
+                </span>
                 <span className="text-sm">
-                  Clear application request cache to get fresh data
+                  {t("advanced.clear_cache.description")}
                 </span>
               </div>
               <button
@@ -243,7 +265,7 @@ const Settings = () => {
                   document.getElementById("cacheClear").showModal();
                 }}
               >
-                Clear cache
+                {t("advanced.clear_cache.button")}
               </button>
             </div>
           </div>

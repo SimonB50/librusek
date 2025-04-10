@@ -3,8 +3,15 @@ import { useTeachers } from "@/lib/school";
 import { useTeacherAbsences } from "@/lib/timetable";
 import { sortTeacherAbsences } from "@/lib/utils";
 import dayjs from "dayjs";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["teacherAbsences", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const TeacherAbsences = () => {
+  const { t } = useTranslation(["teacherAbsences"]);
+
   // Teacher absences data
   const {
     data: teacherAbsencesData,
@@ -23,7 +30,7 @@ const TeacherAbsences = () => {
 
   return (
     <Layout>
-      <span className="text-3xl font-semibold mb-4">Teacher absences</span>
+      <span className="text-3xl font-semibold mb-4">{t("title")}</span>
       <div className="grid grid-cols-6 gap-2 mt-4">
         {!teacherAbsencesError &&
         !teacherAbsencesLoading &&
@@ -78,11 +85,11 @@ const TeacherAbsences = () => {
                     {dayjs(absence.DateFrom).startOf("day").valueOf() >=
                       dayjs().valueOf() && (
                       <div className="badge badge-primary">
-                        In{" "}
-                        {Math.ceil(
-                          dayjs(absence.DateFrom).diff(dayjs(), "day", true)
-                        )}{" "}
-                        days
+                        {t("active_in", {
+                          days: Math.ceil(
+                            dayjs(absence.DateFrom).diff(dayjs(), "day", true)
+                          ),
+                        })}
                       </div>
                     )}
                   </div>

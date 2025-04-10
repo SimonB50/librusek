@@ -1,0 +1,23 @@
+{
+  "title": "Messages",
+  "loading": "Loading messages...",
+  "missing": {
+    "topic": "No topic available",
+    "content": "No content available",
+    "sender": "Unknown sender",
+    "date": "No date available",
+    "receiver": "Unknown receiver"
+  },
+  "inbox": "Inbox",
+  "outbox": "Outbox",
+  "switch_outbox": "Switch to Outbox",
+  "switch_inbox": "Switch to Inbox",
+  "reciver_to": "To",
+  "sender_from": "From",
+  "send": "Send",
+  "read": "Read",
+  "unread": "Unread",
+  "file_unsupported": "This message has an attachment!",
+  "no_messages": "No messages available",
+  "back_button": "Back"
+}

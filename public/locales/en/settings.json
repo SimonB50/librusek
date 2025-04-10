@@ -1,0 +1,46 @@
+{
+    "appearance": {
+        "title": "Appearance",
+        "description": "Customize the appearance of the application to your liking.",
+        "themes": {
+            "standard": {
+                "title": "Standard themes",
+                "description": "Choose between light and dark mode.",
+                "options": {
+                    "system": "System",
+                    "light": "Light",
+                    "dark": "Dark"
+                }
+            },
+            "custom": {
+                "title": "Custom themes",
+                "description": "Choose between different more custom themes.",
+                "explore": "Explore",
+                "current": "Current",
+                "explorer": {
+                    "title": "Themes browser",
+                    "description": "Explore custom themes and choose the one you like!",
+                    "close": "Close"
+                }
+            }
+        }
+    },
+    "advanced": {
+        "title": "Advanced settings",
+        "description": "Advanced options for development and debugging.",
+        "devmode": {
+            "title": "Developer mode",
+            "description": "Enable \"Developer\" page with advanced features for debugging."
+        },
+        "clear_cache": {
+            "title": "Clear cache",
+            "description": "Clear application request cache to get fresh data",
+            "button": "Clear cache",
+            "success": {
+                "title": "Cache cleared",
+                "message": "The application request cache has been cleared successfully.",
+                "button": "Close"
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+{
+  "title": "Grades",
+  "filter": {
+    "all": "All grades",
+    "latest": "Latest grades"
+  },
+  "average": "Average",
+  "simulator": {
+    "enable": "Edit",
+    "disable": "Cancel",
+    "editor": {
+      "title": "Grades simulation",
+      "type": {
+        "name": "Type",
+        "values": {
+          "select": "Select type",
+          "grade": "Grade",
+          "points": "Points"
+        },
+        "errors": {
+          "required": "Please enter valid {[type}} value",
+          "min": "{{type}} cannot be negative",
+          "max": "{{type}} cannot be greater than {{max}}"
+        }
+      },
+      "weight": {
+        "name": "Weight",
+        "errors": {
+          "required": "Please enter valid weight value",
+          "min": "{{type}} weight must be at least 1",
+          "max": "{{type}} weight can be at most 6"
+        }
+      },
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "details": {
+    "title": "Grade Details",
+    "weight": "Weight",
+    "teacher": "Teacher",
+    "comment": "Comment",
+    "edit_actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "invalid": "Invalid grade selected."
+  },
+  "text_grades": {
+    "title": "Text Grades",
+    "added_by": "Added by {{teacher}} at {{date}}",
+    "empty": "No text grades available."
+  }
+}

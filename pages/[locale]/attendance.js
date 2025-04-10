@@ -3,8 +3,15 @@ import { useAttendance, useAttendancesTypes, useLessons } from "@/lib/lessons";
 import { useSubjects, useTeachers } from "@/lib/school";
 import { upperFirst, groupAbsences } from "@/lib/utils";
 import { useState } from "react";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["attendance", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const Attendance = () => {
+  const { t } = useTranslation(["attendance", "common"]);
+
   // Page data
   const [focusedSubject, setFocusedSubject] = useState(null);
   const [focusedAbsence, setFocusedAbsence] = useState(null);
@@ -64,11 +71,13 @@ const Attendance = () => {
               upperFirst(subjectsData.find((x) => x.Id == focusedSubject).Name)}
           </h3>
           <div className="flex flex-col mt-4">
-            <span className="text-lg font-semibold">Semester I</span>
+            <span className="text-lg font-semibold">
+              {t("common.school.semester", { ns: "common", semester: "I" })}
+            </span>
             <div className="flex flex-col">
               <div className="flex flex-row gap-2">
                 <span>
-                  Presence:{" "}
+                  {t("subject_details.presence")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -83,7 +92,7 @@ const Attendance = () => {
                   </span>
                 </span>
                 <span>
-                  Absences:{" "}
+                  {t("subject_details.absences")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -98,7 +107,7 @@ const Attendance = () => {
                   </span>
                 </span>
                 <span>
-                  Total:{" "}
+                  {t("subject_details.total")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -112,7 +121,7 @@ const Attendance = () => {
                 </span>
               </div>
               <span>
-                Attendance percentage:{" "}
+                {t("subject_details.percentage")}:{" "}
                 <span className="font-bold">
                   {attendanceData &&
                     lessonsData &&
@@ -140,11 +149,13 @@ const Attendance = () => {
             </div>
           </div>
           <div className="flex flex-col mt-4">
-            <span className="text-lg font-semibold">Semester II</span>
+            <span className="text-lg font-semibold">
+              {t("common.school.semester", { ns: "common", semester: "II" })}
+            </span>
             <div className="flex flex-col">
               <div className="flex flex-row gap-2">
                 <span>
-                  Presence:{" "}
+                  {t("subject_details.presence")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -159,7 +170,7 @@ const Attendance = () => {
                   </span>
                 </span>
                 <span>
-                  Absences:{" "}
+                  {t("subject_details.absences")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -174,7 +185,7 @@ const Attendance = () => {
                   </span>
                 </span>
                 <span>
-                  Total:{" "}
+                  {t("subject_details.total")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -188,7 +199,7 @@ const Attendance = () => {
                 </span>
               </div>
               <span>
-                Attendance percentage:{" "}
+                {t("subject_details.percentage")}:{" "}
                 <span className="font-bold">
                   {attendanceData &&
                     lessonsData &&
@@ -216,11 +227,13 @@ const Attendance = () => {
             </div>
           </div>
           <div className="flex flex-col mt-4">
-            <span className="text-lg font-semibold">Summary</span>
+            <span className="text-lg font-semibold">
+              {t("common.summary", { ns: "common" })}
+            </span>
             <div className="flex flex-col">
               <div className="flex flex-row gap-2">
                 <span>
-                  Presence:{" "}
+                  {t("subject_details.presence")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -234,7 +247,7 @@ const Attendance = () => {
                   </span>
                 </span>
                 <span>
-                  Absences:{" "}
+                  {t("subject_details.absences")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -248,7 +261,7 @@ const Attendance = () => {
                   </span>
                 </span>
                 <span>
-                  Total:{" "}
+                  {t("subject_details.total")}:{" "}
                   <span className="font-bold">
                     {attendanceData &&
                       lessonsData &&
@@ -300,7 +313,7 @@ const Attendance = () => {
           {focusedAbsence && attendanceData && attendanceTypesData && (
             <div className="flex flex-col gap-2">
               <h3 className="font-bold text-2xl text-base-content mb-2">
-                Abscense Details
+                {t("absences.entry.title")}
               </h3>
               <div className="flex flex-row gap-2 items-center">
                 <span
@@ -342,13 +355,15 @@ const Attendance = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-lg">
-                  <span className="font-semibold">Lesson:</span>{" "}
+                  <span className="font-semibold">
+                    {t("absences.entry.lesson.title")}:
+                  </span>{" "}
                   {!subjectsLoading &&
                     !subjectsError &&
                     !lessonsLoading &&
                     !lessonsError &&
-                    upperFirst(
-                      `${
+                    t("absences.entry.lesson.value", {
+                      subject: upperFirst(
                         subjectsData.find(
                           (x) =>
                             x.Id ==
@@ -360,15 +375,16 @@ const Attendance = () => {
                                 ).Lesson.Id
                             ).Subject.Id
                         ).Name
-                      } (No. ${
-                        attendanceData.find((x) => x.Id == focusedAbsence)
-                          .LessonNo
-                      })`
-                    )}
+                      ),
+                      lesson: attendanceData.find((x) => x.Id == focusedAbsence)
+                        .LessonNo,
+                    })}
                 </span>
                 {!teachersLoading && !teachersError && (
                   <span className="text-lg">
-                    <span className="font-semibold">Teacher:</span>{" "}
+                    <span className="font-semibold">
+                      {t("absences.entry.teacher")}:
+                    </span>{" "}
                     {
                       teachersData.find(
                         (x) =>
@@ -395,8 +411,26 @@ const Attendance = () => {
           <button>close</button>
         </form>
       </dialog>
-      <span className="text-3xl font-semibold mb-4">Attendance</span>
+      <span className="text-3xl font-semibold mb-4">{t("title")}</span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        {!subjectsLoading && !subjectsError && (
+          <div role="alert" class="alert border border-base-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="stroke-info h-6 w-6 shrink-0"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>{t("hint")}</span>
+          </div>
+        )}
         {!subjectsLoading && !subjectsError ? (
           subjectsData && subjectsData.length ? (
             subjectsData.map((subject) => {
@@ -446,7 +480,7 @@ const Attendance = () => {
             })
           ) : (
             <div className="flex flex-col gap-4">
-              <span className="text-lg">No attendance data available.</span>
+              <span className="text-lg">{t("empty")}</span>
             </div>
           )
         ) : (
@@ -456,7 +490,9 @@ const Attendance = () => {
         )}
       </div>
       <div className="flex flex-col mt-4">
-        <span className="text-3xl font-semibold mb-4">Your absences</span>
+        <span className="text-3xl font-semibold mb-4">
+          {t("absences.title")}
+        </span>
         <div className="flex flex-col gap-2">
           {attendanceData && attendanceTypesData ? (
             groupAbsences(
@@ -515,7 +551,7 @@ const Attendance = () => {
               );
             })
           ) : (
-            <span className="text-lg">No absences available.</span>
+            <span className="text-lg">{t("absences.empty")}</span>
           )}
         </div>
       </div>

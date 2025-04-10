@@ -1,10 +1,17 @@
 import { useHomeworks, useHomeworksCategories } from "@/lib/timetable";
-import Layout from "../components/layout";
+import Layout from "@/components/layout";
 import { upperFirst, sortTasks } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
 import dayjs from "dayjs";
+import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
+import { useTranslation } from "react-i18next";
+
+const getStaticProps = makeStaticProps(["exams", "common"]);
+export { getStaticPaths, getStaticProps };
 
 const Exams = () => {
+  const { t } = useTranslation(["exams"]);
+
   // Grades data
   const {
     data: homeworkData,
@@ -35,7 +42,7 @@ const Exams = () => {
 
   return (
     <Layout>
-      <span className="text-3xl font-semibold mb-4">Exams</span>
+      <span className="text-3xl font-semibold mb-4">{t("title")}</span>
       <div className="grid grid-cols-6 gap-2 mt-4">
         {!homeworkLoading && !homeworkError
           ? sortTasks(homeworkData).map((homework) => (
@@ -80,10 +87,12 @@ const Exams = () => {
                       {dayjs(homework.Date).startOf("day").valueOf() -
                         dayjs().startOf("day").valueOf() ==
                       0
-                        ? `Today`
-                        : `In ${Math.ceil(
-                            dayjs(homework.Date).diff(dayjs(), "day", true)
-                          )} days`}
+                        ? t("due_in.today")
+                        : t("due_in.x_days", {
+                            days: Math.ceil(
+                              dayjs(homework.Date).diff(dayjs(), "day", true)
+                            ),
+                          })}
                     </div>
                   )}
                 </div>
