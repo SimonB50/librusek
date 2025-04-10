@@ -5,7 +5,18 @@
     "topic": "No topic available",
     "content": "No content available",
     "sender": "Unknown sender",
-    "date": "No date available"
+    "date": "No date available",
+    "receiver": "Unknown receiver"
   },
-  "file_unsupported": "This message has an attachment, which is not supported by this application."
+  "inbox": "Inbox",
+  "outbox": "Outbox",
+  "switch_outbox": "Switch to Outbox",
+  "switch_inbox": "Switch to Inbox",
+  "reciver_to": "To",
+  "sender_from": "From",
+  "send": "Send",
+  "read": "Read",
+  "unread": "Unread",
+  "file_unsupported": "This message has an attachment, which is not supported by this application.",
+  "back_button" : "Back"
 }
