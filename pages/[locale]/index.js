@@ -121,7 +121,7 @@ const Home = () => {
             ) : (
               <span className="text-sm">
                 {downloadProgress.progress < 100
-                  ? t("updater.downloading", {
+                  ? t("updater.progress", {
                       progress: downloadProgress.progress,
                     })
                   : t("updater.complete")}
