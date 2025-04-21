@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/SimonB50/librusek/refs/heads/main/assets/icon.svg" alt="Librusek Logo" width="100"/>
 </p>
@@ -57,8 +56,8 @@ Since Librusek is a fully custom application, it has some unique features that a
 
 ## 📥 Get it here!
 
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/SimonB50/librusek">
-  <img src="graphics/obtainium.png" alt="Obtainium">
+<a href="https://github.com/SimonB50/librusek/releases/latest">
+  <img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Download APK from GitHub" height="120">
 </a>
 
 ## 📸 Check it out in action
