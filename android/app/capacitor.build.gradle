@@ -15,7 +15,9 @@ dependencies {
     implementation project(':capacitor-firebase-messaging')
     implementation project(':capacitor-app')
     implementation project(':capacitor-device')
+    implementation project(':capacitor-filesystem')
     implementation project(':capacitor-preferences')
+    implementation project(':capawesome-team-capacitor-file-opener')
     implementation project(':capacitor-secure-storage-plugin')
     implementation "net.lingala.zip4j:zip4j:2.11.5"
     implementation "androidx.core:core:1.6.0"

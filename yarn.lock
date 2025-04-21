@@ -204,6 +204,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capacitor/filesystem@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@capacitor/filesystem@npm:7.0.1"
+  peerDependencies:
+    "@capacitor/core": ">=7.0.0"
+  checksum: 10c0/d557ca5affed2adc562b49cd3f7908191dbc003b61d639fda818ea6e55bd06c635352440c0dc99dc73dd3e7b8524c9d3263613cb0e0c0b8089a659d483e3f1ba
+  languageName: node
+  linkType: hard
+
 "@capacitor/ios@npm:^7.0.1":
   version: 7.0.1
   resolution: "@capacitor/ios@npm:7.0.1"
@@ -219,6 +228,15 @@ __metadata:
   peerDependencies:
     "@capacitor/core": ">=7.0.0"
   checksum: 10c0/39ef396dadefe2aae5685d02a2bc818cf943e9a5b59707c3e2c63cfc965a9ca90e88d1f6880318cfb47c6142a19b2114e22451a284843fc99a99cb33abc4fb74
+  languageName: node
+  linkType: hard
+
+"@capawesome-team/capacitor-file-opener@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@capawesome-team/capacitor-file-opener@npm:7.0.1"
+  peerDependencies:
+    "@capacitor/core": ">=7.0.0"
+  checksum: 10c0/433c2fd0022efe2e0bff982bd782d1ebef1359d2a3de4ec76b4657a383bb6cd5924d3a9bb2cb7f15c1926df0f09a341583a7e3d4918f3af28a145a1439a56c96
   languageName: node
   linkType: hard
 
@@ -5392,8 +5410,10 @@ __metadata:
     "@capacitor/cli": "npm:^7.0.1"
     "@capacitor/core": "npm:^7.1.0"
     "@capacitor/device": "npm:^7.0.0"
+    "@capacitor/filesystem": "npm:^7.0.1"
     "@capacitor/ios": "npm:^7.0.1"
     "@capacitor/preferences": "npm:^7.0.0"
+    "@capawesome-team/capacitor-file-opener": "npm:^7.0.1"
     "@rorygudka/react-infinite-scroller": "npm:^2.0.1"
     "@tailwindcss/postcss": "npm:^4.0.14"
     capacitor-secure-storage-plugin: "npm:^0.11.0"

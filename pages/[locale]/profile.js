@@ -7,7 +7,8 @@ import { useTeachers } from "@/lib/school";
 import { useBehaviourGrades, useBehaviourGradesTypes } from "@/lib/grades";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
-import { updateApp } from "@/lib/updater";
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import { FileOpener } from "@capawesome-team/capacitor-file-opener";
 
 const getStaticProps = makeStaticProps(["profile", "common"]);
 export { getStaticPaths, getStaticProps };
@@ -145,7 +146,7 @@ const Profile = () => {
                       teacher: `${upperFirst(
                         teachersData.find((x) => x.Id == note.Teacher.Id)
                           .FirstName
-                      )} ${updateApp(teachersData.find((x) => x.Id == note.Teacher.Id).LastName)}`,
+                      )} ${upperFirst(teachersData.find((x) => x.Id == note.Teacher.Id).LastName)}`,
                       date: note.Date,
                     })}
                   </span>
@@ -158,6 +159,26 @@ const Profile = () => {
         ) : (
           <div className="skeleton h-24 w-full"></div>
         )}
+      </div>
+      <div className="flex flex-col gap-2 mt-4">
+        <span className="text-3xl font-semibold">Personal data access</span>
+        <button
+          className="btn btn-primary btn-outline"
+          onClick={async () => {
+            const filepath = await Filesystem.downloadFile({
+              path: "SynergiaPersonalData.pdf",
+              url: "https://synergia.librus.pl/wydruki/wydruk_danych_osobowych/420.pdf",
+              directory: Directory.Cache,
+              recursive: true,
+            });
+            console.log(filepath.path);
+            await FileOpener.openFile({
+              path: `file://${filepath.path}`,
+            });
+          }}
+        >
+          Download data stored by Synergia
+        </button>
       </div>
     </Layout>
   );
