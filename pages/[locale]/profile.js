@@ -7,7 +7,6 @@ import { useTeachers } from "@/lib/school";
 import { useBehaviourGrades, useBehaviourGradesTypes } from "@/lib/grades";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
-import { updateApp } from "@/lib/updater";
 
 const getStaticProps = makeStaticProps(["profile", "common"]);
 export { getStaticPaths, getStaticProps };
@@ -145,7 +144,7 @@ const Profile = () => {
                       teacher: `${upperFirst(
                         teachersData.find((x) => x.Id == note.Teacher.Id)
                           .FirstName
-                      )} ${updateApp(teachersData.find((x) => x.Id == note.Teacher.Id).LastName)}`,
+                      )} ${upperFirst(teachersData.find((x) => x.Id == note.Teacher.Id).LastName)}`,
                       date: note.Date,
                     })}
                   </span>
