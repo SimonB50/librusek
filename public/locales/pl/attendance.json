@@ -1,0 +1,23 @@
+{
+  "title": "Frekwencja",
+  "hint": "Możesz kliknąć na przedmiot, aby zobaczyć więcej szczegółów.",
+  "subject_details": {
+    "presence": "Obecność",
+    "absences": "Nieobecności",
+    "total": "Suma",
+    "percentage": "Procent frekwencji"
+  },
+  "empty": "Brak danych o frekwencji.",
+  "absences": {
+    "title": "Twoje nieobecności",
+    "empty": "Brak nieobecności.",
+    "entry": {
+      "title": "Szczegóły nieobecności",
+      "lesson": {
+        "title": "Lekcja",
+        "value": "{{subject}} (Nr {{lesson}})"
+      },
+      "teacher": "Nauczyciel"
+    }
+  }
+}

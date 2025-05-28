@@ -1,0 +1,33 @@
+{
+  "welcome": {
+    "part1": "Witaj w",
+    "part2": "Synergii"
+  },
+  "blocks": {
+    "student": "Uczeń",
+    "school": "Szkoła",
+    "class": "Klasa",
+    "lucky_number": {
+      "title": "Szczęśliwy numerek",
+      "content": "{{number}} (Na dzień {{date}})"
+    },
+    "version": {
+      "title": "Wersja",
+      "badge": "Dostępna aktualizacja!"
+    }
+  },
+  "announcements": {
+    "title": "Ogłoszenia",
+    "loading": "Ładowanie ogłoszeń...",
+    "empty": "Brak ogłoszeń."
+  },
+  "updater": {
+    "title": "Dostępna aktualizacja!",
+    "message": "Nowa wersja aplikacji ({{version}}) jest dostępna. Kliknij przycisk poniżej, aby ją pobrać.",
+    "ignore": "Ignoruj na razie",
+    "download": "Pobierz teraz",
+    "download_again": "Pobierz ponownie",
+    "progress": "Pobieranie... ({{progress}}%)",
+    "complete": "Pobieranie zakończone!"
+  }
+}
