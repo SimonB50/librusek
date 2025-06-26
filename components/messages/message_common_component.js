@@ -32,11 +32,11 @@ const AttachmentWarning = ({ hasAttachment }) => {
 const MessageReceivers = ({ receivers }) => {
   const { t } = useTranslation(); // Hook to access default translations
 
-  // Check if receivers is not an array or is empty; display "missing receiver" badge
+  // Check if receivers is not an array or is empty; display "Me" badge
   if (!Array.isArray(receivers) || !receivers.length) {
     return (
       <span className="badge badge-outline mr-2 mb-1">
-        {t("missing.receiver")}
+        {t("me")}
       </span>
     );
   }

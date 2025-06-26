@@ -49,14 +49,14 @@ const MessagesPage = () => {
         <div className="space-y-4">
           <div className="flex items-center gap-4">
             <h1 className="text-3xl font-semibold">{t("title")}</h1>
-            <div>
+            <div className="flex flex-col">
               <span className="text-xl font-semibold">
                 {isInbox ? t("inbox") : t("outbox")}
               </span>
+              <button className="btn btn-primary btn-outline" onClick={toggleMessages}>
+                {isInbox ? t("switch_outbox") : t("switch_inbox")}
+              </button>
             </div>
-            <button className="btn btn-primary" onClick={toggleMessages}>
-              {isInbox ? t("switch_outbox") : t("switch_inbox")}
-            </button>
           </div>
 
           {messagesData ? (
