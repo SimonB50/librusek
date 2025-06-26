@@ -2,9 +2,9 @@
   "title": "Frekwencja",
   "hint": "Możesz kliknąć na przedmiot, aby zobaczyć więcej szczegółów.",
   "subject_details": {
-    "presence": "Obecność",
+    "presence": "Obecności",
     "absences": "Nieobecności",
-    "total": "Suma",
+    "total": "Łącznie",
     "percentage": "Procent frekwencji"
   },
   "empty": "Brak danych o frekwencji.",

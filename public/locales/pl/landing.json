@@ -24,8 +24,8 @@
   "updater": {
     "title": "Dostępna aktualizacja!",
     "message": "Nowa wersja aplikacji ({{version}}) jest dostępna. Kliknij przycisk poniżej, aby ją pobrać.",
-    "ignore": "Ignoruj na razie",
-    "download": "Pobierz teraz",
+    "ignore": "Ignoruj",
+    "download": "Pobierz",
     "download_again": "Pobierz ponownie",
     "progress": "Pobieranie... ({{progress}}%)",
     "complete": "Pobieranie zakończone!"
