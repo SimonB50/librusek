@@ -32,7 +32,6 @@
     "summary": "Summary",
     "school": {
       "semester": "Semester {{semester}}"
-    },
-    "me": "Me"
+    }
   }
 }
