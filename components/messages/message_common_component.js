@@ -30,13 +30,13 @@ const AttachmentWarning = ({ hasAttachment }) => {
  * @returns {JSX.Element} List of receiver badges or a single "missing receiver" badge
  */
 const MessageReceivers = ({ receivers }) => {
-  const { t } = useTranslation(); // Hook to access default translations
+  const { t } = useTranslation("messages"); // Hook to access translations from "messages" namespace
 
-  // Check if receivers is not an array or is empty; display "missing receiver" badge
+  // Check if receivers is not an array or is empty; display "Me" badge
   if (!Array.isArray(receivers) || !receivers.length) {
     return (
       <span className="badge badge-outline mr-2 mb-1">
-        {t("missing.receiver")}
+        {t("me")}
       </span>
     );
   }
