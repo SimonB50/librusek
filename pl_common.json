@@ -1,0 +1,37 @@
+{
+  "navigation": {
+    "home": "Strona główna",
+    "grades": "Oceny",
+    "exams": "Sprawdziany",
+    "timetable": "Plan lekcji",
+    "teacherAbsences": "Zastępstwa",
+    "attendance": "Frekwencja",
+    "messages": "Wiadomości",
+    "developer": "Deweloper",
+    "account": {
+      "profile": "Profil",
+      "settings": "Ustawienia",
+      "logout": "Wyloguj"
+    }
+  },
+  "actions": {
+    "close": "Zamknij",
+    "cancel": "Anuluj",
+    "edit": "Edytuj",
+    "save": "Zapisz"
+  },
+  "states": {
+    "loading": "Ładowanie...",
+    "empty": "Brak danych."
+  },
+  "unknown": {
+    "teacher": "Nieznany nauczyciel"
+  },
+  "common": {
+    "or": "lub",
+    "summary": "Podsumowanie",
+    "school": {
+      "semester": "Semestr {{semester}}"
+    }
+  }
+}
