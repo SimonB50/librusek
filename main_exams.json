@@ -1,7 +1,0 @@
-{
-  "title": "Exams",
-  "due_in": {
-    "x_days": "In {{days}} days",
-    "today": "Today"
-  }
-}
