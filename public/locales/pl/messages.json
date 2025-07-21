@@ -19,5 +19,6 @@
   "unread": "Nieprzeczytane",
   "file_unsupported": "Ta wiadomość ma załącznik!",
   "no_messages": "Brak wiadomości",
-  "back_button": "Wróć"
+  "back_button": "Wróć",
+  "me" : "Mnie"
 }
