@@ -10,7 +10,7 @@ import {
   useTextGrades,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
-import { upperFirst, calculateAvarage, getSemester } from "@/lib/utils";
+import { upperFirst, calculateAverage, getSemester } from "@/lib/utils";
 
 import { useState } from "react";
 import {
@@ -741,7 +741,7 @@ const Grades = () => {
                   </span>
                   <span className="text-base">
                     {t("average")}:{" "}
-                    {calculateAvarage(
+                    {calculateAverage(
                       [
                         ...(gradesData && gradesCategoriesData
                           ? !editMode
@@ -872,7 +872,7 @@ const Grades = () => {
                       </span>
                       <span className="text-base">
                         {t("average")}:{" "}
-                        {calculateAvarage(
+                        {calculateAverage(
                           [
                             ...(gradesData && gradesCategoriesData
                               ? !editMode
@@ -985,7 +985,7 @@ const Grades = () => {
                   </span>
                   <span className="text-base">
                     {t("average")}:{" "}
-                    {calculateAvarage(
+                    {calculateAverage(
                       [
                         ...(gradesData && gradesCategoriesData
                           ? !editMode
