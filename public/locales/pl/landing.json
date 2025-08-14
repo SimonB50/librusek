@@ -23,9 +23,10 @@
   },
   "updater": {
     "title": "Dostępna aktualizacja!",
-    "message": "Nowa wersja aplikacji ({{version}}) jest dostępna. Kliknij przycisk poniżej, aby ją pobrać.",
+    "message": "Nowa wersja aplikacji ({{version}}) jest dostępna.",
     "ignore": "Ignoruj",
     "download": "Pobierz",
+    "manual": "Automatyczne aktualizacje nie są obsługiwane na Twoim urządzeniu.",
     "download_again": "Pobierz ponownie",
     "progress": "Pobieranie... ({{progress}}%)",
     "complete": "Pobieranie zakończone!"
