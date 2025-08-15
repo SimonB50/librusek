@@ -13,5 +13,8 @@
     "FirebaseMessaging": {
       "presentationOptions": ["alert", "badge", "sound"]
     }
+  },
+  "ios": {
+    "contentInset": "always"
   }
 }
