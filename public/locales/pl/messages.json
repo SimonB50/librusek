@@ -1,0 +1,24 @@
+{
+  "title": "Wiadomości",
+  "loading": "Ładowanie wiadomości...",
+  "missing": {
+    "topic": "Brak tematu",
+    "content": "Brak treści",
+    "sender": "Nieznany nadawca",
+    "date": "Brak daty",
+    "receiver": "Nieznany odbiorca"
+  },
+  "inbox": "Odebrane",
+  "outbox": "Wysłane",
+  "switch_outbox": "Przełącz na Wysłane",
+  "switch_inbox": "Przełącz na Odebrane",
+  "reciver_to": "Do",
+  "sender_from": "Od",
+  "send": "Wyślij",
+  "read": "Przeczytane",
+  "unread": "Nieprzeczytane",
+  "file_unsupported": "Ta wiadomość ma załącznik!",
+  "no_messages": "Brak wiadomości",
+  "back_button": "Wróć",
+  "me" : "Mnie"
+}

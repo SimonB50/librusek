@@ -1,0 +1,46 @@
+{
+    "appearance": {
+        "title": "Wygląd",
+        "description": "Dostosuj wygląd aplikacji do swoich upodobań.",
+        "themes": {
+            "standard": {
+                "title": "Standardowe motywy",
+                "description": "Wybierz między trybem jasnym i ciemnym.",
+                "options": {
+                    "system": "Systemowy",
+                    "light": "Jasny",
+                    "dark": "Ciemny"
+                }
+            },
+            "custom": {
+                "title": "Niestandardowe motywy",
+                "description": "Wybieraj spośród różnych bardziej niestandardowych motywów.",
+                "explore": "Przeglądaj",
+                "current": "Obecny",
+                "explorer": {
+                    "title": "Przeglądarka motywów",
+                    "description": "Przeglądaj niestandardowe motywy i wybierz ten, który Ci się podoba!",
+                    "close": "Zamknij"
+                }
+            }
+        }
+    },
+    "advanced": {
+        "title": "Ustawienia zaawansowane",
+        "description": "Zaawansowane opcje do programowania i debugowania.",
+        "devmode": {
+            "title": "Tryb deweloperski",
+            "description": "Włącz stronę \"Deweloper\" z zaawansowanymi funkcjami do debugowania."
+        },
+        "clear_cache": {
+            "title": "Wyczyść pamięć podręczną",
+            "description": "Wyczyść pamięć podręczną żądań aplikacji, aby uzyskać świeże dane",
+            "button": "Wyczyść pamięć podręczną",
+            "success": {
+                "title": "Pamięć podręczna wyczyszczona",
+                "message": "Pamięć podręczna żądań aplikacji została pomyślnie wyczyszczona.",
+                "button": "Zamknij"
+            }
+        }
+    }
+}

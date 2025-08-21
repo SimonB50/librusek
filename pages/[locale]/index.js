@@ -4,7 +4,7 @@ import { useAnnouncements, useSchool, useTeachers } from "@/lib/school";
 import { useClass } from "@/lib/class";
 import { useLuckyNumber } from "@/lib/lessons";
 import { apiUrl } from "@/lib/core";
-import { useVersion, updateApp } from "@/lib/updater";
+import { useVersion, updateApp, useDevice } from "@/lib/updater";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { Buildings, People, Star, Person, Git } from "react-bootstrap-icons";
 import dayjs from "dayjs";
 import sanitize from "sanitize-html";
 import { useTranslation } from "react-i18next";
+import { Device } from "@capacitor/device";
 
 const getStaticProps = makeStaticProps(["landing", "common"]);
 export { getStaticPaths, getStaticProps };
@@ -43,6 +44,11 @@ const Home = () => {
     loading: versionLoading,
     error: versionError,
   } = useVersion();
+  const {
+    data: deviceData,
+    loading: deviceLoading,
+    error: deviceError,
+  } = useDevice();
 
   // Announcements data
   const [focusedAnnouncement, setFocusedAnnouncement] = useState(null);
@@ -81,53 +87,61 @@ const Home = () => {
               version: versionData?.latestVersion,
             })}
           </p>
-          <div className="flex flex-col gap-2">
-            {downloadProgress &&
-            downloadProgress.progress > 0 &&
-            downloadProgress.progress < 100 ? (
-              <progress
-                value={downloadProgress.progress}
-                max="100"
-                className="progress progress-primary w-full"
-              ></progress>
+          {
+            deviceData && deviceData.operatingSystem == "android" ? (
+              <div className="flex flex-col gap-2">
+                {downloadProgress &&
+                  downloadProgress.progress > 0 &&
+                  downloadProgress.progress < 100 ? (
+                  <progress
+                    value={downloadProgress.progress}
+                    max="100"
+                    className="progress progress-primary w-full"
+                  ></progress>
+                ) : (
+                  <button
+                    className="btn btn-primary w-full"
+                    onClick={async () => {
+                      document
+                        .getElementById("update_modal")
+                        .classList.add("modal-open");
+                      await updateApp(setDownloadProgress);
+                      document
+                        .getElementById("update_modal")
+                        .classList.remove("modal-open");
+                    }}
+                  >
+                    {downloadProgress
+                      ? t("updater.download_again")
+                      : t("updater.download")}
+                  </button>
+                )}
+                {!downloadProgress ? (
+                  <button
+                    className="btn btn-neutral w-full"
+                    onClick={() => {
+                      sessionStorage.setItem("update_ignored", true);
+                      document.getElementById("update_modal").close();
+                    }}
+                  >
+                    {t("updater.ignore")}
+                  </button>
+                ) : (
+                  <span className="text-sm">
+                    {downloadProgress.progress < 100
+                      ? t("updater.progress", {
+                        progress: downloadProgress.progress,
+                      })
+                      : t("updater.complete")}
+                  </span>
+                )}
+              </div>
             ) : (
-              <button
-                className="btn btn-primary w-full"
-                onClick={async () => {
-                  document
-                    .getElementById("update_modal")
-                    .classList.add("modal-open");
-                  await updateApp(setDownloadProgress);
-                  document
-                    .getElementById("update_modal")
-                    .classList.remove("modal-open");
-                }}
-              >
-                {downloadProgress
-                  ? t("updater.download_again")
-                  : t("updater.download")}
-              </button>
-            )}
-            {!downloadProgress ? (
-              <button
-                className="btn btn-neutral w-full"
-                onClick={() => {
-                  sessionStorage.setItem("update_ignored", true);
-                  document.getElementById("update_modal").close();
-                }}
-              >
-                {t("updater.ignore")}
-              </button>
-            ) : (
-              <span className="text-sm">
-                {downloadProgress.progress < 100
-                  ? t("updater.progress", {
-                      progress: downloadProgress.progress,
-                    })
-                  : t("updater.complete")}
-              </span>
-            )}
-          </div>
+              <div className="flex flex-col gap-2">
+                <span className="text-base italic">{t("updater.manual")}</span>
+              </div>
+            )
+          }
         </div>
         <form method="dialog" class="modal-backdrop">
           <button>close</button>
@@ -235,7 +249,7 @@ const Home = () => {
         ) : (
           <div className="col-span-6 md:col-span-2 skeleton h-24"></div>
         )}
-        {!luckyNumberLoading && !luckyNumberError ? (
+        {luckyNumberData ? (
           <div className="col-span-6 md:col-span-2 flex flex-row items-center p-4 bg-base-200 border border-base-300 rounded-box">
             <Star className="hidden sm:block text-5xl text-primary" />
             <div className="flex flex-col ml-4">
@@ -250,14 +264,12 @@ const Home = () => {
               </span>
             </div>
           </div>
-        ) : (
-          <div className="col-span-6 md:col-span-2 skeleton h-24"></div>
-        )}
+        ) : null}
         {!versionLoading && !versionError ? (
           <div
             className="relative col-span-6 md:col-span-2 flex flex-row items-center p-4 bg-base-200 border border-base-300 rounded-box"
             onClick={async () => {
-              // if (!versionData.updateAvailable) return;
+              if (!versionData.updateAvailable) return;
               document.getElementById("update_modal").showModal();
             }}
           >
@@ -293,9 +305,8 @@ const Home = () => {
             .map((a) => (
               <div
                 key={a.Id}
-                className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 border border-base-300 rounded-box gap-2 p-4 ${
-                  !a.WasRead && "border border-primary"
-                }`}
+                className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-base-200 border border-base-300 rounded-box gap-2 p-4 ${!a.WasRead && "border border-primary"
+                  }`}
                 onClick={async () => {
                   setFocusedAnnouncement(a.Id);
                   await fetch(`${apiUrl}/SchoolNotices/MarkAsRead/${a.Id}`, {
@@ -310,13 +321,11 @@ const Home = () => {
                   <div className="flex flex-row items-center gap-x-2 text-sm text-base-content/70">
                     <span>
                       {!teachersLoading && teachersData
-                        ? `${
-                            teachersData.find((t) => t.Id === a.AddedBy.Id)
-                              ?.FirstName
-                          } ${
-                            teachersData.find((t) => t.Id === a.AddedBy.Id)
-                              ?.LastName
-                          }`
+                        ? `${teachersData.find((t) => t.Id === a.AddedBy.Id)
+                          ?.FirstName
+                        } ${teachersData.find((t) => t.Id === a.AddedBy.Id)
+                          ?.LastName
+                        }`
                         : t("unknown.teacher", { ns: "common" })}
                     </span>
                     <span>-</span>
