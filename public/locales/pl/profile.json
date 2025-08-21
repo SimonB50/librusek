@@ -1,0 +1,16 @@
+{
+  "title": "Profil",
+  "subtitle": "Informacje o Twoim profilu.",
+  "behaviour": {
+    "title": "Zachowanie",
+    "proposal": "Propozycja",
+    "final": "Końcowa",
+    "awaiting_final": "Oczekiwanie na ocenę końcową",
+    "empty": "Brak ocen z zachowania."
+  },
+  "notes": {
+    "title": "Uwagi",
+    "added_by": "Dodano przez {{teacher}} dnia {{date}}",
+    "empty": "Brak uwag."
+  }
+}
