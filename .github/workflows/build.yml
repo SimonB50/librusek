@@ -129,7 +129,8 @@ jobs:
         run: |
           mv ./unsigned.xcarchive/Products/Applications ./unsigned.xcarchive/Products/Payload
           cd unsigned.xcarchive/Products
-          zip ../../ibrusek-${{ env.APP_VERSION }}.ipa -r ./Payload
+          zip ../../librusek-${{ env.APP_VERSION }}.ipa -r ./Payload
+          cd ../..
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4
