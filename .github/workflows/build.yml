@@ -125,10 +125,6 @@ jobs:
       - name: Build app bundle
         run: xcodebuild -workspace ./ios/App/App.xcworkspace -scheme App -configuration Release clean archive -archivePath unsigned.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
-      - name: Get Node project version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@v1.3.1
-
       - name: Prepare IPA file
         run: |
           mv ./unsigned.xcarchive/Products/Applications ./unsigned.xcarchive/Products/Payload
