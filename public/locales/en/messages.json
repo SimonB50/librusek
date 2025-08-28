@@ -19,5 +19,6 @@
   "unread": "Unread",
   "file_unsupported": "This message has an attachment!",
   "no_messages": "No messages available",
-  "back_button": "Back"
+  "back_button": "Back",
+  "me": "Me"
 }

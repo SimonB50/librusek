@@ -10,7 +10,7 @@ import {
   useTextGrades,
 } from "@/lib/grades";
 import { useSubjects, useTeachers } from "@/lib/school";
-import { upperFirst, calculateAvarage, getSemester } from "@/lib/utils";
+import { upperFirst, calculateAverage, getSemester } from "@/lib/utils";
 
 import { useState } from "react";
 import {
@@ -115,9 +115,9 @@ const Grades = () => {
       (pointsData && pointsData.length) ||
       (textGradesData && textGradesData.length)
       ? (gradesData ? gradesData.map((x) => x.Subject.Id) : [])
-          .concat(pointsData ? pointsData.map((x) => x.Subject.Id) : [])
-          .concat(textGradesData ? textGradesData.map((x) => x.Subject.Id) : [])
-          .join(",")
+        .concat(pointsData ? pointsData.map((x) => x.Subject.Id) : [])
+        .concat(textGradesData ? textGradesData.map((x) => x.Subject.Id) : [])
+        .join(",")
       : false
   );
   const {
@@ -129,9 +129,9 @@ const Grades = () => {
       (pointsData && pointsData.length) ||
       (textGradesData && textGradesData.length)
       ? (gradesData ? gradesData.map((x) => x.AddedBy.Id) : [])
-          .concat(pointsData ? pointsData.map((x) => x.AddedBy.Id) : [])
-          .concat(textGradesData ? textGradesData.map((x) => x.AddedBy.Id) : [])
-          .join(",")
+        .concat(pointsData ? pointsData.map((x) => x.AddedBy.Id) : [])
+        .concat(textGradesData ? textGradesData.map((x) => x.AddedBy.Id) : [])
+        .join(",")
       : false
   );
   const {
@@ -141,10 +141,10 @@ const Grades = () => {
   } = useGradeComments(
     gradesData && gradesData.length
       ? gradesData
-          .filter((x) => x.Comments)
-          .map((y) => y.Comments.map((z) => z.Id))
-          .flat()
-          .join(",")
+        .filter((x) => x.Comments)
+        .map((y) => y.Comments.map((z) => z.Id))
+        .flat()
+        .join(",")
       : false
   );
   const {
@@ -154,10 +154,10 @@ const Grades = () => {
   } = usePointComments(
     pointsData && pointsData.length
       ? pointsData
-          .filter((x) => x.Comments)
-          .map((y) => y.Comments.map((z) => z.Id))
-          .flat()
-          .join(",")
+        .filter((x) => x.Comments)
+        .map((y) => y.Comments.map((z) => z.Id))
+        .flat()
+        .join(",")
       : false
   );
 
@@ -190,13 +190,13 @@ const Grades = () => {
         current.map((x) =>
           x.Id == editedGrade.Id
             ? {
-                ...x,
-                Grade: data.gradeValue,
-                GradeValue: data.gradeValue,
-                Category: {
-                  Id: -parseInt(data.gradeWeight),
-                },
-              }
+              ...x,
+              Grade: data.gradeValue,
+              GradeValue: data.gradeValue,
+              Category: {
+                Id: -parseInt(data.gradeWeight),
+              },
+            }
             : x
         )
       );
@@ -364,9 +364,9 @@ const Grades = () => {
           </h3>
           {gradesData && pointsData ? (
             focusedGrade?.startsWith("p-") &&
-            (!editMode ? pointsData : tmpPoints).find(
-              (x) => x.Id == focusedGrade.slice(2)
-            ) ? (
+              (!editMode ? pointsData : tmpPoints).find(
+                (x) => x.Id == focusedGrade.slice(2)
+              ) ? (
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
                   <span className="text-4xl font-semibold bg-primary w-20 h-20 flex items-center justify-center text-primary-content rounded-field">
@@ -507,13 +507,12 @@ const Grades = () => {
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
                   <span
-                    className={`text-4xl font-semibold ${
-                      (!editMode ? gradesData : tmpGrades).find(
-                        (x) => x.Id == focusedGrade.slice(2)
-                      ).IsConstituent
+                    className={`text-4xl font-semibold ${(!editMode ? gradesData : tmpGrades).find(
+                      (x) => x.Id == focusedGrade.slice(2)
+                    ).IsConstituent
                         ? "bg-primary"
                         : "bg-secondary"
-                    } w-20 h-20 flex items-center justify-center text-primary-content rounded-field`}
+                      } w-20 h-20 flex items-center justify-center text-primary-content rounded-field`}
                   >
                     {
                       (!editMode ? gradesData : tmpGrades).find(
@@ -546,19 +545,19 @@ const Grades = () => {
                   {(!editMode ? gradesData : tmpGrades).find(
                     (x) => x.Id == focusedGrade.slice(2)
                   ).IsConstituent && (
-                    <span className="text-lg">
-                      <span className="font-semibold">
-                        {t("details.weight")}:
-                      </span>{" "}
-                      {[...gradesCategoriesData, ...tempCategories].find(
-                        (x) =>
-                          x.Id ==
-                          (!editMode ? gradesData : tmpGrades).find(
-                            (x) => x.Id == focusedGrade.slice(2)
-                          )?.Category?.Id
-                      ).Weight || "None"}
-                    </span>
-                  )}
+                      <span className="text-lg">
+                        <span className="font-semibold">
+                          {t("details.weight")}:
+                        </span>{" "}
+                        {[...gradesCategoriesData, ...tempCategories].find(
+                          (x) =>
+                            x.Id ==
+                            (!editMode ? gradesData : tmpGrades).find(
+                              (x) => x.Id == focusedGrade.slice(2)
+                            )?.Category?.Id
+                        ).Weight || "None"}
+                      </span>
+                    )}
                   {!teachersLoading && !teachersError && (
                     <span className="text-lg">
                       <span className="font-semibold">
@@ -741,7 +740,7 @@ const Grades = () => {
                   </span>
                   <span className="text-base">
                     {t("average")}:{" "}
-                    {calculateAvarage(
+                    {calculateAverage(
                       [
                         ...(gradesData && gradesCategoriesData
                           ? !editMode
@@ -828,9 +827,8 @@ const Grades = () => {
                     .map((grade) => (
                       <button
                         key={grade.Id}
-                        className={`${
-                          grade.IsConstituent ? "bg-primary" : "bg-secondary"
-                        } text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square`}
+                        className={`${grade.IsConstituent ? "bg-primary" : "bg-secondary"
+                          } text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square`}
                         onClick={() => {
                           setFocusedGrade(`g-${grade.Id.toString()}`);
                           document.getElementById("grade_details").showModal();
@@ -872,7 +870,7 @@ const Grades = () => {
                       </span>
                       <span className="text-base">
                         {t("average")}:{" "}
-                        {calculateAvarage(
+                        {calculateAverage(
                           [
                             ...(gradesData && gradesCategoriesData
                               ? !editMode
@@ -940,11 +938,10 @@ const Grades = () => {
                         .map((grade) => (
                           <button
                             key={grade.Id}
-                            className={`${
-                              grade.IsConstituent
+                            className={`${grade.IsConstituent
                                 ? "bg-primary"
                                 : "bg-secondary"
-                            } text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square`}
+                              } text-primary-content w-fit p-2 font-semibold rounded-field text-center aspect-square`}
                             onClick={() => {
                               setFocusedGrade(`g-${grade.Id.toString()}`);
                               document
@@ -985,7 +982,7 @@ const Grades = () => {
                   </span>
                   <span className="text-base">
                     {t("average")}:{" "}
-                    {calculateAvarage(
+                    {calculateAverage(
                       [
                         ...(gradesData && gradesCategoriesData
                           ? !editMode
@@ -1042,9 +1039,9 @@ const Grades = () => {
                     <span className="text-xl font-semibold">
                       {upperFirst(
                         !subjectsLoading &&
-                          !subjectsError &&
-                          subjectsData.find((x) => x.Id == textGrade.Subject.Id)
-                            ?.Name
+                        !subjectsError &&
+                        subjectsData.find((x) => x.Id == textGrade.Subject.Id)
+                          ?.Name
                       )}
                     </span>
                     <span className="text-md">

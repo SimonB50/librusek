@@ -433,7 +433,12 @@ const Attendance = () => {
         )}
         {!subjectsLoading && !subjectsError ? (
           subjectsData && subjectsData.length ? (
-            subjectsData.map((subject) => {
+            subjectsData
+            .filter((subject) => attendanceData.some((x) => {
+              const lesson = lessonsData.find((y) => y.Id === x.Lesson.Id);
+              return lesson && lesson.Subject.Id === subject.Id;
+            }))
+            .map((subject) => {
               const attendancePercentage = (
                 (1 -
                   attendanceData.filter(

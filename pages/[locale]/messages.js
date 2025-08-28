@@ -47,14 +47,12 @@ const MessagesPage = () => {
         />
       ) : (
         <div className="space-y-4">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start gap-2">
             <h1 className="text-3xl font-semibold">{t("title")}</h1>
-            <div>
-              <span className="text-xl font-semibold">
-                {isInbox ? t("inbox") : t("outbox")}
-              </span>
-            </div>
-            <button className="btn btn-primary" onClick={toggleMessages}>
+            <span className="text-xl font-semibold">
+              {isInbox ? t("inbox") : t("outbox")}
+            </span>
+            <button className="btn btn-primary btn-outline" onClick={toggleMessages}>
               {isInbox ? t("switch_outbox") : t("switch_inbox")}
             </button>
           </div>
