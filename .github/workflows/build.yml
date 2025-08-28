@@ -120,7 +120,7 @@ jobs:
           | head -1 \
           | awk -F: '{ print $2 }' \
           | sed 's/[",]//g')
-          echo "$PACKAGE_VERSION" >> $GITHUB_ENV
+          echo "APP_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
 
       - name: Build app bundle
         run: xcodebuild -workspace ./ios/App/App.xcworkspace -scheme App -configuration Release clean archive -archivePath unsigned.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
@@ -133,21 +133,21 @@ jobs:
         run: |
           mv ./unsigned.xcarchive/Products/Applications ./unsigned.xcarchive/Products/Payload
           cd unsigned.xcarchive/Products
-          zip ../../ibrusek-$PACKAGE_VERSION.ipa -r ./Payload
+          zip ../../ibrusek-$APP_VERSION.ipa -r ./Payload
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: librusek-$PACKAGE_VERSION.ipa
+          path: librusek-$APP_VERSION.ipa
           retention-days: 60
 
       - name: Publish
         uses: softprops/action-gh-release@v2
         with:
           draft: true
-          name: Librusek v$PACKAGE_VERSION
-          tag_name: v$PACKAGE_VERSION
+          name: Librusek v$APP_VERSION
+          tag_name: v$APP_VERSION
           generate_release_notes: true
           files: |
-            ./librusek-$PACKAGE_VERSION.ipa
+            ./librusek-$APP_VERSION.ipa
