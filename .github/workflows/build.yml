@@ -82,7 +82,7 @@ jobs:
           files: |
             ./android/app/build/outputs/apk/release/librusek-${{ steps.package-version.outputs.current-version }}.apk
   publish-ios:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: write
     steps:
