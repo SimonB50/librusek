@@ -97,10 +97,6 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Install Xcode CLI
-        run: |
-          xcode-select --install
-
       - name: Setup CocoaPods
         uses: maxim-lobanov/setup-cocoapods@v1
         with:
