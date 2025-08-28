@@ -120,7 +120,7 @@ jobs:
           | head -1 \
           | awk -F: '{ print $2 }' \
           | sed 's/[",]//g')
-          echo $PACKAGE_VERSION >> $GITHUB_ENV
+          echo "$PACKAGE_VERSION" >> $GITHUB_ENV
 
       - name: Build app bundle
         run: xcodebuild -workspace ./ios/App/App.xcworkspace -scheme App -configuration Release clean archive -archivePath unsigned.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
