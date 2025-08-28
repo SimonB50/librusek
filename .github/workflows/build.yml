@@ -129,21 +129,21 @@ jobs:
         run: |
           mv ./unsigned.xcarchive/Products/Applications ./unsigned.xcarchive/Products/Payload
           cd unsigned.xcarchive/Products
-          zip ../../ibrusek-$APP_VERSION.ipa -r ./Payload
+          zip ../../ibrusek-${{ env.APP_VERSION }}.ipa -r ./Payload
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: librusek-$APP_VERSION.ipa
+          path: librusek-${{ env.APP_VERSION }}.ipa
           retention-days: 60
 
       - name: Publish
         uses: softprops/action-gh-release@v2
         with:
           draft: true
-          name: Librusek v$APP_VERSION
-          tag_name: v$APP_VERSION
+          name: Librusek v${{ env.APP_VERSION }}
+          tag_name: v${{ env.APP_VERSION }}
           generate_release_notes: true
           files: |
-            ./librusek-$APP_VERSION.ipa
+            ./librusek-${{ env.APP_VERSION }}.ipa
