@@ -2,5 +2,13 @@
   "title": "Timetable",
   "empty": "No classes",
   "substitution": "Substitution",
-  "canceled": "CANCELED"
+  "canceled": "CANCELED",
+  "modal": {
+    "teacher": "Teacher",
+    "time": "Time",
+    "room": "Room",
+    "date": "Date",
+    "substitution_alert": "This is a substitution class",
+    "canceled_alert": "This lesson has been canceled"
+  }
 }

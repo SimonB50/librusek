@@ -25,7 +25,8 @@
     "empty": "Brak danych."
   },
   "unknown": {
-    "teacher": "Nieznany nauczyciel"
+    "teacher": "Nieznany nauczyciel",
+    "room": "Sala nieznana"
   },
   "common": {
     "or": "lub",

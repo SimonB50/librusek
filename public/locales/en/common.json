@@ -25,7 +25,8 @@
     "empty": "No data available."
   },
   "unknown": {
-    "teacher": "Unknown teacher"
+    "teacher": "Unknown teacher",
+    "room": "Room TBA"
   },
   "common": {
     "or": "or",

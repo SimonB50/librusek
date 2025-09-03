@@ -2,5 +2,13 @@
   "title": "Plan lekcji",
   "empty": "Brak lekcji",
   "substitution": "Zastępstwo",
-  "canceled": "ODWOŁANE"
+  "canceled": "ODWOŁANE",
+  "modal": {
+    "teacher": "Nauczyciel",
+    "time": "Czas",
+    "room": "Sala",
+    "date": "Data",
+    "substitution_alert": "To jest lekcja zastępcza",
+    "canceled_alert": "Ta lekcja została odwołana"
+  }
 }

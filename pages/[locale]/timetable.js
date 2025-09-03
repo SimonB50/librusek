@@ -1,5 +1,6 @@
 import Layout from "@/components/layout";
 import { useTimetable } from "@/lib/timetable";
+import { useClassrooms } from "@/lib/school";
 import { upperFirst } from "@/lib/utils";
 
 import { useState } from "react";
@@ -15,16 +16,44 @@ export { getStaticPaths, getStaticProps };
 dayjs.extend(isoWeek);
 
 const Timetable = () => {
-  const { t } = useTranslation("timetable");
+  const { t } = useTranslation(["timetable", "common"]);
 
   const [date, setDate] = useState(
     dayjs().startOf("isoWeek").format("YYYY-MM-DD")
   );
+  const [focusedLesson, setFocusedLesson] = useState(null);
+  
   const {
     data: timetableData,
     loading: timetableLoading,
     error: timetableError,
   } = useTimetable(date);
+
+  // get all unique classroom ids from timetable data
+  const classroomIds = timetableData ? 
+    [...new Set(
+      Object.values(timetableData)
+        .flat()
+        .filter(entry => entry.length > 0)
+        .map(entry => entry[0].Classroom?.Id)
+        .filter(Boolean)
+    )].join(",") : false;
+
+  const {
+    data: classroomsData,
+    loading: classroomsLoading,
+    error: classroomsError,
+  } = useClassrooms(classroomIds);
+
+  const getClassroomName = (classroomId) => {
+    if (!classroomsData || !classroomId) return t("common:unknown.room");
+    
+    const classrooms = Array.isArray(classroomsData) ? classroomsData : [classroomsData];
+    const classroom = classrooms.find(c => c.Id == classroomId);
+    
+    return classroom ? (classroom.Symbol || classroom.Name) : t("common:unknown.room");
+  };
+  
   const weekDays = [
     "Monday",
     "Tuesday",
@@ -37,6 +66,66 @@ const Timetable = () => {
 
   return (
     <Layout>
+      <dialog
+        id="lesson_modal"
+        className="modal modal-bottom sm:modal-middle"
+        onClose={() => {
+          setFocusedLesson(null);
+          document.getElementById("lesson_modal").scrollTop = 0;
+        }}
+      >
+        <div className="modal-box">
+          {focusedLesson ? (
+            <div className="flex flex-col gap-4">
+              <h3 className="font-bold text-2xl text-base-content">
+                {upperFirst(focusedLesson.Subject.Name)}
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-base-content/70">{t("modal.teacher")}</span>
+                  <span className="text-lg">
+                    {focusedLesson.Teacher.FirstName} {focusedLesson.Teacher.LastName}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-base-content/70">{t("modal.time")}</span>
+                  <span className="text-lg">
+                    {focusedLesson.HourFrom} - {focusedLesson.HourTo}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-base-content/70">{t("modal.room")}</span>
+                  <span className="text-lg">
+                    {getClassroomName(focusedLesson.Classroom?.Id)}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-base-content/70">{t("modal.date")}</span>
+                  <span className="text-lg">
+                    {dayjs(focusedLesson.Date).format("DD.MM.YYYY")}
+                  </span>
+                </div>
+              </div>
+              {focusedLesson.IsSubstitutionClass && (
+                <div className="alert alert-info">
+                  <span>{t("modal.substitution_alert")}</span>
+                </div>
+              )}
+              {focusedLesson.IsCanceled && (
+                <div className="alert alert-error">
+                  <span>{t("modal.canceled_alert")}</span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <span className="text-lg">{t("common:states.loading")}</span>
+          )}
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+      
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
           <span className="text-3xl font-semibold">{t("title")}</span>
@@ -88,22 +177,29 @@ const Timetable = () => {
                       .map((entry, index) => {
                         return (
                           <div
-                            className={`relative flex flex-row bg-base-200 border border-base-300 rounded-box p-3 justify-between items-center ${
+                            className={`relative flex flex-row bg-base-200 border border-base-300 rounded-box p-3 justify-between items-center cursor-pointer hover:bg-base-300 transition-colors ${
                               entry[0].IsSubstitutionClass &&
                               "border border-primary"
                             }`}
                             key={index}
+                            onClick={() => {
+                              setFocusedLesson(entry[0]);
+                              document.getElementById("lesson_modal").showModal();
+                            }}
                           >
                             <div className="flex flex-col">
                               <span className="text-lg font-semibold">
                                 {upperFirst(entry[0].Subject.Name)}
                               </span>
-                              <span className="text-sm">
+                              <span className="text-sm text-base-content/70">
                                 {entry[0].Teacher.FirstName}{" "}
                                 {entry[0].Teacher.LastName}
                               </span>
+                              <span className="text-xs text-base-content/60">
+                                {getClassroomName(entry[0].Classroom?.Id)}
+                              </span>
                             </div>
-                            <span className="text-base">
+                            <span className="text-base font-semibold">
                               {entry[0].HourFrom} - {entry[0].HourTo}
                             </span>
                             {entry[0].IsCanceled && (

@@ -53,10 +53,6 @@ const Profile = () => {
 
   return (
     <Layout setAuthData={setUserData}>
-      <div className="flex flex-col">
-        <span className="text-3xl font-semibold">{t("title")}</span>
-        <span className="text-lg">{t("subtitle")}</span>
-      </div>
       {userData ? (
         <div className="flex flex-row gap-2 items-center bg-base-200 border border-base-300 rounded-box p-4 mt-4">
           <div className="flex items-center justify-center bg-base-100 rounded-box h-24 w-24">
