@@ -74,7 +74,7 @@ const Settings = () => {
           <h3 className="text-lg font-bold">
             {t("advanced.clear_cache.success.title")}
           </h3>
-          <span>{t("advanced.clear_cache.success.description")}</span>
+          <span>{t("advanced.clear_cache.success.message")}</span>
           <div className="modal-action">
             <form method="dialog">
               <button className="btn">
