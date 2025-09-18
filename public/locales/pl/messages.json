@@ -1,6 +1,7 @@
 {
   "title": "Wiadomości",
-  "loading": "Ładowanie wiadomości...",
+  "notes_title": "Uwagi i pochwały",
+  "loading": "Ładowanie...",
   "missing": {
     "topic": "Brak tematu",
     "content": "Brak treści",
@@ -19,6 +20,7 @@
   "unread": "Nieprzeczytane",
   "file_unsupported": "Ta wiadomość ma załącznik!",
   "no_messages": "Brak wiadomości",
+  "no_notes": "Brak uwag i pochwał",
   "back_button": "Wróć",
   "me" : "Mnie"
 }
