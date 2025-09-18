@@ -15,7 +15,6 @@ import {
   ClipboardCheck,
   ChatLeftDots,
   CodeSlash,
-  Trophy,
 } from "react-bootstrap-icons";
 
 import { getUser } from "@/lib/user";
@@ -182,15 +181,6 @@ const Layout = ({ children, setAuthData }) => {
             >
               <ChatLeftDots />
               {t("navigation.messages")}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/notes"
-              className="flex flex-row items-center text-xl"
-            >
-              <Trophy />
-              {t("navigation.notes")}
             </Link>
           </li>
           {devmode && (
