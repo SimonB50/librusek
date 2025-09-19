@@ -2,5 +2,14 @@
   "title": "Plan lekcji",
   "empty": "Brak lekcji",
   "substitution": "Zastępstwo",
-  "canceled": "ODWOŁANE"
+  "canceled": "ODWOŁANE",
+  "weekDays": [
+    "Poniedziałek",
+    "Wtorek",
+    "Środa",
+    "Czwartek",
+    "Piątek",
+    "Sobota",
+    "Niedziela"
+  ]
 }

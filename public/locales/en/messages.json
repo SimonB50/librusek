@@ -1,6 +1,7 @@
 {
   "title": "Messages",
-  "loading": "Loading messages...",
+  "notes_title": "Notes and Commendations",
+  "loading": "Loading...",
   "missing": {
     "topic": "No topic available",
     "content": "No content available",
@@ -19,6 +20,7 @@
   "unread": "Unread",
   "file_unsupported": "This message has an attachment!",
   "no_messages": "No messages available",
+  "no_notes": "No notes or commendations",
   "back_button": "Back",
   "me": "Me"
 }

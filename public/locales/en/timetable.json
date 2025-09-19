@@ -2,5 +2,14 @@
   "title": "Timetable",
   "empty": "No classes",
   "substitution": "Substitution",
-  "canceled": "CANCELED"
+  "canceled": "CANCELED",
+  "weekDays": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ]
 }

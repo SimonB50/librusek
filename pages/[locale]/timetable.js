@@ -25,15 +25,6 @@ const Timetable = () => {
     loading: timetableLoading,
     error: timetableError,
   } = useTimetable(date);
-  const weekDays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
 
   return (
     <Layout>
@@ -75,7 +66,7 @@ const Timetable = () => {
                   key={day}
                 >
                   <span className="text-xl font-semibold">
-                    {weekDays[dayjs(day).isoWeekday() - 1]}
+                    {t(`weekDays.${dayjs(day).isoWeekday() - 1}`)}
                   </span>
                   <div className="flex flex-col gap-2">
                     {dayData.every((x) => x.length == 0) && (
