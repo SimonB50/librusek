@@ -1,13 +1,32 @@
+import { useState } from "react";
 import {
   MessageReceivers,
-  AttachmentWarning,
   TagsList,
 } from "./message_common_component";
 import { decodeAndCleanHtml, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import { fetchAttachmentDownloadUrl } from "@/lib/messages";
 
 const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
   const { t } = useTranslation("messages"); // Namespace 'messages'
+  const [downloading, setDownloading] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleDownload = async (attachmentId, messageId) => {
+    setDownloading(attachmentId);
+    setError(null);
+    try {
+      const downloadUrl = await fetchAttachmentDownloadUrl(attachmentId, messageId);
+      window.open(downloadUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+      setError(`Download failed: ${error.message}`);
+      alert(`There was an error downloading the attachment: ${error.message}. Please try again.`);
+    } finally {
+      setDownloading(null);
+    }
+  };
+
 
   return (
     <div className="text-base-content">
@@ -39,7 +58,32 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
           </span>
         </div>
         <TagsList tags={message.tags} tagsLibrary={tagsLibrary} />
-        <AttachmentWarning hasAttachment={message.attachments?.length > 0} />
+        {message.attachments && message.attachments.length > 0 && (
+          <div>
+            <h4 className="font-bold text-lg">{t("attachments")}:</h4>
+            <ul>
+              {message.attachments.map((attachment) => (
+                <li key={attachment.id} className="flex items-center">
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (downloading !== attachment.id) {
+                        handleDownload(attachment.id, message.id);
+                      }
+                    }}
+                    className={`link link-primary ${downloading === attachment.id ? 'pointer-events-none' : ''}`}
+                  >
+                    <span className="clamp-2">{attachment.filename}</span>
+                  </a>
+                  {downloading === attachment.id && (
+                    <span className="loading loading-spinner loading-xs ml-2"></span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <p className="py-4 text-base-content/80">
           {message.Message ? (
             <span

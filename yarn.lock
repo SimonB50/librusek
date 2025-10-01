@@ -1708,6 +1708,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tailwindcss/line-clamp@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "@tailwindcss/line-clamp@npm:0.4.4"
+  peerDependencies:
+    tailwindcss: ">=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1"
+  checksum: 10c0/53e74e75bff066469501b784ab70af444fa460d556a3adf95cb14ccf1a56b1e63c106f0c4bb94463ba0310f2ce1f71350f9b18a556048655cfd2a0ad308ccfb8
+  languageName: node
+  linkType: hard
+
 "@tailwindcss/node@npm:4.1.11":
   version: 4.1.11
   resolution: "@tailwindcss/node@npm:4.1.11"
@@ -5591,6 +5600,7 @@ __metadata:
     "@capacitor/preferences": "npm:^7.0.2"
     "@capawesome-team/capacitor-file-opener": "npm:^7.0.1"
     "@rorygudka/react-infinite-scroller": "npm:^2.0.1"
+    "@tailwindcss/line-clamp": "npm:^0.4.4"
     "@tailwindcss/postcss": "npm:^4.1.11"
     capacitor-secure-storage-plugin: "npm:^0.11.0"
     cordova-plugin-apkupdater: "npm:^5.0.1"

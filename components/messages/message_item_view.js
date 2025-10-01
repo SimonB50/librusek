@@ -1,5 +1,5 @@
 import { EnvelopeOpenFill, EnvelopeFill } from "react-bootstrap-icons";
-import { AttachmentWarning, TagsList } from "./message_common_component";
+import { TagsList } from "./message_common_component";
 import { removeCDATA, decodeBase64, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
@@ -43,7 +43,6 @@ const MessageItem = ({ message, onClick, isInbox, tagsLibrary }) => {
         <div className="text-sm text-base-content/80">
           {removeCDATA(decodeBase64(message.content)) || t("missing.content")}
         </div>
-        <AttachmentWarning hasAttachment={message.isAnyFileAttached} />
       </div>
     </div>
   );
