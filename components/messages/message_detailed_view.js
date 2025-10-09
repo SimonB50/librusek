@@ -6,34 +6,38 @@ import {
 import { decodeAndCleanHtml, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { fetchAttachmentDownloadUrl } from "@/lib/messages";
-import { Download, XCircle } from 'react-bootstrap-icons';
+import { XCircle } from 'react-bootstrap-icons';
+import { Filesystem, Directory } from "@capacitor/filesystem";
 
 const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
-  const { t } = useTranslation("messages"); // Namespace 'messages'
+  const { t } = useTranslation("messages");
   const [downloading, setDownloading] = useState(null);
   const [error, setError] = useState(null);
 
   const handleDownload = async (attachment, messageId) => {
+    if (!messageId || !attachment) {
+      setError(t("error.missing_attachment_details"));
+      console.error("Download error: Missing messageId or attachment.", { messageId, attachment });
+      return;
+    }
+
     setDownloading(attachment.id);
     setError(null);
+
     try {
       const downloadUrl = await fetchAttachmentDownloadUrl(attachment.id, messageId);
-      const newWindow = window.open(downloadUrl, '_blank', 'noopener');
-      if (!newWindow) {
-        // If window.open is blocked, newWindow is null.
-        // Fallback to creating a link and clicking it.
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.setAttribute('download', attachment.filename || 'download');
-        link.setAttribute('target', '_blank');
-        link.setAttribute('rel', 'noopener');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    } catch (error) {
-      console.error("Download failed:", error);
-      setError("Download failed. Please try again. If the problem persists, please contact support.");
+      const finalDownloadUrl = `${downloadUrl}/get`;
+
+      // Use Capacitor Filesystem for native downloads
+      const { uri } = await Filesystem.downloadFile({
+        path: attachment.filename,
+        url: finalDownloadUrl,
+        directory: Directory.Documents,
+      });
+
+    } catch (err) {
+      console.error("Download failed:", err);
+      setError(t("error.download_failed", { errorMessage: err.message }));
     } finally {
       setDownloading(null);
     }
