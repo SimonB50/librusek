@@ -43,12 +43,6 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
   return (
     <div className="text-base-content">
       <div className="flex flex-col gap-2 p-2">
-      {error && (
-          <div role="alert" className="alert alert-error">
-            <XCircle className="h-6 w-6" />
-            <span>{error}</span>
-          </div>
-        )}
         <span>
           {`${t("sender_from")}: `}
           <span className="badge badge-outline mr-2 mb-1">
@@ -92,7 +86,6 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
                     }}
                     className={`link link-primary ${downloading === attachment.id ? 'pointer-events-none' : ''}`}
                   >
-                    <Download className="inline-block mr-2" />
                     <span className="line-clamp-2">{attachment.filename}</span>
                   </a>
                   {downloading === attachment.id && (
@@ -101,6 +94,12 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+        {error && (
+          <div role="alert" className="alert alert-error">
+            <XCircle className="h-6 w-6" />
+            <span>{error}</span>
           </div>
         )}
         <p className="py-4 text-base-content/80">

@@ -17,8 +17,12 @@
   "send": "Send",
   "read": "Read",
   "unread": "Unread",
-  "file_unsupported": "This message has an attachment!",
+  "attachments": "Attachments",
   "no_messages": "No messages available",
   "back_button": "Back",
-  "me": "Me"
+  "me": "Me",
+  "error": {
+    "missing_attachment_details": "Download cannot proceed: missing attachment details.",
+    "download_failed": "Download failed: {{errorMessage}}. Please try again."
+  }
 }
