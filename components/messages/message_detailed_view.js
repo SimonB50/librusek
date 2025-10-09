@@ -6,22 +6,34 @@ import {
 import { decodeAndCleanHtml, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { fetchAttachmentDownloadUrl } from "@/lib/messages";
+import { Download, XCircle } from 'react-bootstrap-icons';
 
 const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
   const { t } = useTranslation("messages"); // Namespace 'messages'
   const [downloading, setDownloading] = useState(null);
   const [error, setError] = useState(null);
 
-  const handleDownload = async (attachmentId, messageId) => {
-    setDownloading(attachmentId);
+  const handleDownload = async (attachment, messageId) => {
+    setDownloading(attachment.id);
     setError(null);
     try {
-      const downloadUrl = await fetchAttachmentDownloadUrl(attachmentId, messageId);
-      window.open(downloadUrl);
+      const downloadUrl = await fetchAttachmentDownloadUrl(attachment.id, messageId);
+      const newWindow = window.open(downloadUrl, '_blank', 'noopener');
+      if (!newWindow) {
+        // If window.open is blocked, newWindow is null.
+        // Fallback to creating a link and clicking it.
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', attachment.filename || 'download');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     } catch (error) {
       console.error("Download failed:", error);
-      setError(`Download failed: ${error.message}`);
-      alert(`There was an error downloading the attachment: ${error.message}. Please try again.`);
+      setError("Download failed. Please try again. If the problem persists, please contact support.");
     } finally {
       setDownloading(null);
     }
@@ -31,6 +43,12 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
   return (
     <div className="text-base-content">
       <div className="flex flex-col gap-2 p-2">
+      {error && (
+          <div role="alert" className="alert alert-error">
+            <XCircle className="h-6 w-6" />
+            <span>{error}</span>
+          </div>
+        )}
         <span>
           {`${t("sender_from")}: `}
           <span className="badge badge-outline mr-2 mb-1">
@@ -69,12 +87,13 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
                     onClick={(e) => {
                       e.preventDefault();
                       if (downloading !== attachment.id) {
-                        handleDownload(attachment.id, message.id);
+                        handleDownload(attachment, message.id);
                       }
                     }}
                     className={`link link-primary ${downloading === attachment.id ? 'pointer-events-none' : ''}`}
                   >
-                    <span className="clamp-2">{attachment.filename}</span>
+                    <Download className="inline-block mr-2" />
+                    <span className="line-clamp-2">{attachment.filename}</span>
                   </a>
                   {downloading === attachment.id && (
                     <span className="loading loading-spinner loading-xs ml-2"></span>
