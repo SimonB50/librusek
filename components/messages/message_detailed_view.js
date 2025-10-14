@@ -6,13 +6,14 @@ import {
 import { decodeAndCleanHtml, formatDate } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { fetchAttachmentDownloadUrl } from "@/lib/messages";
-import { XCircle } from 'react-bootstrap-icons';
+import { CheckCircle, XCircle } from 'react-bootstrap-icons';
 import { Filesystem, Directory } from "@capacitor/filesystem";
 
 const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
   const { t } = useTranslation("messages");
   const [downloading, setDownloading] = useState(null);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handleDownload = async (attachment, messageId) => {
     if (!messageId || !attachment) {
@@ -23,21 +24,23 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
 
     setDownloading(attachment.id);
     setError(null);
+    setSuccess(null);
 
     try {
       const downloadUrl = await fetchAttachmentDownloadUrl(attachment.id, messageId);
       const finalDownloadUrl = `${downloadUrl}/get`;
 
-      // Use Capacitor Filesystem for native downloads
-      const { uri } = await Filesystem.downloadFile({
+      await Filesystem.downloadFile({
         path: attachment.filename,
         url: finalDownloadUrl,
         directory: Directory.Documents,
       });
 
+      setSuccess(t("download.success", { filename: attachment.filename }));
+
     } catch (err) {
       console.error("Download failed:", err);
-      setError(t("error.download_failed", { errorMessage: err.message }));
+      setError(t("download.error", { filename: attachment.filename }));
     } finally {
       setDownloading(null);
     }
@@ -104,6 +107,12 @@ const DetailedMessageView = ({ message, onBack, tagsLibrary }) => {
           <div role="alert" className="alert alert-error">
             <XCircle className="h-6 w-6" />
             <span>{error}</span>
+          </div>
+        )}
+        {success && (
+          <div role="alert" className="alert alert-success">
+            <CheckCircle className="h-6 w-6" />
+            <span>{success}</span>
           </div>
         )}
         <p className="py-4 text-base-content/80">

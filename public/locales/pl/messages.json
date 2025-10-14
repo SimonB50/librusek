@@ -22,7 +22,10 @@
   "back_button": "Wróć",
   "me" : "Mnie",
   "error": {
-    "missing_attachment_details": "Nie mogę pobrać: brak szczegółów załącznika.",
-    "download_failed": "Pobieranie nie powiodło się: {{errorMessage}}. Proszę spróbować ponownie."
+    "missing_attachment_details": "Nie mogę pobrać: brak szczegółów załącznika."
+  },
+  "download": {
+    "success": "Pobrano plik \"{{filename}}\"",
+    "error": "Nie udało się pobrać pliku \"{{filename}}\""
   }
 }

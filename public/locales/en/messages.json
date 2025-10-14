@@ -22,7 +22,10 @@
   "back_button": "Back",
   "me": "Me",
   "error": {
-    "missing_attachment_details": "Download cannot proceed: missing attachment details.",
-    "download_failed": "Download failed: {{errorMessage}}. Please try again."
+    "missing_attachment_details": "Download cannot proceed: missing attachment details."
+  },
+  "download": {
+    "success": "Successfully downloaded \"{{filename}}\"",
+    "error": "Failed to download \"{{filename}}\""
   }
 }
