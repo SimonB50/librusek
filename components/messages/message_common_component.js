@@ -1,26 +1,4 @@
-import { ExclamationTriangleFill } from "react-bootstrap-icons";
 import { useTranslation } from "react-i18next";
-
-/**
- * AttachmentWarning Component
- * Displays a warning badge when a message has an unsupported attachment.
- * @param {Object} props - Component props
- * @param {boolean} props.hasAttachment - Indicates if there is an attachment
- * @returns {JSX.Element|null} Warning badge or null if no attachment
- */
-const AttachmentWarning = ({ hasAttachment }) => {
-  const { t } = useTranslation("messages");
-
-  // If there’s no attachment, render nothing
-  if (!hasAttachment) return null;
-
-  return (
-    <div className="flex flex-row text-warning gap-2 mt-2 p-1 flex-wrap">
-      <ExclamationTriangleFill className="text-lg" />
-      {t("file_unsupported")}
-    </div>
-  );
-};
 
 /**
  * MessageReceivers Component
@@ -100,5 +78,4 @@ const TagsList = ({ tags, tagsLibrary }) => {
   );
 };
 
-export { TagsList, MessageReceivers, AttachmentWarning };
-export default AttachmentWarning;
+export { TagsList, MessageReceivers };
