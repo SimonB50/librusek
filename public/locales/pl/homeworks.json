@@ -1,0 +1,7 @@
+{
+  "title": "Zadania domowe",
+  "due_in": {
+    "x_days": "Za {{days}} dni",
+    "today": "Dzisiaj"
+  }
+}

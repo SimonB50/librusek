@@ -2,6 +2,7 @@
   "navigation": {
     "home": "Home",
     "grades": "Grades",
+    "homeworks": "Homeworks",
     "exams": "Exams",
     "timetable": "Timetable",
     "teacherAbsences": "Teacher absences",

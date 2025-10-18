@@ -1,42 +1,55 @@
-import { useExams, useExamsCategories } from "@/lib/timetable";
+import {useExams, useExamsCategories, useHomeWorks, useHomeWorksCategories} from "@/lib/timetable";
 import Layout from "@/components/layout";
 import { upperFirst, sortTasks } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
 import dayjs from "dayjs";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
+import {useLessons} from "@/lib/lessons";
 
 const getStaticProps = makeStaticProps(["exams", "common"]);
 export { getStaticPaths, getStaticProps };
 
 const Exams = () => {
-  const { t } = useTranslation(["exams"]);
+  const { t } = useTranslation(["homeworks"]);
 
   // Grades data
   const {
-    data: examsData,
-    loading: examsLoading,
-    error: examsError,
-  } = useExams();
+    data: homeworkData,
+    loading: homeworkLoading,
+    error: homeworkError,
+  } = useHomeWorks();
+  const {
+    data: lessonsData,
+    loading: lessonsLoading,
+    error: lessonsError,
+  } = useLessons(
+    homeworkData && homeworkData.length
+        ? homeworkData
+            .filter((x) => x.Lesson)
+            .map((y) => y.Lesson.Id)
+            .join(",")
+        : false
+  );
   const {
     data: subjectsData,
     loading: subjectsLoading,
     error: subjectsError,
   } = useSubjects(
-    examsData && examsData.length
-      ? examsData
+      lessonsData && lessonsData.length
+      ? lessonsData
           .filter((x) => x.Subject)
           .map((y) => y.Subject.Id)
           .join(",")
       : false
   );
   const {
-    data: examsCategoriesData,
-    loading: examsCategoriesLoading,
-    error: examsCategoriesError,
-  } = useExamsCategories(
-    examsData && examsData.length
-      ? examsData.map((x) => x.Category.Id).join(",")
+    data: homeworkCategoriesData,
+    loading: homeworkCategoriesLoading,
+    error: homeworkCategoriesError,
+  } = useHomeWorksCategories(
+    homeworkData && homeworkData.length
+      ? homeworkData.map((x) => x.Category.Id).join(",")
       : false
   );
 
@@ -44,12 +57,12 @@ const Exams = () => {
     <Layout>
       <span className="text-3xl font-semibold mb-4">{t("title")}</span>
       <div className="grid grid-cols-6 gap-2 mt-4">
-        {!examsLoading && !examsError
-          ? sortTasks(examsData).map((exam) => (
+        {!homeworkLoading && !homeworkError
+          ? sortTasks(homeworkData).map((homework) => (
               <div
-                key={exam.Id}
+                key={homework.Id}
                 className={`col-span-6 sm:col-span-3 md:col-span-2 flex flex-col justify-between p-4 bg-base-200 border border-base-300 rounded-box ${
-                  dayjs(exam.Date).startOf("day").valueOf() -
+                  dayjs(homework.DueDate).startOf("day").valueOf() -
                     dayjs().startOf("day").valueOf() ==
                   0
                     ? `border border-primary`
@@ -59,38 +72,41 @@ const Exams = () => {
                 <div className="flex flex-col">
                   <div className="flex flex-row gap-1 items-center justify-between">
                     <span className="text-2xl font-bold">
-                      {!examsCategoriesLoading &&
-                        !examsCategoriesError &&
-                        examsCategoriesData.find(
-                          (x) => x.Id == exam.Category.Id
+                      {!homeworkCategoriesLoading &&
+                        !homeworkCategoriesError &&
+                        homeworkCategoriesData.find(
+                          (x) => x.Id == homework.Category.Id
                         )?.Name}
                     </span>
                     <span className="text-lg font-semibold">
                       {!subjectsLoading &&
                         !subjectsError &&
-                        exam?.Subject?.Id &&
+                        homework?.Subject?.Id &&
                         upperFirst(
                           subjectsData.find(
-                            (x) => x.Id == exam?.Subject?.Id
+                            (x) => x.Id == lessonsData.find((y) => y.Id == homework.Lesson.Id)?.Subject?.Id
                           )?.Name
                         )}
                     </span>
                   </div>
-                  <span>{exam.Content}</span>
+                  <span>
+                      {upperFirst(homework.Topic)}<br />
+                      {homework.Text}
+                  </span>
                 </div>
                 <div className="flex flex-row justify-between items-center">
-                  <span>{exam.Date}</span>
-                  {dayjs(exam.Date).startOf("day").valueOf() -
+                  <span>{homework.DueDate}</span>
+                  {dayjs(homework.DueDate).startOf("day").valueOf() -
                     dayjs().startOf("day").valueOf() >=
                     0 && (
                     <div className="badge badge-primary">
-                      {dayjs(exam.Date).startOf("day").valueOf() -
+                      {dayjs(homework.DueDate).startOf("day").valueOf() -
                         dayjs().startOf("day").valueOf() ==
                       0
                         ? t("due_in.today")
                         : t("due_in.x_days", {
                             days: Math.ceil(
-                              dayjs(exam.Date).diff(dayjs(), "day", true)
+                              dayjs(homework.DueDate).diff(dayjs(), "day", true)
                             ),
                           })}
                     </div>
