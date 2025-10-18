@@ -147,7 +147,8 @@ const Layout = ({ children, setAuthData }) => {
               <HouseCheck />
               {t("navigation.homeworks")}
             </Link>
-          </li>          <li>
+          </li>
+          <li>
             <Link href="/exams" className="flex flex-row items-center text-xl">
               <VectorPen />
               {t("navigation.exams")}
