@@ -15,6 +15,7 @@ import {
   ClipboardCheck,
   ChatLeftDots,
   CodeSlash,
+  HouseCheck,
 } from "react-bootstrap-icons";
 
 import { getUser } from "@/lib/user";
@@ -139,6 +140,12 @@ const Layout = ({ children, setAuthData }) => {
             <Link href="/grades" className="flex flex-row items-center text-xl">
               <ListOl />
               {t("navigation.grades")}
+            </Link>
+          </li>
+          <li>
+            <Link href="/homeworks" className="flex flex-row items-center text-xl">
+              <HouseCheck />
+              {t("navigation.homeworks")}
             </Link>
           </li>
           <li>

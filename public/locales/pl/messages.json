@@ -18,9 +18,16 @@
   "send": "Wyślij",
   "read": "Przeczytane",
   "unread": "Nieprzeczytane",
-  "file_unsupported": "Ta wiadomość ma załącznik!",
+  "attachments": "Załączniki",
   "no_messages": "Brak wiadomości",
   "no_notes": "Brak uwag i pochwał",
   "back_button": "Wróć",
-  "me" : "Mnie"
+  "me" : "Mnie",
+  "error": {
+    "missing_attachment_details": "Nie mogę pobrać: brak szczegółów załącznika."
+  },
+  "download": {
+    "success": "Pobrano plik \"{{filename}}\"",
+    "error": "Nie udało się pobrać pliku \"{{filename}}\""
+  }
 }
