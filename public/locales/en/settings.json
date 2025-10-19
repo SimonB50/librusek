@@ -2,6 +2,10 @@
     "appearance": {
         "title": "Appearance",
         "description": "Customize the appearance of the application to your liking.",
+        "languages": {
+            "title": "Language",
+            "description": "Select the language for the application interface."
+        },
         "themes": {
             "standard": {
                 "title": "Standard themes",

@@ -2,6 +2,10 @@
     "appearance": {
         "title": "Wygląd",
         "description": "Dostosuj wygląd aplikacji do swoich upodobań.",
+        "languages": {
+            "title": "Język",
+            "description": "Wybierz język interfejsu aplikacji."
+        },
         "themes": {
             "standard": {
                 "title": "Standardowe motywy",
