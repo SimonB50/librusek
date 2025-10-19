@@ -14,6 +14,11 @@ export { getStaticPaths, getStaticProps };
 const Settings = () => {
   const { t } = useTranslation(["settings", "common"]);
 
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "pl", name: "Polski" },
+  ]
+
   const [devmode, setDevmode] = useState("false");
 
   const { theme, setTheme } = useTheme();
@@ -163,6 +168,26 @@ const Settings = () => {
           </div>
           <div className="divider my-1"></div>
           <div className="flex flex-col gap-2">
+            <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-2">
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold">
+                  {t("appearance.languages.title")}
+                </span>
+                <span className="text-sm">
+                  {t("appearance.languages.description")}
+                </span>
+              </div>
+              <select className="select" defaultValue={localStorage.getItem("i18nextLng")} onChange={(e) => {
+                localStorage.setItem("i18nextLng", e.target.value);
+                window.location.href = `/`;
+              }}>
+                {languages.map((x) => (
+                    <option key={x.code} value={x.code}>
+                      ({x.code.toUpperCase()}) {x.name}
+                    </option>
+                ))}
+              </select>
+            </div>
             <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-2">
               <div className="flex flex-col">
                 <span className="text-lg font-semibold">

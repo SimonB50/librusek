@@ -1,4 +1,4 @@
-import {useExams, useExamsCategories, useHomeWorks, useHomeWorksCategories} from "@/lib/timetable";
+import { useHomeWorks, useHomeWorksCategories } from "@/lib/timetable";
 import Layout from "@/components/layout";
 import { upperFirst, sortTasks } from "@/lib/utils";
 import { useSubjects } from "@/lib/school";
@@ -7,13 +7,13 @@ import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
 import {useLessons} from "@/lib/lessons";
 
-const getStaticProps = makeStaticProps(["exams", "common"]);
+const getStaticProps = makeStaticProps(["homeworks", "common"]);
 export { getStaticPaths, getStaticProps };
 
-const Exams = () => {
+const Homeworks = () => {
   const { t } = useTranslation(["homeworks"]);
 
-  // Grades data
+  // Homeworks data
   const {
     data: homeworkData,
     loading: homeworkLoading,
@@ -75,16 +75,16 @@ const Exams = () => {
                       {!homeworkCategoriesLoading &&
                         !homeworkCategoriesError &&
                         homeworkCategoriesData.find(
-                          (x) => x.Id == homework.Category.Id
-                        )?.Name}
+                          (x) => x.Id == homework?.Category?.Id
+                        )?.CategoryName}
                     </span>
                     <span className="text-lg font-semibold">
                       {!subjectsLoading &&
                         !subjectsError &&
-                        homework?.Subject?.Id &&
+                        homework?.Lesson?.Id &&
                         upperFirst(
                           subjectsData.find(
-                            (x) => x.Id == lessonsData.find((y) => y.Id == homework.Lesson.Id)?.Subject?.Id
+                            (x) => x.Id == lessonsData.find((y) => y?.Id == homework?.Lesson?.Id)?.Subject?.Id
                           )?.Name
                         )}
                     </span>
@@ -124,4 +124,4 @@ const Exams = () => {
     </Layout>
   );
 };
-export default Exams;
+export default Homeworks;
