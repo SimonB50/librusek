@@ -2,6 +2,8 @@ import Layout from "@/components/layout";
 import { useState } from "react";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
+import {uploadContent} from "@/lib/utils";
+import { Clipboard } from '@capacitor/clipboard';
 
 const getStaticProps = makeStaticProps(["developer", "common"]);
 export { getStaticPaths, getStaticProps };
@@ -105,6 +107,20 @@ const Developer = () => {
           </pre>
         )}
       </div>
+        {
+          response && (
+            <button className="btn btn-primary mt-4 w-full" onClick={async () => {
+              const url = await uploadContent(response);
+              if (!url) return alert("Upload failed");
+              await Clipboard.write({
+                  string: url
+              });
+              alert("Uploaded! URL copied to clipboard: " + url);
+            }}>
+              Upload content
+            </button>
+          )
+        }
     </Layout>
   );
 };

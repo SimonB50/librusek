@@ -184,6 +184,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capacitor/clipboard@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "@capacitor/clipboard@npm:7.0.2"
+  peerDependencies:
+    "@capacitor/core": ">=7.0.0"
+  checksum: 10c0/927e41a6263a9ae6e76e4f5400113d68654c4de5aba023b47e9ca7f2022b5975c13d5bc66558ec1c0d99bde21a731ec36c1a5ebd5e309dcb34957788a25b82ad
+  languageName: node
+  linkType: hard
+
 "@capacitor/core@npm:^7.4.2":
   version: 7.4.3
   resolution: "@capacitor/core@npm:7.4.3"
@@ -5748,6 +5757,7 @@ __metadata:
     "@capacitor/app": "npm:^7.0.2"
     "@capacitor/assets": "npm:^3.0.5"
     "@capacitor/cli": "npm:^7.4.2"
+    "@capacitor/clipboard": "npm:^7.0.2"
     "@capacitor/core": "npm:^7.4.2"
     "@capacitor/device": "npm:^7.0.2"
     "@capacitor/filesystem": "npm:^7.1.4"

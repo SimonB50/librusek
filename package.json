@@ -15,6 +15,7 @@
     "@capacitor-firebase/messaging": "^7.3.0",
     "@capacitor/android": "^7.4.2",
     "@capacitor/app": "^7.0.2",
+    "@capacitor/clipboard": "^7.0.2",
     "@capacitor/core": "^7.4.2",
     "@capacitor/device": "^7.0.2",
     "@capacitor/filesystem": "^7.1.4",
