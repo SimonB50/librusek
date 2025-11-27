@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { getStaticPaths, makeStaticProps } from "@/lib/i18n/getStatic";
 import { useTranslation } from "react-i18next";
 import {useLessons} from "@/lib/lessons";
+import sanitize from "sanitize-html";
 
 const getStaticProps = makeStaticProps(["homeworks", "common"]);
 export { getStaticPaths, getStaticProps };
@@ -49,7 +50,7 @@ const Homeworks = () => {
     error: homeworkCategoriesError,
   } = useHomeWorksCategories(
     homeworkData && homeworkData.length
-      ? homeworkData.map((x) => x.Category.Id).join(",")
+      ? homeworkData.map((x) => x?.Category?.Id)?.join(",")
       : false
   );
 
@@ -89,10 +90,29 @@ const Homeworks = () => {
                         )}
                     </span>
                   </div>
-                  <span>
-                      {upperFirst(homework.Topic)}<br />
-                      {homework.Text}
-                  </span>
+                  <div>
+                      <span className="font-bold">{upperFirst(homework.Topic)}</span><br />
+                      <p
+                        className="whitespace-pre-wrap"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitize(
+                            homework.Text,
+                            {
+                              allowedTags: [
+                                "p",
+                                "a",
+                                "b",
+                                "i",
+                                "u",
+                                "strong",
+                                "em",
+                                "br",
+                              ],
+                            }
+                          ),
+                        }}
+                      />
+                  </div>
                 </div>
                 <div className="flex flex-row justify-between items-center">
                   <span>{homework.DueDate}</span>
