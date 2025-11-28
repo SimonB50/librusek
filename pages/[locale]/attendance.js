@@ -148,59 +148,61 @@ const Attendance = () => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col mt-4">
-            <span className="text-lg font-semibold">
-              {t("common.school.semester", { ns: "common", semester: "II" })}
-            </span>
-            <div className="flex flex-col">
-              <div className="flex flex-row gap-2">
-                <span>
-                  {t("subject_details.presence")}:{" "}
-                  <span className="font-bold">
-                    {attendanceData &&
-                      lessonsData &&
-                      attendanceData.filter(
-                        (x) =>
-                          x.Semester == 2 &&
-                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
-                            .Id === focusedSubject &&
-                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
-                            .IsPresenceKind == true
-                      ).length}
-                  </span>
+          {
+            attendanceData?.some(x => x.Semester == 2) && (
+              <div className="flex flex-col mt-4">
+                <span className="text-lg font-semibold">
+                  {t("common.school.semester", { ns: "common", semester: "II" })}
                 </span>
-                <span>
-                  {t("subject_details.absences")}:{" "}
-                  <span className="font-bold">
-                    {attendanceData &&
-                      lessonsData &&
-                      attendanceData.filter(
-                        (x) =>
-                          x.Semester == 2 &&
-                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
-                            .Id === focusedSubject &&
-                          attendanceTypesData.find((y) => y.Id == x.Type.Id)
-                            .IsPresenceKind == false
-                      ).length}
+                  <div className="flex flex-col">
+                    <div className="flex flex-row gap-2">
+                  <span>
+                    {t("subject_details.presence")}:{" "}
+                    <span className="font-bold">
+                      {attendanceData &&
+                        lessonsData &&
+                        attendanceData.filter(
+                          (x) =>
+                            x.Semester == 2 &&
+                            lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                              .Id === focusedSubject &&
+                            attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                              .IsPresenceKind == true
+                        ).length}
+                    </span>
                   </span>
-                </span>
-                <span>
-                  {t("subject_details.total")}:{" "}
-                  <span className="font-bold">
-                    {attendanceData &&
-                      lessonsData &&
-                      attendanceData.filter(
-                        (x) =>
-                          x.Semester == 2 &&
-                          lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
-                            .Id === focusedSubject
-                      ).length}
+                      <span>
+                    {t("subject_details.absences")}:{" "}
+                        <span className="font-bold">
+                      {attendanceData &&
+                        lessonsData &&
+                        attendanceData.filter(
+                          (x) =>
+                            x.Semester == 2 &&
+                            lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                              .Id === focusedSubject &&
+                            attendanceTypesData.find((y) => y.Id == x.Type.Id)
+                              .IsPresenceKind == false
+                        ).length}
+                    </span>
                   </span>
-                </span>
-              </div>
-              <span>
+                      <span>
+                    {t("subject_details.total")}:{" "}
+                        <span className="font-bold">
+                      {attendanceData &&
+                        lessonsData &&
+                        attendanceData.filter(
+                          (x) =>
+                            x.Semester == 2 &&
+                            lessonsData.find((y) => x.Lesson.Id === y.Id).Subject
+                              .Id === focusedSubject
+                        ).length}
+                    </span>
+                  </span>
+                </div>
+                <span>
                 {t("subject_details.percentage")}:{" "}
-                <span className="font-bold">
+                    <span className="font-bold">
                   {attendanceData &&
                     lessonsData &&
                     (
@@ -213,19 +215,21 @@ const Attendance = () => {
                             attendanceTypesData.find((y) => y.Id == x.Type.Id)
                               .IsPresenceKind == false
                         ).length /
-                          attendanceData.filter(
-                            (x) =>
-                              x.Semester == 2 &&
-                              lessonsData.find((y) => x.Lesson.Id === y.Id)
-                                .Subject.Id === focusedSubject
-                          ).length) *
+                        attendanceData.filter(
+                          (x) =>
+                            x.Semester == 2 &&
+                            lessonsData.find((y) => x.Lesson.Id === y.Id)
+                              .Subject.Id === focusedSubject
+                        ).length) *
                       100
                     ).toFixed()}
-                  %
+                      %
                 </span>
               </span>
-            </div>
-          </div>
+                </div>
+              </div>
+            )
+          }
           <div className="flex flex-col mt-4">
             <span className="text-lg font-semibold">
               {t("common.summary", { ns: "common" })}
@@ -434,7 +438,7 @@ const Attendance = () => {
         {!subjectsLoading && !subjectsError ? (
           subjectsData && subjectsData.length ? (
             subjectsData
-            .filter((subject) => attendanceData.some((x) => {
+            .filter((subject) => attendanceData?.some((x) => {
               const lesson = lessonsData.find((y) => y.Id === x.Lesson.Id);
               return lesson && lesson.Subject.Id === subject.Id;
             }))
