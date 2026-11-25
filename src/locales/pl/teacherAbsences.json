@@ -1,0 +1,31 @@
+{
+  "title": "Nieobecności nauczycieli",
+  "subtitle": "Nieobecni nauczyciele i zmiany w lekcjach.",
+  "active_in": "Za {{days}} dni",
+  "active": "Teraz",
+  "past": "Minione",
+  "tabs": {
+    "absences": "Nieobecności",
+    "substitutions": "Zastępstwa"
+  },
+  "empty": "Brak nieobecności nauczycieli.",
+  "substitutions_empty": "Brak zastępstw.",
+  "all_day": "Cały dzień",
+  "substitution": {
+    "cancelled": "Odwołane",
+    "shifted": "Przeniesione",
+    "replaced": "Zastępstwo",
+    "lesson": "Lekcja {{number}}",
+    "original": "Pierwotnie",
+    "instead": "zamiast"
+  },
+  "details": {
+    "title": "Nieobecność nauczyciela",
+    "teacher": "Nauczyciel",
+    "reason": "Powód",
+    "from": "Od",
+    "to": "Do",
+    "hours": "Godziny",
+    "added": "Dodano"
+  }
+}

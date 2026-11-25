@@ -1,0 +1,34 @@
+{
+  "title": "Профіль",
+  "subtitle": "Інформація про твій профіль.",
+  "account": {
+    "email": "E-mail",
+    "login": "Логін",
+    "class": "Клас",
+    "premium": "Premium"
+  },
+  "behaviour": {
+    "title": "Поведінка",
+    "proposal": "Попередня",
+    "final": "Підсумкова",
+    "awaiting_final": "Очікування підсумкової оцінки",
+    "empty": "Оцінок за поведінку немає.",
+    "points": "Бали за поведінку",
+    "points_total": "{{points}} б."
+  },
+  "notes": {
+    "title": "Зауваження",
+    "added_by": "Додав(ла) {{teacher}}, {{date}}",
+    "empty": "Зауважень немає.",
+    "positive": "Позитивне",
+    "negative": "Негативне",
+    "neutral": "Нейтральне",
+    "details": {
+      "title": "Зауваження",
+      "type": "Вид",
+      "category": "Категорія",
+      "teacher": "Вчитель",
+      "date": "Дата"
+    }
+  }
+}

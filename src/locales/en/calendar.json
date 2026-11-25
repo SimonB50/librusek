@@ -1,0 +1,16 @@
+{
+  "title": "Calendar",
+  "subtitle": "Exams, free days and teacher absences in one place.",
+  "empty_day": "Nothing planned for this day.",
+  "legend": {
+    "exam": "Exam",
+    "schoolFree": "School free day",
+    "classFree": "Class free day",
+    "teacherAbsence": "Teacher absence",
+    "substitution": "Substitution",
+    "conference": "Parent-teacher conference"
+  },
+  "today": "Today",
+  "events_one": "{{count}} event",
+  "events_other": "{{count}} events"
+}

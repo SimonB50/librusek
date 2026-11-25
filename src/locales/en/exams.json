@@ -1,0 +1,26 @@
+{
+  "title": "Exams",
+  "subtitle": "Tests, quizzes and other planned class events.",
+  "empty": "No exams planned.",
+  "past": "Past",
+  "details": {
+    "title": "Exam",
+    "date": "Date",
+    "time": "Time",
+    "lesson": "Lesson",
+    "category": "Category",
+    "teacher": "Added by",
+    "subject": "Subject",
+    "classroom": "Classroom",
+    "added": "Added",
+    "description": "Description"
+  },
+  "filter": {
+    "upcoming": "Upcoming",
+    "all": "All"
+  },
+  "due_in": {
+    "x_days": "In {{days}} days",
+    "today": "Today"
+  }
+}

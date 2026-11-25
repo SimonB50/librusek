@@ -1,0 +1,49 @@
+# Shared job setup: Node + dependencies (node_modules cached by yarn.lock), optionally Java + Android SDK + Gradle cache.
+name: Setup project
+description: Node 22, yarn dependencies with node_modules cache, optional Android toolchain
+
+inputs:
+  android:
+    description: Also set up Java 21, the Android SDK and the Gradle cache
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node
+      uses: actions/setup-node@v7
+      with:
+        node-version: 22
+
+    # node_modules is restored as a whole - an exact hit skips `yarn install` entirely
+    - name: Restore node_modules
+      id: modules
+      uses: actions/cache@v6
+      with:
+        path: node_modules
+        key: modules-${{ runner.os }}-node22-${{ hashFiles('yarn.lock') }}
+
+    - name: Install dependencies
+      if: steps.modules.outputs.cache-hit != 'true'
+      shell: bash
+      run: yarn install --frozen-lockfile --prefer-offline --network-timeout 600000
+
+    - name: Set up Java 21
+      if: inputs.android == 'true'
+      uses: actions/setup-java@v6
+      with:
+        distribution: temurin
+        java-version: 21
+
+    - name: Set up Android SDK
+      if: inputs.android == 'true'
+      uses: android-actions/setup-android@v4
+      with:
+        log-accepted-android-sdk-licenses: false
+
+    # Caches Gradle wrapper, dependencies and build cache (read-only outside the default branch)
+    - name: Set up Gradle
+      if: inputs.android == 'true'
+      uses: gradle/actions/setup-gradle@v6
+      with:
+        add-job-summary: on-failure

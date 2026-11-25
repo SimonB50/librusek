@@ -1,0 +1,41 @@
+{
+  "title": "Frekwencja",
+  "subtitle": "Twoja frekwencja według przedmiotów i dni.",
+  "hint": "Możesz kliknąć na przedmiot, aby zobaczyć więcej szczegółów.",
+  "summary": {
+    "percentage": "Frekwencja",
+    "absences": "Nieobecności",
+    "lates": "Spóźnienia",
+    "total": "Lekcje"
+  },
+  "subjects": "Przedmioty",
+  "subject_details": {
+    "presence": "Obecności",
+    "absences": "Nieobecności",
+    "total": "Łącznie",
+    "percentage": "Procent frekwencji",
+    "types": "Według typu"
+  },
+  "empty": "Brak danych o frekwencji.",
+  "absences": {
+    "title": "Twoje nieobecności",
+    "empty": "Brak nieobecności - tak trzymaj!",
+    "show_all": "Pokaż wszystkie dni",
+    "entries_one": "{{count}} wpis",
+    "entries_few": "{{count}} wpisy",
+    "entries_many": "{{count}} wpisów",
+    "entries_other": "{{count}} wpisów",
+    "entry": {
+      "title": "Wpis frekwencji",
+      "type": "Typ",
+      "date": "Data",
+      "lesson": {
+        "title": "Lekcja",
+        "value": "{{subject}} (Nr {{lesson}})"
+      },
+      "teacher": "Nauczyciel",
+      "added": "Dodano",
+      "semester": "Semestr"
+    }
+  }
+}

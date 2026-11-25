@@ -1,0 +1,85 @@
+{
+  "app": "Librusek",
+  "navigation": {
+    "home": "Home",
+    "grades": "Grades",
+    "homeworks": "Homeworks",
+    "exams": "Exams",
+    "timetable": "Timetable",
+    "calendar": "Calendar",
+    "teacherAbsences": "Teacher absences",
+    "attendance": "Attendance",
+    "messages": "Messages",
+    "school": "School",
+    "notes": "Notes",
+    "developer": "Developer",
+    "menu": "Open menu",
+    "account": {
+      "fallback": "Account",
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
+  "actions": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete",
+    "add": "Add",
+    "retry": "Retry",
+    "load_more": "Load more",
+    "previous": "Previous",
+    "next": "Next",
+    "today": "Today",
+    "search": "Search",
+    "open": "Open",
+    "download": "Download"
+  },
+  "states": {
+    "loading": "Loading...",
+    "empty": "No data available.",
+    "failed": "Failed to fetch",
+    "unavailable": "This module is not available for your school."
+  },
+  "unknown": {
+    "teacher": "Unknown teacher",
+    "subject": "Unknown subject"
+  },
+  "dates": {
+    "in_days_one": "In {{count}} day",
+    "in_days_other": "In {{count}} days",
+    "range": "{{from}} – {{to}}"
+  },
+  "common": {
+    "or": "or",
+    "summary": "Summary",
+    "date": "Date",
+    "added": "Added",
+    "teacher": "Teacher",
+    "subject": "Subject",
+    "category": "Category",
+    "lesson": "Lesson {{number}}",
+    "classroom": "Classroom",
+    "school": {
+      "semester": "Semester {{semester}}",
+      "year": "Whole year"
+    }
+  },
+  "errors": {
+    "title": "Application error",
+    "unknown": "An unknown error occurred while communicating with Librus",
+    "report": "Report"
+  },
+  "translation": {
+    "translate": "Translate",
+    "original": "Show original",
+    "translated": "Translated on device",
+    "failed": "Translation failed - showing the original",
+    "prepare_title": "Download translation models?",
+    "prepare_mlkit": "Translation runs on your device. It needs language models (about 30 MB each) - use Wi-Fi if you can.",
+    "prepare_browser": "Your browser translates on this device. It may need to download a language model first.",
+    "prepare_action": "Download and translate"
+  }
+}

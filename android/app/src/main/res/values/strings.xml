@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Librusek</string>
+    <string name="title_activity_main">Librusek</string>
+    <string name="package_name">com.librusek.dev</string>
+    <string name="custom_url_scheme">com.librusek.dev</string>
+</resources>

@@ -1,0 +1,126 @@
+{
+  "title": "Settings",
+  "appearance": {
+    "title": "Appearance",
+    "description": "Customize the appearance of the application to your liking.",
+    "languages": {
+      "title": "Language",
+      "description": "Select the language for the application interface."
+    },
+    "themes": {
+      "standard": {
+        "title": "Standard themes",
+        "description": "Choose between light and dark mode.",
+        "options": {
+          "system": "System",
+          "light": "Light",
+          "dark": "Dark"
+        }
+      },
+      "custom": {
+        "title": "Custom themes",
+        "description": "Choose between different more custom themes.",
+        "explore": "Explore",
+        "current": "Current",
+        "explorer": {
+          "title": "Themes browser",
+          "description": "Explore custom themes and choose the one you like!",
+          "close": "Close"
+        }
+      }
+    }
+  },
+  "advanced": {
+    "title": "Advanced settings",
+    "description": "Advanced options for development and debugging.",
+    "devmode": {
+      "title": "Developer mode",
+      "description": "Enable \"Developer\" page with advanced features for debugging.",
+      "forced": "Always on in development builds."
+    },
+    "clear_cache": {
+      "title": "Clear cache",
+      "description": "Clear application request cache to get fresh data",
+      "button": "Clear cache",
+      "success": {
+        "title": "Cache cleared",
+        "message": "The application request cache has been cleared successfully.",
+        "button": "Close"
+      }
+    }
+  },
+  "about": {
+    "title": "About",
+    "version": "Version {{version}}"
+  },
+  "account": {
+    "title": "Account",
+    "description": "Your data, saved accounts and logging out.",
+    "personal_data": {
+      "title": "Personal data",
+      "description": "Download a PDF with the data Synergia stores about you.",
+      "button": "Download PDF",
+      "error": "Could not download the file.",
+      "session": "Session expired - sign in again."
+    },
+    "saved": {
+      "title": "Saved accounts",
+      "empty": "No saved accounts. Tick \"Save this account\" when signing in."
+    },
+    "logout": {
+      "title": "Log out",
+      "description": "Ends the session. The default account won't sign in by itself until the app is restarted.",
+      "button": "Log out"
+    }
+  },
+  "translation": {
+    "title": "Translation",
+    "description": "Translate messages, descriptions and subject names written by the school into the app language.",
+    "privacy": "Translation runs on your device - texts are never sent anywhere. Names of people are not translated.",
+    "polish": "The app is in Polish, so school content needs no translation. Switch the app language above to use it.",
+    "engine": {
+      "mlkit": "On-device (ML Kit)",
+      "browser": "Built into the browser",
+      "pseudo": "Pseudo translation (dev build)",
+      "none": "Translation is not available in this browser (desktop Chrome 138+ or the mobile app is needed)."
+    },
+    "models": {
+      "title": "Language models",
+      "pair": "Polish → {{target}}",
+      "ready": "Ready",
+      "download": "Download (~30 MB each, Wi-Fi recommended)",
+      "prepare": "Prepare",
+      "delete": "Delete",
+      "downloaded": "Downloaded models",
+      "none": "No models downloaded.",
+      "in_use": "Used for translation · ~30 MB",
+      "unused": "Not used by the current language · ~30 MB",
+      "delete_one": "Delete {{language}}",
+      "delete_title": "Delete the {{language}} model?",
+      "delete_in_use": "Translation will stop working until the model is downloaded again (~30 MB).",
+      "delete_unused": "The model is not used by the current app language. It frees about 30 MB.",
+      "delete_failed": "Could not delete the {{language}} model - it may be built into the system.",
+      "browser_managed": "The browser manages its own models - they can't be listed or deleted here."
+    },
+    "auto": {
+      "title": "Translate automatically",
+      "description": "Show school content translated everywhere, lists included. Each detail view still has \"Show original\"."
+    },
+    "error": "Could not prepare the translation. Check your connection and try again."
+  },
+  "privacy": {
+    "title": "Privacy",
+    "description": "Anonymous app usage statistics.",
+    "analytics": {
+      "title": "Usage statistics",
+      "description": "Send anonymous information about which screens are opened (Firebase Analytics). No diary data, names or login.",
+      "disable": {
+        "title": "Turn off statistics?",
+        "message": "Anonymous statistics show which features are used most and what is worth improving. They help the app keep developing - if you can, leave them on.",
+        "note": "Statistics contain no grades, messages, names or login details. You can turn them back on at any time.",
+        "confirm": "Turn off",
+        "keep": "Keep on"
+      }
+    }
+  }
+}

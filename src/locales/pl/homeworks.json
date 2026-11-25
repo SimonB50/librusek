@@ -1,0 +1,22 @@
+{
+  "title": "Prace domowe",
+  "subtitle": "Zadania od nauczycieli.",
+  "empty": "Brak prac domowych - ciesz się wolnym czasem!",
+  "details": {
+    "title": "Praca domowa",
+    "given": "Zadano",
+    "due": "Termin",
+    "category": "Kategoria",
+    "teacher": "Nauczyciel",
+    "subject": "Przedmiot",
+    "attachments": "Załączniki"
+  },
+  "filter": {
+    "upcoming": "Nadchodzące",
+    "all": "Wszystkie"
+  },
+  "due_in": {
+    "x_days": "Za {{days}} dni",
+    "today": "Dziś"
+  }
+}

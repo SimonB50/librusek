@@ -1,0 +1,52 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {"enabled": false},
+  "files": {
+    "includes": ["**", "!dist", "!android", "!ios", "!node_modules", "!.claude", "!.idea"]
+  },
+  // Configured to match the current code style. Disabled - ESLint never formatted the code;
+  // flip to `true` and run `yarn format` once to reformat the whole project.
+  "formatter": {
+    "enabled": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "jsxQuoteStyle": "double",
+      "bracketSpacing": false,
+      "semicolons": "always"
+    }
+  },
+  "css": {
+    "parser": {"tailwindDirectives": true}
+  },
+  "linter": {
+    "enabled": true,
+    // Hooks rules (useExhaustiveDependencies, useHookAtTopLevel...) - replaces eslint-plugin-react-hooks
+    "domains": {"react": "recommended"},
+    "rules": {
+      "preset": "recommended",
+      "suspicious": {"noExplicitAny": "warn"},
+      // Replaces eslint-plugin-react-refresh
+      "style": {"useComponentExportOnlyModules": "error"},
+      // Static "namespace" classes (AuthManager, Request, Display...) are the project convention
+      "complexity": {"noStaticOnlyClass": "off"},
+      "a11y": {
+        // daisyUI dropdowns need a focusable <div tabIndex={0} role="button"> trigger (Safari does not focus <button>)
+        "useSemanticElements": "off",
+        "noNoninteractiveTabindex": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      // defineResource/defineDictionary run once at module level - the returned hooks have a stable identity
+      "includes": ["src/client/query/resource.ts"],
+      "linter": {"rules": {"correctness": {"noComponentHookFactories": "off"}}}
+    }
+  ],
+  "assist": {"actions": {"source": {"organizeImports": "off"}}}
+}

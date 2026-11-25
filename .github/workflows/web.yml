@@ -1,0 +1,44 @@
+# Every push and pull request: lint, locales, types and the web build. No secrets.
+name: Web
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: 🧹 Lint & web build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up project
+        uses: ./.github/actions/setup
+
+      - name: Lint (Biome) and check locales
+        run: yarn ci:check
+
+      - name: Type check and build
+        run: yarn build
+
+      - name: Summary
+        run: |
+          {
+            echo "### 🌐 Web build"
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Version | \`$(node -p "require('./package.json').version")\` |"
+            echo "| \`dist\` size | $(du -sh dist | cut -f1) |"
+            echo "| JS chunks | $(ls dist/assets/*.js | wc -l) |"
+          } >> "$GITHUB_STEP_SUMMARY"

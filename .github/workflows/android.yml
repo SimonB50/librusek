@@ -1,0 +1,60 @@
+# Debug APK - checks that the Android project, Gradle and native plugins build. No secrets.
+# Runs when native Android files or dependencies change, and on demand (e.g. to get a test APK from any branch).
+name: Android
+
+on:
+  push:
+    branches: [main, master]
+    paths: &android-paths
+      - android/**
+      - package.json
+      - yarn.lock
+      - capacitor.config.json
+      - .github/actions/**
+      - .github/workflows/android.yml
+  pull_request:
+    paths: *android-paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: 🤖 Android debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up project
+        uses: ./.github/actions/setup
+        with:
+          android: true
+
+      - name: Build web app
+        run: yarn build
+
+      - name: Sync Capacitor
+        run: yarn cap sync android
+
+      - name: Build debug APK
+        working-directory: android
+        run: bash gradlew :app:assembleDebug
+
+      - name: Summary
+        run: |
+          APK=$(ls android/app/build/outputs/apk/debug/*.apk)
+          echo "### 🤖 Android debug APK: $(du -h "$APK" | cut -f1) - download it from the **Artifacts** below" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: librusek-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+          retention-days: 7

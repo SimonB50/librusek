@@ -1,0 +1,31 @@
+{
+  "title": "Teacher absences",
+  "subtitle": "Absent teachers and lesson changes.",
+  "active_in": "In {{days}} days",
+  "active": "Now",
+  "past": "Past",
+  "tabs": {
+    "absences": "Absences",
+    "substitutions": "Substitutions"
+  },
+  "empty": "No teacher absences.",
+  "substitutions_empty": "No substitutions.",
+  "all_day": "All day",
+  "substitution": {
+    "cancelled": "Cancelled",
+    "shifted": "Moved",
+    "replaced": "Substitution",
+    "lesson": "Lesson {{number}}",
+    "original": "Originally",
+    "instead": "instead of"
+  },
+  "details": {
+    "title": "Teacher absence",
+    "teacher": "Teacher",
+    "reason": "Reason",
+    "from": "From",
+    "to": "To",
+    "hours": "Hours",
+    "added": "Added"
+  }
+}

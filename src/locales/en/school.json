@@ -1,0 +1,30 @@
+{
+  "title": "School",
+  "subtitle": "Files, trips, library and help from your school.",
+  "tabs": {
+    "files": "Files",
+    "trips": "Trips",
+    "library": "Library",
+    "help": "Help"
+  },
+  "files": {
+    "empty": "No files shared by the school.",
+    "added": "Added {{date}}"
+  },
+  "trips": {
+    "empty": "No school trips.",
+    "route": "Route",
+    "transport": "Transport",
+    "coordinator": "Coordinator",
+    "organizer": "Organizer",
+    "term": "Term"
+  },
+  "library": {
+    "empty": "No borrowed books.",
+    "synced": "Last synchronized {{date}}"
+  },
+  "help": {
+    "empty": "No help articles.",
+    "notice": "These articles come from the official Librus (Synergia) help and describe that website - not the Librusek app. Button names and menu paths may differ here."
+  }
+}

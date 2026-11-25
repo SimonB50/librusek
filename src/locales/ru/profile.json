@@ -1,0 +1,34 @@
+{
+  "title": "Профиль",
+  "subtitle": "Информация о твоём профиле.",
+  "account": {
+    "email": "E-mail",
+    "login": "Логин",
+    "class": "Класс",
+    "premium": "Premium"
+  },
+  "behaviour": {
+    "title": "Поведение",
+    "proposal": "Предварительная",
+    "final": "Итоговая",
+    "awaiting_final": "Ожидание итоговой оценки",
+    "empty": "Оценок за поведение нет.",
+    "points": "Баллы за поведение",
+    "points_total": "{{points}} б."
+  },
+  "notes": {
+    "title": "Замечания",
+    "added_by": "Добавил(а) {{teacher}}, {{date}}",
+    "empty": "Замечаний нет.",
+    "positive": "Положительное",
+    "negative": "Отрицательное",
+    "neutral": "Нейтральное",
+    "details": {
+      "title": "Замечание",
+      "type": "Вид",
+      "category": "Категория",
+      "teacher": "Учитель",
+      "date": "Дата"
+    }
+  }
+}

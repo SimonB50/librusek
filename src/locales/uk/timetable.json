@@ -1,0 +1,21 @@
+{
+  "title": "Розклад",
+  "empty": "Уроків немає",
+  "substitution": "Заміна",
+  "canceled": "СКАСОВАНО",
+  "week": "Тиждень {{from}} – {{to}}",
+  "details": {
+    "title": "Урок",
+    "time": "Час",
+    "lesson": "Номер уроку",
+    "teacher": "Вчитель",
+    "classroom": "Кабінет",
+    "topic": "Тема",
+    "no_topic": "Тему ще не записано.",
+    "substitution": "Заміна",
+    "note": "Примітки",
+    "original": "Спочатку",
+    "group": "Група"
+  },
+  "now": "Зараз"
+}

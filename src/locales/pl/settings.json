@@ -1,0 +1,126 @@
+{
+  "title": "Ustawienia",
+  "appearance": {
+    "title": "Wygląd",
+    "description": "Dostosuj wygląd aplikacji do swoich upodobań.",
+    "languages": {
+      "title": "Język",
+      "description": "Wybierz język interfejsu aplikacji."
+    },
+    "themes": {
+      "standard": {
+        "title": "Motywy standardowe",
+        "description": "Wybierz tryb jasny lub ciemny.",
+        "options": {
+          "system": "Systemowy",
+          "light": "Jasny",
+          "dark": "Ciemny"
+        }
+      },
+      "custom": {
+        "title": "Motywy niestandardowe",
+        "description": "Wybierz jeden z bardziej niestandardowych motywów.",
+        "explore": "Przeglądaj",
+        "current": "Obecny",
+        "explorer": {
+          "title": "Przeglądarka motywów",
+          "description": "Przeglądaj motywy i wybierz ten, który Ci się podoba!",
+          "close": "Zamknij"
+        }
+      }
+    }
+  },
+  "advanced": {
+    "title": "Ustawienia zaawansowane",
+    "description": "Zaawansowane opcje do programowania i debugowania.",
+    "devmode": {
+      "title": "Tryb dewelopera",
+      "description": "Włącz stronę \"Deweloper\" z zaawansowanymi funkcjami do debugowania.",
+      "forced": "Zawsze włączony w wersji deweloperskiej."
+    },
+    "clear_cache": {
+      "title": "Wyczyść pamięć podręczną",
+      "description": "Wyczyść pamięć podręczną zapytań, aby pobrać świeże dane",
+      "button": "Wyczyść",
+      "success": {
+        "title": "Pamięć podręczna wyczyszczona",
+        "message": "Pamięć podręczna zapytań została pomyślnie wyczyszczona.",
+        "button": "Zamknij"
+      }
+    }
+  },
+  "about": {
+    "title": "O aplikacji",
+    "version": "Wersja {{version}}"
+  },
+  "account": {
+    "title": "Konto",
+    "description": "Twoje dane, zapisane konta i wylogowanie.",
+    "personal_data": {
+      "title": "Dane osobowe",
+      "description": "Pobierz PDF z danymi przechowywanymi przez Synergię.",
+      "button": "Pobierz PDF",
+      "error": "Nie udało się pobrać pliku.",
+      "session": "Sesja wygasła - zaloguj się ponownie."
+    },
+    "saved": {
+      "title": "Zapisane konta",
+      "empty": "Brak zapisanych kont. Zaznacz „Zapisz to konto” przy logowaniu."
+    },
+    "logout": {
+      "title": "Wyloguj",
+      "description": "Kończy sesję. Konto domyślne nie zaloguje się samo do ponownego uruchomienia aplikacji.",
+      "button": "Wyloguj"
+    }
+  },
+  "translation": {
+    "title": "Tłumaczenie",
+    "description": "Tłumacz wiadomości, opisy i nazwy przedmiotów od szkoły na język aplikacji.",
+    "privacy": "Tłumaczenie działa na urządzeniu - teksty nigdzie nie są wysyłane. Imiona i nazwiska nie są tłumaczone.",
+    "polish": "Aplikacja jest po polsku, więc treści ze szkoły nie wymagają tłumaczenia. Zmień język aplikacji powyżej, aby z niego skorzystać.",
+    "engine": {
+      "mlkit": "Na urządzeniu (ML Kit)",
+      "browser": "Wbudowane w przeglądarkę",
+      "pseudo": "Pseudo-tłumaczenie (wersja deweloperska)",
+      "none": "Tłumaczenie nie jest dostępne w tej przeglądarce (wymaga Chrome 138+ na komputerze lub aplikacji mobilnej)."
+    },
+    "models": {
+      "title": "Modele językowe",
+      "pair": "Polski → {{target}}",
+      "ready": "Gotowe",
+      "download": "Pobierz (~30 MB każdy, najlepiej przez Wi-Fi)",
+      "prepare": "Przygotuj",
+      "delete": "Usuń",
+      "downloaded": "Pobrane modele",
+      "none": "Brak pobranych modeli.",
+      "in_use": "Używany do tłumaczenia · ~30 MB",
+      "unused": "Nieużywany przy obecnym języku · ~30 MB",
+      "delete_one": "Usuń {{language}}",
+      "delete_title": "Usunąć model: {{language}}?",
+      "delete_in_use": "Tłumaczenie przestanie działać, dopóki model nie zostanie pobrany ponownie (~30 MB).",
+      "delete_unused": "Model nie jest używany przy obecnym języku aplikacji. Zwolni ok. 30 MB.",
+      "delete_failed": "Nie udało się usunąć modelu: {{language}} - może być wbudowany w system.",
+      "browser_managed": "Przeglądarka sama zarządza modelami - nie da się ich tu wyświetlić ani usunąć."
+    },
+    "auto": {
+      "title": "Tłumacz automatycznie",
+      "description": "Pokazuj treści ze szkoły przetłumaczone wszędzie, także na listach. W szczegółach nadal jest \"Pokaż oryginał\"."
+    },
+    "error": "Nie udało się przygotować tłumaczenia. Sprawdź połączenie i spróbuj ponownie."
+  },
+  "privacy": {
+    "title": "Prywatność",
+    "description": "Anonimowe statystyki użycia aplikacji.",
+    "analytics": {
+      "title": "Statystyki użycia",
+      "description": "Wysyłaj anonimowe informacje o tym, które ekrany są otwierane (Firebase Analytics). Bez danych z dziennika, imion ani loginu.",
+      "disable": {
+        "title": "Wyłączyć statystyki?",
+        "message": "Anonimowe statystyki pokazują, z których funkcji korzystacie najczęściej i co warto poprawić. Dzięki nim aplikacja może się dalej rozwijać - jeśli to możliwe, zostaw je włączone.",
+        "note": "Statystyki nie zawierają ocen, wiadomości, imion ani danych logowania. Możesz je w każdej chwili włączyć ponownie.",
+        "confirm": "Wyłącz",
+        "keep": "Zostaw włączone"
+      }
+    }
+  }
+}

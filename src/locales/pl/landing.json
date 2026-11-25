@@ -1,0 +1,63 @@
+{
+  "welcome": {
+    "part1": "Witaj w",
+    "part2": "Synergii"
+  },
+  "blocks": {
+    "student": "Uczeń",
+    "school": "Szkoła",
+    "class": "Klasa",
+    "lucky_number": {
+      "title": "Szczęśliwy numerek",
+      "content": "{{number}} (Na dzień {{date}})"
+    },
+    "version": {
+      "title": "Wersja",
+      "available": "Aktualizacja",
+      "updates": {
+        "title": "Aktualizacje",
+        "current": "Zainstalowana wersja: v{{version}}",
+        "check": "Sprawdź aktualizacje",
+        "install": "Zainstaluj",
+        "retry": "Spróbuj ponownie",
+        "install_hint": "Aktualizacja pobierze się w aplikacji, a potem Android poprosi o potwierdzenie instalacji (za pierwszym razem także o zgodę na instalowanie z tej aplikacji).",
+        "no_apk": "To wydanie nie ma pliku APK - pobierz aktualizację ze strony wydania.",
+        "downloading": "Pobieranie aktualizacji… {{percent}}%",
+        "installer_opened": "Otwarto instalator - potwierdź instalację. Aplikacja uruchomi się ponownie w nowej wersji.",
+        "install_error": "Nie udało się pobrać aktualizacji. Sprawdź połączenie i spróbuj ponownie.",
+        "install_invalid": "Pobrany plik nie jest nowszą wersją aplikacji - pobierz aktualizację ze strony wydania.",
+        "install_android": "Aktualizacje instaluje się w aplikacji na Androida.",
+        "checking": "Sprawdzanie aktualizacji…",
+        "web": "Wersja webowa aktualizuje się sama. Możesz sprawdzić najnowsze wydanie ręcznie.",
+        "ios": "Na iOS aplikacja nie aktualizuje się sama - nową wersję zainstaluj tak samo jak aplikację (np. App Store lub TestFlight). Najnowsze wydanie możesz sprawdzić ręcznie.",
+        "up_to_date": "Masz najnowszą wersję.",
+        "latest": "Najnowsze wydanie",
+        "published": "Opublikowano",
+        "open": "Zobacz wydanie na GitHubie",
+        "error": "Nie udało się sprawdzić aktualizacji."
+      }
+    },
+    "lesson": {
+      "now": "Trwa lekcja",
+      "next": "Następna lekcja",
+      "until": "do {{time}}",
+      "at": "o {{time}}",
+      "room": "Sala",
+      "none": "Brak nadchodzących lekcji",
+      "substitution": "Zastępstwo"
+    }
+  },
+  "upcoming": {
+    "title": "Najbliższe dni",
+    "empty": "Nic zaplanowanego na najbliższe 7 dni.",
+    "all": "Zobacz wszystkie"
+  },
+  "announcements": {
+    "title": "Ogłoszenia",
+    "loading": "Ładowanie ogłoszeń...",
+    "empty": "Brak ogłoszeń.",
+    "new": "Nowe",
+    "valid": "Ważne {{from}} – {{to}}",
+    "added_by": "{{teacher}} · {{date}}"
+  }
+}

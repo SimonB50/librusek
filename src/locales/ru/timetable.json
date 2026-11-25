@@ -1,0 +1,21 @@
+{
+  "title": "Расписание",
+  "empty": "Уроков нет",
+  "substitution": "Замена",
+  "canceled": "ОТМЕНЁН",
+  "week": "Неделя {{from}} – {{to}}",
+  "details": {
+    "title": "Урок",
+    "time": "Время",
+    "lesson": "Номер урока",
+    "teacher": "Учитель",
+    "classroom": "Кабинет",
+    "topic": "Тема",
+    "no_topic": "Тема ещё не записана.",
+    "substitution": "Замена",
+    "note": "Примечания",
+    "original": "Изначально",
+    "group": "Группа"
+  },
+  "now": "Сейчас"
+}

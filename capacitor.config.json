@@ -1,0 +1,13 @@
+{
+  "appId": "com.librusek.dev",
+  "appName": "Librusek",
+  "webDir": "dist",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  },
+  "ios": {
+    "contentInset": "always"
+  }
+}

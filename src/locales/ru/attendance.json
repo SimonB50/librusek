@@ -1,0 +1,41 @@
+{
+  "title": "Посещаемость",
+  "subtitle": "Твоя посещаемость по предметам и дням.",
+  "hint": "Нажми на предмет, чтобы увидеть подробности.",
+  "summary": {
+    "percentage": "Посещаемость",
+    "absences": "Пропуски",
+    "lates": "Опоздания",
+    "total": "Уроки"
+  },
+  "subjects": "Предметы",
+  "subject_details": {
+    "presence": "Присутствия",
+    "absences": "Пропуски",
+    "total": "Всего",
+    "percentage": "Процент посещаемости",
+    "types": "По типу"
+  },
+  "empty": "Нет данных о посещаемости.",
+  "absences": {
+    "title": "Твои пропуски",
+    "empty": "Пропусков нет - так держать!",
+    "show_all": "Показать все дни",
+    "entries_one": "{{count}} запись",
+    "entries_few": "{{count}} записи",
+    "entries_many": "{{count}} записей",
+    "entries_other": "{{count}} записи",
+    "entry": {
+      "title": "Запись посещаемости",
+      "type": "Тип",
+      "date": "Дата",
+      "lesson": {
+        "title": "Урок",
+        "value": "{{subject}} (№ {{lesson}})"
+      },
+      "teacher": "Учитель",
+      "added": "Добавлено",
+      "semester": "Семестр"
+    }
+  }
+}

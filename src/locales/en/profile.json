@@ -1,0 +1,34 @@
+{
+  "title": "Profile",
+  "subtitle": "Your profile information.",
+  "account": {
+    "email": "E-mail",
+    "login": "Login",
+    "class": "Class",
+    "premium": "Premium"
+  },
+  "behaviour": {
+    "title": "Behaviour",
+    "proposal": "Proposal",
+    "final": "Final",
+    "awaiting_final": "Awaiting final grade",
+    "empty": "No behaviour grades available.",
+    "points": "Behaviour points",
+    "points_total": "{{points}} points"
+  },
+  "notes": {
+    "title": "Notes",
+    "added_by": "Added by {{teacher}} at {{date}}",
+    "empty": "No notes available.",
+    "positive": "Positive",
+    "negative": "Negative",
+    "neutral": "Neutral",
+    "details": {
+      "title": "Note",
+      "type": "Type",
+      "category": "Category",
+      "teacher": "Teacher",
+      "date": "Date"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "title": "Messages",
+  "subtitle": "Your Librus messages.",
+  "notes_title": "Notes and Commendations",
+  "loading": "Loading...",
+  "missing": {
+    "topic": "No topic",
+    "content": "No content available",
+    "sender": "Unknown sender",
+    "date": "No date available",
+    "receiver": "Unknown receiver"
+  },
+  "boxes": {
+    "inbox": "Inbox",
+    "outbox": "Sent",
+    "trash": "Trash"
+  },
+  "archive": "Archive",
+  "archive_hint": "Messages from previous school years",
+  "categories": {
+    "all": "All",
+    "notes": "Notes",
+    "alerts": "Alerts",
+    "substitutions": "Substitutions",
+    "justifications": "Justifications"
+  },
+  "search": "Search messages...",
+  "count": "{{count}} messages",
+  "inbox": "Inbox",
+  "outbox": "Outbox",
+  "reciver_to": "To",
+  "sender_from": "From",
+  "send": "Sent",
+  "read": "Read",
+  "unread": "Unread",
+  "attachments": "Attachments",
+  "receivers_count": "{{read}} of {{count}} recipients read it",
+  "no_reply": "Replies are disabled for this message",
+  "withdrawn": "This message was withdrawn by the sender",
+  "no_messages": "No messages here",
+  "no_results": "No messages match \"{{search}}\"",
+  "no_notes": "No notes or commendations",
+  "back_button": "Back",
+  "me": "Me",
+  "error": {
+    "session": "Could not connect to the messages module.",
+    "missing_attachment_details": "Download cannot proceed: missing attachment details."
+  },
+  "download": {
+    "success": "Successfully downloaded \"{{filename}}\"",
+    "error": "Failed to download \"{{filename}}\"",
+    "preparing": "Preparing download..."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "app": "Librusek",
+  "navigation": {
+    "home": "Strona główna",
+    "grades": "Oceny",
+    "homeworks": "Prace domowe",
+    "exams": "Sprawdziany",
+    "timetable": "Plan lekcji",
+    "calendar": "Terminarz",
+    "teacherAbsences": "Nieobecności nauczycieli",
+    "attendance": "Frekwencja",
+    "messages": "Wiadomości",
+    "school": "Szkoła",
+    "notes": "Uwagi",
+    "developer": "Deweloper",
+    "menu": "Otwórz menu",
+    "account": {
+      "fallback": "Konto",
+      "profile": "Profil",
+      "settings": "Ustawienia",
+      "logout": "Wyloguj"
+    }
+  },
+  "actions": {
+    "close": "Zamknij",
+    "cancel": "Anuluj",
+    "edit": "Edytuj",
+    "save": "Zapisz",
+    "delete": "Usuń",
+    "add": "Dodaj",
+    "retry": "Spróbuj ponownie",
+    "load_more": "Załaduj więcej",
+    "previous": "Poprzedni",
+    "next": "Następny",
+    "today": "Dziś",
+    "search": "Szukaj",
+    "open": "Otwórz",
+    "download": "Pobierz"
+  },
+  "states": {
+    "loading": "Ładowanie...",
+    "empty": "Brak danych.",
+    "failed": "Nie udało się pobrać",
+    "unavailable": "Ten moduł nie jest dostępny w Twojej szkole."
+  },
+  "unknown": {
+    "teacher": "Nieznany nauczyciel",
+    "subject": "Nieznany przedmiot"
+  },
+  "dates": {
+    "in_days_one": "Za {{count}} dzień",
+    "in_days_few": "Za {{count}} dni",
+    "in_days_many": "Za {{count}} dni",
+    "in_days_other": "Za {{count}} dni",
+    "range": "{{from}} – {{to}}"
+  },
+  "common": {
+    "or": "lub",
+    "summary": "Podsumowanie",
+    "date": "Data",
+    "added": "Dodano",
+    "teacher": "Nauczyciel",
+    "subject": "Przedmiot",
+    "category": "Kategoria",
+    "lesson": "Lekcja {{number}}",
+    "classroom": "Sala",
+    "school": {
+      "semester": "Semestr {{semester}}",
+      "year": "Cały rok"
+    }
+  },
+  "errors": {
+    "title": "Błąd aplikacji",
+    "unknown": "Wystąpił nieznany błąd podczas komunikacji z Librusem",
+    "report": "Zgłoś"
+  },
+  "translation": {
+    "translate": "Przetłumacz",
+    "original": "Pokaż oryginał",
+    "translated": "Przetłumaczono na urządzeniu",
+    "failed": "Tłumaczenie nie powiodło się - pokazano oryginał",
+    "prepare_title": "Pobrać modele tłumaczenia?",
+    "prepare_mlkit": "Tłumaczenie działa na urządzeniu. Wymaga modeli językowych (ok. 30 MB każdy) - najlepiej przez Wi-Fi.",
+    "prepare_browser": "Przeglądarka tłumaczy na tym urządzeniu. Może najpierw pobrać model językowy.",
+    "prepare_action": "Pobierz i przetłumacz"
+  }
+}

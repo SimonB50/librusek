@@ -1,0 +1,63 @@
+{
+  "welcome": {
+    "part1": "Welcome to",
+    "part2": "Synergia"
+  },
+  "blocks": {
+    "student": "Student",
+    "school": "School",
+    "class": "Class",
+    "lucky_number": {
+      "title": "Lucky number",
+      "content": "{{number}} (As of {{date}})"
+    },
+    "version": {
+      "title": "Version",
+      "available": "Update",
+      "updates": {
+        "title": "Updates",
+        "current": "Installed version: v{{version}}",
+        "check": "Check for updates",
+        "install": "Install",
+        "retry": "Try again",
+        "install_hint": "The update downloads in the app, then Android asks you to confirm the install (the first time also to allow installs from this app).",
+        "no_apk": "This release has no APK - download the update from the release page.",
+        "downloading": "Downloading update… {{percent}}%",
+        "installer_opened": "Installer opened - confirm the install. The app restarts as the new version.",
+        "install_error": "Could not download the update. Check your connection and try again.",
+        "install_invalid": "The downloaded file is not a newer version of the app - download the update from the release page.",
+        "install_android": "Updates are installed in the Android app.",
+        "checking": "Checking for updates…",
+        "web": "The web version updates itself. You can check the latest release manually.",
+        "ios": "On iOS the app does not update itself - install the new version the same way you installed the app (e.g. App Store or TestFlight). You can check the latest release manually.",
+        "up_to_date": "You are on the latest version.",
+        "latest": "Latest release",
+        "published": "Published",
+        "open": "View the release on GitHub",
+        "error": "Could not check for updates."
+      }
+    },
+    "lesson": {
+      "now": "Lesson now",
+      "next": "Next lesson",
+      "until": "until {{time}}",
+      "at": "at {{time}}",
+      "room": "Room",
+      "none": "No upcoming lessons",
+      "substitution": "Substitution"
+    }
+  },
+  "upcoming": {
+    "title": "Coming up",
+    "empty": "Nothing planned for the next 7 days.",
+    "all": "See all"
+  },
+  "announcements": {
+    "title": "Announcements",
+    "loading": "Loading announcements...",
+    "empty": "No announcements available.",
+    "new": "New",
+    "valid": "Valid {{from}} – {{to}}",
+    "added_by": "{{teacher}} · {{date}}"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "title": "Oceny",
+  "subtitle": "Dotknij ocenę, aby zobaczyć szczegóły.",
+  "filter": {
+    "all": "Wszystkie oceny",
+    "latest": "Najnowsze oceny",
+    "latest_hint": "Oceny dodane w ostatnich 7 dniach",
+    "latest_empty": "Brak nowych ocen z ostatnich 7 dni."
+  },
+  "average": "Średnia",
+  "average_librus": "Średnia Librusa",
+  "points": "Punkty",
+  "empty": "Brak ocen.",
+  "semester_empty": "Brak ocen w tym semestrze.",
+  "special": {
+    "semesterProposition": "Przewidywana śródroczna",
+    "semester": "Ocena śródroczna",
+    "finalProposition": "Przewidywana roczna",
+    "final": "Ocena roczna"
+  },
+  "simulator": {
+    "enable": "Symuluj",
+    "disable": "Zakończ symulację",
+    "active": "Tryb symulacji - zmiany nie są zapisywane i wpływają tylko na pokazane tu średnie.",
+    "add": "Dodaj ocenę",
+    "simulated": "Symulowana",
+    "editor": {
+      "title": "Symulacja ocen",
+      "value": "Ocena",
+      "weight": "Waga",
+      "actions": {
+        "save": "Zapisz",
+        "cancel": "Anuluj"
+      },
+      "kinds": {
+        "grade": "Ocena",
+        "point": "Punkty"
+      },
+      "points": "Punkty",
+      "max": "Maks. punktów",
+      "points_invalid": "Punkty muszą być w zakresie od 0 do maksimum."
+    }
+  },
+  "details": {
+    "title": "Szczegóły oceny",
+    "weight": "Waga",
+    "teacher": "Nauczyciel",
+    "comment": "Komentarz",
+    "date": "Data",
+    "added": "Dodano",
+    "category": "Kategoria",
+    "counts": "Liczona do średniej",
+    "yes": "Tak",
+    "no": "Nie",
+    "points": "Punkty",
+    "max": "Maks. punktów",
+    "edit_actions": {
+      "edit": "Edytuj",
+      "delete": "Usuń"
+    }
+  },
+  "text_grades": {
+    "title": "Oceny opisowe",
+    "added_by": "Dodano przez {{teacher}} dnia {{date}}",
+    "empty": "Brak ocen opisowych.",
+    "badge": "Opisowa"
+  },
+  "markers": "Plusy i minusy",
+  "marker_hint": {
+    "plus": "Plus - nie liczy się do średniej.",
+    "minus": "Minus - nie liczy się do średniej.",
+    "absent": "Brak / nieprzygotowanie - nie liczy się do średniej."
+  },
+  "descriptive": {
+    "title": "Oceny opisowe",
+    "empty": "Brak ocen opisowych."
+  }
+}

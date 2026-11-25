@@ -1,0 +1,69 @@
+# Unsigned iOS simulator build - checks that the Xcode project, CocoaPods and native plugins compile.
+# Runs when native iOS files or dependencies change, and on demand. Releases build iOS in release.yml.
+name: iOS
+
+on:
+  push:
+    branches: [main, master]
+    paths: &ios-paths
+      - ios/**
+      - package.json
+      - yarn.lock
+      - capacitor.config.json
+      - .github/actions/**
+      - .github/workflows/ios.yml
+  pull_request:
+    paths: *ios-paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: 🍎 iOS simulator build
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Set up project
+        uses: ./.github/actions/setup
+
+      - name: Build web app
+        run: yarn build
+
+      - name: Restore CocoaPods
+        uses: actions/cache@v6
+        with:
+          path: |
+            ios/App/Pods
+            ~/Library/Caches/CocoaPods
+          key: pods-${{ runner.os }}-${{ hashFiles('ios/App/Podfile', 'yarn.lock') }}
+          restore-keys: pods-${{ runner.os }}-
+
+      # `cap sync` copies the web build and runs `pod install`, but only warns when CocoaPods is missing
+      - name: Sync Capacitor (pod install)
+        run: |
+          pod --version
+          yarn cap sync ios
+
+      - name: Build for the simulator
+        shell: bash
+        run: |
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tail -n 50
+
+      - name: Summary
+        run: echo "### 🍎 iOS simulator build passed ($(xcodebuild -version | head -n 1))" >> "$GITHUB_STEP_SUMMARY"

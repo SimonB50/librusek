@@ -1,0 +1,21 @@
+{
+  "title": "Timetable",
+  "empty": "No classes",
+  "substitution": "Substitution",
+  "canceled": "CANCELED",
+  "week": "Week {{from}} – {{to}}",
+  "details": {
+    "title": "Lesson",
+    "time": "Time",
+    "lesson": "Lesson number",
+    "teacher": "Teacher",
+    "classroom": "Classroom",
+    "topic": "Topic",
+    "no_topic": "No topic entered yet.",
+    "substitution": "Substitution",
+    "note": "Note",
+    "original": "Originally",
+    "group": "Group"
+  },
+  "now": "Now"
+}

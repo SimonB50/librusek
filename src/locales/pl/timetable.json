@@ -1,0 +1,21 @@
+{
+  "title": "Plan lekcji",
+  "empty": "Brak lekcji",
+  "substitution": "Zastępstwo",
+  "canceled": "ODWOŁANE",
+  "week": "Tydzień {{from}} – {{to}}",
+  "details": {
+    "title": "Lekcja",
+    "time": "Godziny",
+    "lesson": "Numer lekcji",
+    "teacher": "Nauczyciel",
+    "classroom": "Sala",
+    "topic": "Temat",
+    "no_topic": "Temat nie został jeszcze wpisany.",
+    "substitution": "Zastępstwo",
+    "note": "Uwagi",
+    "original": "Pierwotnie",
+    "group": "Grupa"
+  },
+  "now": "Teraz"
+}

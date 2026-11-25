@@ -1,0 +1,54 @@
+{
+  "title": "Wiadomości",
+  "subtitle": "Twoje wiadomości z Librusa.",
+  "notes_title": "Uwagi i pochwały",
+  "loading": "Ładowanie...",
+  "missing": {
+    "topic": "Brak tematu",
+    "content": "Brak treści",
+    "sender": "Nieznany nadawca",
+    "date": "Brak daty",
+    "receiver": "Nieznany odbiorca"
+  },
+  "boxes": {
+    "inbox": "Odebrane",
+    "outbox": "Wysłane",
+    "trash": "Kosz"
+  },
+  "archive": "Archiwum",
+  "archive_hint": "Wiadomości z poprzednich lat szkolnych",
+  "categories": {
+    "all": "Wszystkie",
+    "notes": "Uwagi",
+    "alerts": "Ogłoszenia",
+    "substitutions": "Zastępstwa",
+    "justifications": "Usprawiedliwienia"
+  },
+  "search": "Szukaj wiadomości...",
+  "count": "Wiadomości: {{count}}",
+  "inbox": "Odebrane",
+  "outbox": "Wysłane",
+  "reciver_to": "Do",
+  "sender_from": "Od",
+  "send": "Wysłano",
+  "read": "Przeczytano",
+  "unread": "Nieprzeczytana",
+  "attachments": "Załączniki",
+  "receivers_count": "Przeczytało {{read}} z {{count}} odbiorców",
+  "no_reply": "Odpowiedzi na tę wiadomość są wyłączone",
+  "withdrawn": "Nadawca wycofał tę wiadomość",
+  "no_messages": "Brak wiadomości",
+  "no_results": "Brak wiadomości pasujących do \"{{search}}\"",
+  "no_notes": "Brak uwag i pochwał",
+  "back_button": "Wstecz",
+  "me": "Ja",
+  "error": {
+    "session": "Nie udało się połączyć z modułem wiadomości.",
+    "missing_attachment_details": "Nie można pobrać: brak szczegółów załącznika."
+  },
+  "download": {
+    "success": "Pobrano \"{{filename}}\"",
+    "error": "Nie udało się pobrać \"{{filename}}\"",
+    "preparing": "Przygotowywanie pobierania..."
+  }
+}

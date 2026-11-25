@@ -1,0 +1,30 @@
+{
+  "title": "Szkoła",
+  "subtitle": "Pliki, wycieczki, biblioteka i pomoc z Twojej szkoły.",
+  "tabs": {
+    "files": "Pliki",
+    "trips": "Wycieczki",
+    "library": "Biblioteka",
+    "help": "Pomoc"
+  },
+  "files": {
+    "empty": "Szkoła nie udostępniła plików.",
+    "added": "Dodano {{date}}"
+  },
+  "trips": {
+    "empty": "Brak wycieczek szkolnych.",
+    "route": "Trasa",
+    "transport": "Transport",
+    "coordinator": "Kierownik",
+    "organizer": "Organizator",
+    "term": "Termin"
+  },
+  "library": {
+    "empty": "Brak wypożyczonych książek.",
+    "synced": "Ostatnia synchronizacja {{date}}"
+  },
+  "help": {
+    "empty": "Brak artykułów pomocy.",
+    "notice": "Te artykuły pochodzą z oficjalnej pomocy Librusa (Synergii) i opisują tamtą stronę – nie aplikację Librusek. Nazwy przycisków i ścieżki w menu mogą się tu różnić."
+  }
+}

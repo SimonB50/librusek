@@ -1,0 +1,26 @@
+{
+  "title": "Sprawdziany",
+  "subtitle": "Sprawdziany, kartkówki i inne zaplanowane wydarzenia klasy.",
+  "empty": "Brak zaplanowanych sprawdzianów.",
+  "past": "Minione",
+  "details": {
+    "title": "Sprawdzian",
+    "date": "Data",
+    "time": "Godzina",
+    "lesson": "Lekcja",
+    "category": "Kategoria",
+    "teacher": "Dodał(a)",
+    "subject": "Przedmiot",
+    "classroom": "Sala",
+    "added": "Dodano",
+    "description": "Opis"
+  },
+  "filter": {
+    "upcoming": "Nadchodzące",
+    "all": "Wszystkie"
+  },
+  "due_in": {
+    "x_days": "Za {{days}} dni",
+    "today": "Dziś"
+  }
+}

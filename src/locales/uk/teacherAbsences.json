@@ -1,0 +1,31 @@
+{
+  "title": "Відсутності вчителів",
+  "subtitle": "Відсутні вчителі та зміни в уроках.",
+  "active_in": "Через {{days}} дн.",
+  "active": "Зараз",
+  "past": "Минулі",
+  "tabs": {
+    "absences": "Відсутності",
+    "substitutions": "Заміни"
+  },
+  "empty": "Відсутностей вчителів немає.",
+  "substitutions_empty": "Замін немає.",
+  "all_day": "Увесь день",
+  "substitution": {
+    "cancelled": "Скасовано",
+    "shifted": "Перенесено",
+    "replaced": "Заміна",
+    "lesson": "Урок {{number}}",
+    "original": "Спочатку",
+    "instead": "замість"
+  },
+  "details": {
+    "title": "Відсутність вчителя",
+    "teacher": "Вчитель",
+    "reason": "Причина",
+    "from": "З",
+    "to": "По",
+    "hours": "Години",
+    "added": "Додано"
+  }
+}

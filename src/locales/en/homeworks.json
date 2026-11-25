@@ -1,0 +1,22 @@
+{
+  "title": "Homeworks",
+  "subtitle": "Assignments from your teachers.",
+  "empty": "No homeworks - enjoy your free time!",
+  "details": {
+    "title": "Homework",
+    "given": "Given",
+    "due": "Due",
+    "category": "Category",
+    "teacher": "Teacher",
+    "subject": "Subject",
+    "attachments": "Attachments"
+  },
+  "filter": {
+    "upcoming": "Upcoming",
+    "all": "All"
+  },
+  "due_in": {
+    "x_days": "In {{days}} days",
+    "today": "Today"
+  }
+}

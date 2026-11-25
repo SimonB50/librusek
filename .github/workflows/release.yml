@@ -1,0 +1,287 @@
+# Release - run manually (Actions → Release → Run workflow) on the branch to release, usually main:
+#   prepare (version, checks, web build) -> signed APK + unsigned IPA -> GitHub release + tag `v<version>` on that commit.
+# The version comes from package.json - bump it first. The in-app updater reads the latest *published* release
+# and its `.apk` asset, so a draft has to be published on GitHub before users get it.
+#
+# Repository secrets (same names as the old app):
+#   SIGNING_KEY         - release keystore (.jks), base64 encoded
+#   KEY_STORE_PASSWORD  - keystore password
+#   ALIAS               - key alias
+#   KEY_PASSWORD        - key password
+name: Release
+run-name: "Release from ${{ github.ref_name }}${{ inputs.draft && ' (draft)' || '' }} by ${{ github.actor }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: Create the release as a draft (publish it on GitHub later)
+        type: boolean
+        default: true
+      ios:
+        description: Build the unsigned iOS IPA too
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: 📦 Version & web build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      build: ${{ steps.version.outputs.build }}
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Read version from package.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "$VERSION" = "0.0.0" ]; then
+            echo "::error title=Version::Set a real version in package.json before releasing."
+            exit 1
+          fi
+          # Same formula as android/app/build.gradle: major * 10000 + minor * 100 + patch
+          BUILD=$(node -p "const [a, b, c] = '$VERSION'.split(/[.-]/).map(Number); a * 10000 + b * 100 + c")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "build=$BUILD" >> "$GITHUB_OUTPUT"
+
+      - name: Check that tag v${{ steps.version.outputs.version }} is new
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/v${{ steps.version.outputs.version }}" > /dev/null; then
+            echo "::error title=Version::Tag v${{ steps.version.outputs.version }} already exists - bump the version in package.json."
+            exit 1
+          fi
+
+      # The in-app updater (src/lib/updater.ts) and the old 1.x app read releases/latest of SimonB50/librusek
+      # and only offer a release whose version is greater than the installed one.
+      - name: Check that v${{ steps.version.outputs.version }} is newer than the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          UPDATER_REPOSITORY: SimonB50/librusek # also REPOSITORY in src/lib/updater.ts and ApkInstallerPlugin.java
+        run: |
+          if [ "${GITHUB_REPOSITORY,,}" != "${UPDATER_REPOSITORY,,}" ]; then
+            echo "::warning title=Updater::This release goes to $GITHUB_REPOSITORY, but the in-app updater reads $UPDATER_REPOSITORY - users will not be offered it."
+          fi
+          if ! LATEST=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name 2>/dev/null); then
+            echo "No published release yet - skipping the version comparison."
+            exit 0
+          fi
+          node -e '
+            const parse = (v) => {
+              const parts = v.replace(/^v/, "").split("-")[0].split(".").map(Number);
+              if (parts.length < 3 || !parts.every(Number.isInteger)) {
+                console.log(`::error title=Version::Cannot compare "${v}" - expected major.minor.patch.`);
+                process.exit(1);
+              }
+              return parts;
+            };
+            const [a, b] = [parse(process.argv[1]), parse(process.argv[2])];
+            const diff = a.map((n, i) => n - (b[i] ?? 0)).find((d) => d !== 0) ?? 0;
+            if (diff <= 0) {
+              console.log(`::error title=Version::${process.argv[1]} is not newer than the latest release ${process.argv[2]} - the updater would not offer it and Android would refuse the downgrade.`);
+              process.exit(1);
+            }
+            console.log(`${process.argv[1]} > ${process.argv[2]}`);
+          ' "$VERSION" "$LATEST"
+
+      - name: Check Firebase config files
+        run: |
+          for file in android/app/google-services.json ios/App/App/GoogleService-Info.plist; do
+            test -s "$file" || { echo "::error title=Firebase::$file is missing"; exit 1; }
+          done
+
+      - name: Set up project
+        uses: ./.github/actions/setup
+
+      - name: Lint (Biome) and check locales
+        run: yarn ci:check
+
+      - name: Type check and build
+        run: yarn build
+
+      - name: Upload web build
+        uses: actions/upload-artifact@v7
+        with:
+          name: web
+          path: dist
+          retention-days: 3
+
+  android:
+    name: 🤖 Android · signed APK
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up project
+        uses: ./.github/actions/setup
+        with:
+          android: true
+
+      - name: Download web build
+        uses: actions/download-artifact@v8
+        with:
+          name: web
+          path: dist
+
+      - name: Sync Capacitor
+        run: yarn cap sync android
+
+      - name: Decode keystore
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: |
+          if [ -z "$SIGNING_KEY" ]; then echo "::error title=Signing::Secret SIGNING_KEY is not set"; exit 1; fi
+          echo "$SIGNING_KEY" | base64 -d > "$RUNNER_TEMP/release.jks"
+
+      - name: Build release APK
+        working-directory: android
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: bash gradlew :app:assembleRelease
+
+      - name: Verify signature
+        shell: bash
+        run: |
+          rm -f "$RUNNER_TEMP/release.jks"
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -n 1)
+          "$APKSIGNER" verify --print-certs android/app/build/outputs/apk/release/app-release.apk | grep "SHA-256"
+
+      - name: Rename to librusek-${{ needs.prepare.outputs.version }}.apk
+        run: |
+          mkdir -p out
+          mv android/app/build/outputs/apk/release/app-release.apk "out/librusek-${{ needs.prepare.outputs.version }}.apk"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-release
+          path: out/*.apk
+          retention-days: 60
+
+  ios:
+    name: 🍎 iOS · unsigned IPA
+    needs: prepare
+    if: inputs.ios
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Set up project
+        uses: ./.github/actions/setup
+
+      - name: Download web build
+        uses: actions/download-artifact@v8
+        with:
+          name: web
+          path: dist
+
+      - name: Restore CocoaPods
+        uses: actions/cache@v6
+        with:
+          path: |
+            ios/App/Pods
+            ~/Library/Caches/CocoaPods
+          key: pods-${{ runner.os }}-${{ hashFiles('ios/App/Podfile', 'yarn.lock') }}
+          restore-keys: pods-${{ runner.os }}-
+
+      # `cap sync` copies the web build and runs `pod install`, but only warns when CocoaPods is missing
+      - name: Sync Capacitor (pod install)
+        run: |
+          pod --version
+          yarn cap sync ios
+
+      - name: Archive (unsigned)
+        shell: bash
+        run: |
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            MARKETING_VERSION=${{ needs.prepare.outputs.version }} CURRENT_PROJECT_VERSION=${{ needs.prepare.outputs.build }} \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            clean archive | tail -n 50
+
+      - name: Package librusek-${{ needs.prepare.outputs.version }}.ipa
+        run: |
+          mkdir -p "$RUNNER_TEMP/ipa/Payload" out
+          cp -R "$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app" "$RUNNER_TEMP/ipa/Payload/"
+          (cd "$RUNNER_TEMP/ipa" && zip -qr "$GITHUB_WORKSPACE/out/librusek-${{ needs.prepare.outputs.version }}.ipa" Payload)
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v7
+        with:
+          name: ios-release
+          path: out/*.ipa
+          retention-days: 60
+
+  publish:
+    name: 🚀 Release v${{ needs.prepare.outputs.version }}
+    needs: [prepare, android, ios]
+    # iOS is optional - a skipped or failed iOS build still releases the APK
+    if: ${{ !cancelled() && needs.android.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download builds
+        uses: actions/download-artifact@v8
+        with:
+          pattern: "*-release"
+          path: out
+          merge-multiple: true
+
+      - name: Create ${{ inputs.draft && 'draft ' || '' }}release and tag v${{ needs.prepare.outputs.version }}
+        id: release
+        uses: softprops/action-gh-release@v3
+        with:
+          draft: ${{ inputs.draft }}
+          name: Librusek v${{ needs.prepare.outputs.version }}
+          tag_name: v${{ needs.prepare.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: out/*
+
+      - name: Summary
+        env:
+          IOS_RESULT: ${{ needs.ios.result }}
+          RELEASE_URL: ${{ steps.release.outputs.url }}
+          DRAFT: ${{ inputs.draft }}
+        run: |
+          {
+            echo "### 🚀 Librusek v${{ needs.prepare.outputs.version }} (build ${{ needs.prepare.outputs.build }}) from \`${{ github.ref_name }}\`"
+            echo ""
+            echo "| File | Size |"
+            echo "|---|---|"
+            for file in out/*; do echo "| \`$(basename "$file")\` | $(du -h "$file" | cut -f1) |"; done
+            echo ""
+            if [ "$IOS_RESULT" != "success" ]; then echo "> ⚠️ iOS build: **$IOS_RESULT** - the release has the APK only."; echo ""; fi
+            if [ "$DRAFT" = "true" ]; then
+              echo "**Draft release:** $RELEASE_URL - publish it so the in-app updater can see it."
+            else
+              echo "**Published release:** $RELEASE_URL - the in-app updater offers it now."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

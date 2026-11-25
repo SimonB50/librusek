@@ -1,0 +1,78 @@
+{
+  "title": "Grades",
+  "subtitle": "Tap a grade to see its details.",
+  "filter": {
+    "all": "All grades",
+    "latest": "Latest grades",
+    "latest_hint": "Grades added in the last 7 days",
+    "latest_empty": "No new grades in the last 7 days."
+  },
+  "average": "Average",
+  "average_librus": "Librus average",
+  "points": "Points",
+  "empty": "No grades yet.",
+  "semester_empty": "No grades in this semester.",
+  "special": {
+    "semesterProposition": "Proposed semester grade",
+    "semester": "Semester grade",
+    "finalProposition": "Proposed final grade",
+    "final": "Final grade"
+  },
+  "simulator": {
+    "enable": "Simulate",
+    "disable": "Exit simulation",
+    "active": "Simulation mode - changes are not saved and only affect the averages shown here.",
+    "add": "Add grade",
+    "simulated": "Simulated",
+    "editor": {
+      "title": "Grades simulation",
+      "value": "Grade",
+      "weight": "Weight",
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "kinds": {
+        "grade": "Grade",
+        "point": "Points"
+      },
+      "points": "Points",
+      "max": "Max points",
+      "points_invalid": "Points must be between 0 and the maximum."
+    }
+  },
+  "details": {
+    "title": "Grade details",
+    "weight": "Weight",
+    "teacher": "Teacher",
+    "comment": "Comment",
+    "date": "Date",
+    "added": "Added",
+    "category": "Category",
+    "counts": "Counts to the average",
+    "yes": "Yes",
+    "no": "No",
+    "points": "Points",
+    "max": "Max points",
+    "edit_actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "text_grades": {
+    "title": "Text grades",
+    "added_by": "Added by {{teacher}} at {{date}}",
+    "empty": "No text grades available.",
+    "badge": "Text"
+  },
+  "markers": "Pluses and minuses",
+  "marker_hint": {
+    "plus": "Plus - does not count to the average.",
+    "minus": "Minus - does not count to the average.",
+    "absent": "Missing / unprepared - does not count to the average."
+  },
+  "descriptive": {
+    "title": "Descriptive grades",
+    "empty": "No descriptive grades."
+  }
+}

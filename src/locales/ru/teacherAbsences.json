@@ -1,0 +1,31 @@
+{
+  "title": "Отсутствия учителей",
+  "subtitle": "Отсутствующие учителя и изменения в уроках.",
+  "active_in": "Через {{days}} дн.",
+  "active": "Сейчас",
+  "past": "Прошедшие",
+  "tabs": {
+    "absences": "Отсутствия",
+    "substitutions": "Замены"
+  },
+  "empty": "Отсутствий учителей нет.",
+  "substitutions_empty": "Замен нет.",
+  "all_day": "Весь день",
+  "substitution": {
+    "cancelled": "Отменён",
+    "shifted": "Перенесён",
+    "replaced": "Замена",
+    "lesson": "Урок {{number}}",
+    "original": "Изначально",
+    "instead": "вместо"
+  },
+  "details": {
+    "title": "Отсутствие учителя",
+    "teacher": "Учитель",
+    "reason": "Причина",
+    "from": "С",
+    "to": "По",
+    "hours": "Часы",
+    "added": "Добавлено"
+  }
+}

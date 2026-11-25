@@ -1,0 +1,18 @@
+{
+  "title": "Terminarz",
+  "subtitle": "Sprawdziany, dni wolne i nieobecności nauczycieli w jednym miejscu.",
+  "empty_day": "Nic nie zaplanowano na ten dzień.",
+  "legend": {
+    "exam": "Sprawdzian",
+    "schoolFree": "Dzień wolny szkoły",
+    "classFree": "Dzień wolny klasy",
+    "teacherAbsence": "Nieobecność nauczyciela",
+    "substitution": "Zastępstwo",
+    "conference": "Wywiadówka"
+  },
+  "today": "Dziś",
+  "events_one": "{{count}} wydarzenie",
+  "events_few": "{{count}} wydarzenia",
+  "events_many": "{{count}} wydarzeń",
+  "events_other": "{{count}} wydarzeń"
+}

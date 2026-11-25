@@ -1,0 +1,39 @@
+{
+  "title": "Attendance",
+  "subtitle": "Your attendance by subject and day.",
+  "hint": "You can click on a subject to see more details.",
+  "summary": {
+    "percentage": "Attendance",
+    "absences": "Absences",
+    "lates": "Late",
+    "total": "Lessons"
+  },
+  "subjects": "Subjects",
+  "subject_details": {
+    "presence": "Presence",
+    "absences": "Absences",
+    "total": "Total",
+    "percentage": "Attendance percentage",
+    "types": "By type"
+  },
+  "empty": "No attendance data available.",
+  "absences": {
+    "title": "Your absences",
+    "empty": "No absences - great job!",
+    "show_all": "Show all days",
+    "entries_one": "{{count}} entry",
+    "entries_other": "{{count}} entries",
+    "entry": {
+      "title": "Attendance entry",
+      "type": "Type",
+      "date": "Date",
+      "lesson": {
+        "title": "Lesson",
+        "value": "{{subject}} (No. {{lesson}})"
+      },
+      "teacher": "Teacher",
+      "added": "Added",
+      "semester": "Semester"
+    }
+  }
+}

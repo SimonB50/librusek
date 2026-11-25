@@ -1,0 +1,34 @@
+{
+  "title": "Profil",
+  "subtitle": "Informacje o Twoim profilu.",
+  "account": {
+    "email": "E-mail",
+    "login": "Login",
+    "class": "Klasa",
+    "premium": "Premium"
+  },
+  "behaviour": {
+    "title": "Zachowanie",
+    "proposal": "Propozycja",
+    "final": "Ostateczna",
+    "awaiting_final": "Oczekiwanie na ocenę ostateczną",
+    "empty": "Brak ocen z zachowania.",
+    "points": "Punkty z zachowania",
+    "points_total": "{{points}} pkt"
+  },
+  "notes": {
+    "title": "Uwagi",
+    "added_by": "Dodano przez {{teacher}} dnia {{date}}",
+    "empty": "Brak uwag.",
+    "positive": "Pozytywna",
+    "negative": "Negatywna",
+    "neutral": "Neutralna",
+    "details": {
+      "title": "Uwaga",
+      "type": "Rodzaj",
+      "category": "Kategoria",
+      "teacher": "Nauczyciel",
+      "date": "Data"
+    }
+  }
+}
