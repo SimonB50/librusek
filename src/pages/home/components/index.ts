@@ -4,7 +4,8 @@ import ClassInfo from "./classInfo.js";
 import CurrentLesson from "./currentLesson.js";
 import LuckyNumber from "./luckyNumber.js";
 import SchoolInfo from "./schoolInfo.js";
+import SupportNotice from "./supportNotice.js";
 import Upcoming from "./upcoming.js";
 import VersionInfo from "./versionInfo.js";
 
-export {AccountInfo, Announcements, ClassInfo, CurrentLesson, LuckyNumber, SchoolInfo, Upcoming, VersionInfo};
+export {AccountInfo, Announcements, ClassInfo, CurrentLesson, LuckyNumber, SchoolInfo, SupportNotice, Upcoming, VersionInfo};

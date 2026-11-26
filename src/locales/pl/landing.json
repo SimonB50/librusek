@@ -59,5 +59,22 @@
     "new": "Nowe",
     "valid": "Ważne {{from}} – {{to}}",
     "added_by": "{{teacher}} · {{date}}"
+  },
+  "support": {
+    "title": "Librusek potrzebuje Twojego wsparcia",
+    "banner": {
+      "title": "Pomóż utrzymać Libruska na Androidzie",
+      "body": "Zbieramy 25$ na licencję dewelopera Google, wymaganą przez nową weryfikację aplikacji na Androida."
+    },
+    "verification": {
+      "title": "Nowa weryfikacja aplikacji na Androida",
+      "body": "Google wprowadza obowiązkową weryfikację twórców aplikacji. Aplikacje instalowane spoza Sklepu Play - takie jak Librusek - będzie można instalować i aktualizować na certyfikowanych urządzeniach z Androidem tylko wtedy, gdy ich twórca przejdzie weryfikację u Google."
+    },
+    "fee": "Weryfikacja wymaga konta dewelopera Google, które kosztuje jednorazowo 25$. Bez niego Librusek może przestać się instalować i aktualizować na Twoim telefonie.",
+    "thanks": "Librusek jest darmowy, bez reklam i rozwijany po godzinach. Każda wpłata, nawet najmniejsza, przybliża nas do celu. Dziękuję!",
+    "donate": "Wesprzyj na Ko-fi",
+    "donate_short": "Wesprzyj",
+    "more": "Więcej",
+    "later": "Może później"
   }
 }

@@ -59,5 +59,22 @@
     "new": "New",
     "valid": "Valid {{from}} – {{to}}",
     "added_by": "{{teacher}} · {{date}}"
+  },
+  "support": {
+    "title": "Librusek needs your support",
+    "banner": {
+      "title": "Help keep Librusek on Android",
+      "body": "We're raising $25 for the Google developer licence required by the new Android app verification."
+    },
+    "verification": {
+      "title": "New Android app verification",
+      "body": "Google is introducing mandatory developer verification. Apps installed outside the Play Store - like Librusek - will only be installable and updatable on certified Android devices if their developer is verified by Google."
+    },
+    "fee": "Verification requires a Google developer account, which costs a one-time $25. Without it, Librusek may stop installing and updating on your phone.",
+    "thanks": "Librusek is free, ad-free and built in spare time. Every donation, however small, brings us closer to the goal. Thank you!",
+    "donate": "Support on Ko-fi",
+    "donate_short": "Support",
+    "more": "More",
+    "later": "Maybe later"
   }
 }

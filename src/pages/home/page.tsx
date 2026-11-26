@@ -1,10 +1,11 @@
 import {useTranslation} from "react-i18next";
-import {AccountInfo, Announcements, ClassInfo, CurrentLesson, LuckyNumber, SchoolInfo, Upcoming, VersionInfo} from "./components/index.js";
+import {AccountInfo, Announcements, ClassInfo, CurrentLesson, LuckyNumber, SchoolInfo, SupportNotice, Upcoming, VersionInfo} from "./components/index.js";
 
 const Page = () => {
   const {t} = useTranslation("landing");
   return (
     <div className="flex flex-col gap-6">
+      <SupportNotice/>
       <h1 className="text-3xl font-semibold">
         {t("welcome.part1")} <span className="text-primary font-bold">{t("welcome.part2")}</span>!
       </h1>
