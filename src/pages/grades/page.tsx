@@ -106,8 +106,7 @@ const Page = () => {
       max: editor.max ?? 100,
     }
     : {kind: usesPoints ? "point" : "grade", value: usesPoints ? "100" : "5", weight: 1, max: 100};
-
-  return (
+const averagesList = Array.isArray(averages.data) ? averages.data : [];  return (
     <div className="flex flex-col gap-4">
       <PageHeader
         title={t("title")}
@@ -150,7 +149,7 @@ const Page = () => {
                   id={id}
                   view={view}
                   grades={visibleBySubject.get(id) ?? []}
-                  librusAverage={averages.data?.find(average => average.subject.id === id)}
+                  librusAverage={averagesList.find(average => average.subject.id === id)}
                   onOpen={setFocused}
                   onAdd={simulation ? subjectId => setEditor({mode: "add", subjectId}) : undefined}
                 />
