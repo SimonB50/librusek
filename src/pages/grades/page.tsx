@@ -41,6 +41,8 @@ const Page = () => {
   const {t} = useTranslation(["grades", "common"]);
   const grades = useAllGrades();
   const averages = GradeAverages.useQuery();
+  /** Librus returns `"Disabled"` instead of an array when the school turned averages off. */
+  const averagesList = Array.isArray(averages.data) ? averages.data : [];
   const enabled = useEnabledKinds();
 
   const [selectedView, setSelectedView] = useState<SemesterView | null>(null);
@@ -150,7 +152,7 @@ const Page = () => {
                   id={id}
                   view={view}
                   grades={visibleBySubject.get(id) ?? []}
-                  librusAverage={averages.data?.find(average => average.subject.id === id)}
+                  librusAverage={averagesList.find(average => average.subject.id === id)}
                   onOpen={setFocused}
                   onAdd={simulation ? subjectId => setEditor({mode: "add", subjectId}) : undefined}
                 />
